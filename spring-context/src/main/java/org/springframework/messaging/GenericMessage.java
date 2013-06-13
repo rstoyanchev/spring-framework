@@ -68,6 +68,20 @@ public class GenericMessage<T> implements Message<T>, Serializable {
 		this.payload = payload;
 	}
 
+	/**
+	 * Create a new message with the given message headers and payload.
+	 * The message headers will be used as-is.
+	 *
+	 * @param messageHeaders message headers
+	 * @param payload the message payload
+	 */
+	protected GenericMessage(MessageHeaders messageHeaders, T payload) {
+		Assert.notNull(messageHeaders, "messageHeaders must not be null");
+		Assert.notNull(payload, "payload must not be null");
+
+		this.headers = messageHeaders;
+		this.payload = payload;
+	}
 
 	public MessageHeaders getHeaders() {
 		return this.headers;
