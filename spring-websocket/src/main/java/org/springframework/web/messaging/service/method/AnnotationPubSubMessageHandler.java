@@ -55,6 +55,8 @@ import org.springframework.web.method.HandlerMethodSelector;
 public class AnnotationPubSubMessageHandler extends AbstractPubSubMessageHandler
 		implements ApplicationContextAware, InitializingBean, PubSubChannelRegistryAware {
 
+	private PubSubChannelRegistry pubSubChannelRegistry;
+
 	private List<MessageConverter> messageConverters;
 
 	private ApplicationContext applicationContext;
@@ -72,8 +74,7 @@ public class AnnotationPubSubMessageHandler extends AbstractPubSubMessageHandler
 
 	@Override
 	public void setPubSubChannelRegistry(PubSubChannelRegistry registry) {
-		this.argumentResolvers.setPubSubChannelRegistry(registry);
-		this.returnValueHandlers.setPubSubChannelRegistry(registry);
+		this.pubSubChannelRegistry = registry;
 	}
 
 	public void setMessageConverters(List<MessageConverter> converters) {
@@ -97,8 +98,10 @@ public class AnnotationPubSubMessageHandler extends AbstractPubSubMessageHandler
 
 		this.argumentResolvers.addResolver(new MessageChannelArgumentResolver());
 		this.argumentResolvers.addResolver(new MessageBodyArgumentResolver(this.messageConverters));
+		this.argumentResolvers.setPubSubChannelRegistry(this.pubSubChannelRegistry);
 
 		this.returnValueHandlers.addHandler(new MessageReturnValueHandler());
+		this.returnValueHandlers.setPubSubChannelRegistry(this.pubSubChannelRegistry);
 	}
 
 	protected void initHandlerMethods() {
