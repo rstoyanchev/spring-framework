@@ -60,8 +60,7 @@ public class StompRelayPubSubMessageHandler extends AbstractPubSubMessageHandler
 
 	private final TcpClient<String, String> tcpClient;
 
-	private final Map<String, TcpConnection<String, String>> connections =
-			new ConcurrentHashMap<String, TcpConnection<String, String>>();
+	private final Map<String, RelaySession> relaySessions = new ConcurrentHashMap<String, RelaySession>();
 
 
 	/**
@@ -96,13 +95,20 @@ public class StompRelayPubSubMessageHandler extends AbstractPubSubMessageHandler
 
 		final String sessionId = (String) message.getHeaders().get(PubSubHeaders.SESSION_ID);
 
+		final RelaySession session = new RelaySession();
+		relaySessions.put(sessionId, session);
+
 		Promise<TcpConnection<String, String>> promise = this.tcpClient.open();
 
 		promise.onSuccess(new Consumer<TcpConnection<String,String>>() {
 			@Override
 			public void accept(TcpConnection<String, String> connection) {
-				connections.put(sessionId, connection);
-				forwardMessage(message, StompCommand.CONNECT);
+				session.setTcpConnection(connection);
+				StompHeaders headers = StompHeaders.fromMessageHeaders(message.getHeaders());
+				// TODO Configuration of relay Heartbeat
+				headers.setHeartbeat(0,  0);
+
+				forwardMessage(message, StompCommand.CONNECT, headers, connection);
 			}
 		});
 
@@ -117,7 +123,12 @@ public class StompRelayPubSubMessageHandler extends AbstractPubSubMessageHandler
 							return;
 						}
 						Message<byte[]> message = stompMessageConverter.toMessage(stompFrame, sessionId);
-						clientChannel.send(message);
+
+						if (StompCommand.CONNECTED == StompHeaders.fromMessageHeaders(message.getHeaders()).getStompCommand()) {
+							session.connected();
+						} else {
+							clientChannel.send(message);
+						}
 					}
 				});
 			}
@@ -134,57 +145,45 @@ public class StompRelayPubSubMessageHandler extends AbstractPubSubMessageHandler
 	}
 
 	private void forwardMessage(Message<?> message, StompCommand command) {
-
 		StompHeaders headers = StompHeaders.fromMessageHeaders(message.getHeaders());
 		String sessionId = headers.getSessionId();
-		byte[] bytesToWrite;
+		RelaySession session = relaySessions.get(sessionId);
 
+		if (session != null) {
+			forwardMessage(message, command, headers, session);
+		} else {
+			logger.warn("No relay session exists for " + sessionId + ". Message '" + message + "' cannot be forwarded");
+		}
+	}
+
+	private void forwardMessage(Message<?> message, StompCommand command, StompHeaders headers, RelaySession session) {
+		TcpConnection<String, String> connection = session.awaitTcpConnection();
+		if (connection != null) {
+			forwardMessage(message, command, headers, connection);
+		} else {
+			logger.warn("TCP connection await interrupted. Message " + message + " has not been forwarded");
+		}
+	}
+
+	private void forwardMessage(Message<?> message, StompCommand command, StompHeaders headers, TcpConnection<String, String> connection) {
+		if (logger.isTraceEnabled()) {
+			logger.trace("Forwarding message " + message);
+		}
 		try {
 			headers.setStompCommandIfNotSet(StompCommand.SEND);
 
 			MediaType contentType = headers.getContentType();
 			byte[] payload = this.payloadConverter.convertToPayload(message.getPayload(), contentType);
 			Message<byte[]> byteMessage = MessageBuilder.fromPayloadAndHeaders(payload, headers.toMessageHeaders()).build();
-			bytesToWrite = this.stompMessageConverter.fromMessage(byteMessage);
+			byte[] bytesToWrite = this.stompMessageConverter.fromMessage(byteMessage);
+
+			connection.send(new String(bytesToWrite, Charset.forName("UTF-8")));
+
 		}
 		catch (Throwable ex) {
 			logger.error("Failed to forward message " + message, ex);
 			return;
 		}
-
-		TcpConnection<String, String> connection = getConnection(sessionId);
-		Assert.notNull(connection, "TCP connection to message broker not found, sessionId=" + sessionId);
-		try {
-			if (logger.isTraceEnabled()) {
-				logger.trace("Forwarding STOMP " + headers.getStompCommand() + " message");
-			}
-			connection.out().accept(new String(bytesToWrite, Charset.forName("UTF-8")));
-		}
-		catch (Throwable ex) {
-			logger.error("Could not get TCP connection " + sessionId, ex);
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-			catch (Throwable t) {
-				// ignore
-			}
-		}
-	}
-
-	private TcpConnection<String, String> getConnection(String sessionId) {
-		TcpConnection<String, String> connection = this.connections.get(sessionId);
-		if (connection == null) {
-			try {
-				Thread.sleep(1000);
-			}
-			catch (InterruptedException e) {
-				return null;
-			}
-		}
-		connection = this.connections.get(sessionId);
-		return connection;
 	}
 
 	@Override
@@ -224,5 +223,52 @@ public class StompRelayPubSubMessageHandler extends AbstractPubSubMessageHandler
 		clearRelaySession(sessionId);
 	}
 */
+	private static final class RelaySession {
 
+		private final Object monitor = new Object();
+
+		private boolean connected;
+
+		private TcpConnection<String, String> tcpConnection;
+
+		private void connected() {
+			synchronized(monitor) {
+				connected = true;
+				if (fullyConnected()) {
+					monitor.notifyAll();
+				}
+			}
+		}
+
+		private void setTcpConnection(TcpConnection<String, String> tcpConnection) {
+			synchronized(monitor) {
+				this.tcpConnection = tcpConnection;
+				if (fullyConnected()) {
+					monitor.notifyAll();
+				}
+			}
+		}
+
+		private TcpConnection<String, String> awaitTcpConnection() {
+			synchronized(monitor) {
+				while (!fullyConnected()) {
+					try {
+						monitor.wait();
+					}
+					catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						// TODO Is returning null the right way to handle being interrupted?
+						return null;
+					}
+				}
+				return tcpConnection;
+			}
+		}
+
+		private boolean fullyConnected() {
+			synchronized(monitor) {
+				return connected && tcpConnection != null;
+			}
+		}
+	}
 }
