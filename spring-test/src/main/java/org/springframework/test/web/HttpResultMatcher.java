@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.test.web.servlet;
-
-import org.springframework.test.web.HttpResultMatcher;
+package org.springframework.test.web;
 
 /**
  * A {@code ResultMatcher} matches the result of an executed request against
@@ -49,7 +47,14 @@ import org.springframework.test.web.HttpResultMatcher;
  * @since 3.2
  */
 @FunctionalInterface
-public interface ResultMatcher extends HttpResultMatcher<MvcResult> {
+public interface HttpResultMatcher<T extends HttpResult> {
 
+	/**
+	 * Assert the result of an executed request.
+	 *
+	 * @param result the result of the executed request
+	 * @throws Exception if a failure occurs
+	 */
+	void match(T result) throws Exception;
 
 }

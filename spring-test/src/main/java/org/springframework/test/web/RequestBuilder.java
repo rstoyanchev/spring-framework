@@ -14,26 +14,30 @@
  * limitations under the License.
  */
 
-package org.springframework.test.web.servlet.result;
+package org.springframework.test.web;
 
-import org.springframework.test.web.http.result.HttpCookieResultMatchers;
+import javax.servlet.ServletContext;
+
+import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
- * Factory for response cookie assertions.
- * <p>An instance of this class is typically accessed via
- * {@link MockMvcResultMatchers#cookie}.
+ * Builds a {@link MockHttpServletRequest}.
  *
+ * <p>See static factory methods in
+ * {@link org.springframework.test.web.servlet.request.MockMvcRequestBuilders MockMvcRequestBuilders}.
+ *
+ * @author Arjen Poutsma
  * @author Rossen Stoyanchev
- * @author Thomas Bruyelle
  * @since 3.2
  */
-public class CookieResultMatchers extends HttpCookieResultMatchers {
+public interface RequestBuilder {
 
 	/**
-	 * Protected constructor.
-	 * Use {@link MockMvcResultMatchers#cookie()}.
+	 * Build the request.
+	 *
+	 * @param servletContext the {@link ServletContext} to use to create the request
+	 * @return the request
 	 */
-	protected CookieResultMatchers() {
-	}
+	MockHttpServletRequest buildRequest(ServletContext servletContext);
 
 }

@@ -16,6 +16,8 @@
 
 package org.springframework.test.web.servlet;
 
+import org.springframework.test.web.HttpResultHandler;
+
 /**
  * A {@code ResultHandler} performs a generic action on the result of an
  * executed request &mdash; for example, printing debug information.
@@ -45,14 +47,6 @@ package org.springframework.test.web.servlet;
  * @since 3.2
  */
 @FunctionalInterface
-public interface ResultHandler {
-
-	/**
-	 * Perform an action on the given result.
-	 *
-	 * @param result the result of the executed request
-	 * @throws Exception if a failure occurs
-	 */
-	void handle(MvcResult result) throws Exception;
+public interface ResultHandler extends HttpResultHandler<MvcResult> {
 
 }

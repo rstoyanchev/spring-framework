@@ -26,9 +26,10 @@ import org.junit.Test;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.web.HttpResult;
+import org.springframework.test.web.HttpResultMatcher;
 import org.springframework.test.web.Person;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
@@ -189,7 +190,7 @@ public class HeaderAssertionTests {
 		this.mockMvc.perform(get("/persons/1")).andExpect(header().longValue("X-Rate-Limiting", 1));
 	}
 
-	private void assertIncorrectResponseHeader(ResultMatcher matcher, String unexpected) throws Exception {
+	private void assertIncorrectResponseHeader(HttpResultMatcher<HttpResult> matcher, String unexpected) throws Exception {
 		try {
 			this.mockMvc.perform(get("/persons/1")
 					.header(IF_MODIFIED_SINCE, minuteAgo))

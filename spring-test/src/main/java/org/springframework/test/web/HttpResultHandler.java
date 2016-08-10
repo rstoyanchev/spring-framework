@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package org.springframework.test.web.servlet;
-
-import org.springframework.test.web.HttpResultMatcher;
+package org.springframework.test.web;
 
 /**
- * A {@code ResultMatcher} matches the result of an executed request against
- * some expectation.
+ * A {@code ResultHandler} performs a generic action on the result of an
+ * executed request &mdash; for example, printing debug information.
  *
  * <p>See static factory methods in
- * {@link org.springframework.test.web.servlet.result.MockMvcResultMatchers
- * MockMvcResultMatchers}.
+ * {@link org.springframework.test.web.servlet.result.MockMvcResultHandlers
+ * MockMvcResultHandlers}.
  *
- * <h3>Example Using Status and Content Result Matchers</h3>
+ * <h3>Example</h3>
  *
  * <pre class="code">
  * import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
- * import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+ * import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
  * import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
  *
  * // ...
@@ -39,9 +37,7 @@ import org.springframework.test.web.HttpResultMatcher;
  *
  * MockMvc mockMvc = webAppContextSetup(wac).build();
  *
- * mockMvc.perform(get("/form"))
- *   .andExpect(status().isOk())
- *   .andExpect(content().mimeType(MediaType.APPLICATION_JSON));
+ * mockMvc.perform(get("/form")).andDo(print());
  * </pre>
  *
  * @author Rossen Stoyanchev
@@ -49,7 +45,14 @@ import org.springframework.test.web.HttpResultMatcher;
  * @since 3.2
  */
 @FunctionalInterface
-public interface ResultMatcher extends HttpResultMatcher<MvcResult> {
+public interface HttpResultHandler<T extends HttpResult> {
 
+	/**
+	 * Perform an action on the given result.
+	 *
+	 * @param result the result of the executed request
+	 * @throws Exception if a failure occurs
+	 */
+	void handle(T result) throws Exception;
 
 }

@@ -16,8 +16,7 @@
 
 package org.springframework.test.web.servlet;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.HttpResult;
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -29,19 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
-public interface MvcResult {
-
-	/**
-	 * Return the performed request.
-	 * @return the request, never {@code null}
-	 */
-	MockHttpServletRequest getRequest();
-
-	/**
-	 * Return the resulting response.
-	 * @return the response, never {@code null}
-	 */
-	MockHttpServletResponse getResponse();
+public interface MvcResult extends HttpResult {
 
 	/**
 	 * Return the executed handler.
@@ -73,23 +60,5 @@ public interface MvcResult {
 	 * @return the {@code FlashMap}, possibly empty
 	 */
 	FlashMap getFlashMap();
-
-	/**
-	 * Get the result of async execution. This method will wait for the async result
-	 * to be set for up to the amount of time configured on the async request,
-	 * i.e. {@link org.springframework.mock.web.MockAsyncContext#getTimeout()}.
-	 * @throws IllegalStateException if the async result was not set
-	 */
-	Object getAsyncResult();
-
-	/**
-	 * Get the result of async execution. This method will wait for the async result
-	 * to be set for up to the specified amount of time.
-	 * @param timeToWait how long to wait for the async result to be set, in
-	 * 	milliseconds; if -1, then the async request timeout value is used,
-	 *  i.e.{@link org.springframework.mock.web.MockAsyncContext#getTimeout()}.
-	 * @throws IllegalStateException if the async result was not set
-	 */
-	Object getAsyncResult(long timeToWait);
 
 }

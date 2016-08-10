@@ -18,6 +18,8 @@ package org.springframework.test.web.servlet.setup;
 
 import javax.servlet.Filter;
 
+import org.springframework.test.web.HttpResult;
+import org.springframework.test.web.HttpResultMatcher;
 import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultHandler;
@@ -100,6 +102,19 @@ public interface ConfigurableMockMvcBuilder<B extends ConfigurableMockMvcBuilder
 	 * {@link org.springframework.test.web.servlet.result.MockMvcResultMatchers}
 	 */
 	<T extends B> T alwaysExpect(ResultMatcher resultMatcher);
+	
+
+	/**
+	 * Define a global expectation that should <em>always</em> be applied to
+	 * every response. For example, status code 200 (OK), content type
+	 * {@code "application/json"}, etc.
+	 *
+	 * @param resultMatcher a ResultMatcher; see static factory methods in
+	 * {@link org.springframework.test.web.servlet.result.MockMvcResultMatchers}
+	 */
+	default <T extends B> T alwaysExpect(HttpResultMatcher<HttpResult> resultMatcher) {
+		return alwaysExpect((ResultMatcher) result -> resultMatcher.match(result));
+	}
 
 	/**
 	 * Define a global action that should <em>always</em> be applied to every

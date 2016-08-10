@@ -16,16 +16,8 @@
 
 package org.springframework.test.web.servlet.result;
 
-import java.util.Map;
-import javax.xml.xpath.XPathExpressionException;
-
-import org.hamcrest.Matcher;
-
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.http.result.MockHttpResultMatchers;
 import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.util.AntPathMatcher;
-
-import static org.springframework.test.util.AssertionErrors.*;
 
 /**
  * Static factory methods for {@link ResultMatcher}-based result actions.
@@ -39,17 +31,7 @@ import static org.springframework.test.util.AssertionErrors.*;
  * @author Sam Brannen
  * @since 3.2
  */
-public abstract class MockMvcResultMatchers {
-
-	private static final AntPathMatcher pathMatcher = new AntPathMatcher();
-
-
-	/**
-	 * Access to request-related assertions.
-	 */
-	public static RequestResultMatchers request() {
-		return new RequestResultMatchers();
-	}
+public abstract class MockMvcResultMatchers extends MockHttpResultMatchers {
 
 	/**
 	 * Access to assertions for the handler that handled the request.
@@ -78,152 +60,4 @@ public abstract class MockMvcResultMatchers {
 	public static FlashAttributeResultMatchers flash() {
 		return new FlashAttributeResultMatchers();
 	}
-
-	/**
-	 * Asserts the request was forwarded to the given URL.
-	 * <p>This methods accepts only exact matches.
-	 * @param expectedUrl the exact URL expected
-	 */
-	public static ResultMatcher forwardedUrl(final String expectedUrl) {
-		return new ResultMatcher() {
-			@Override
-			public void match(MvcResult result) {
-				assertEquals("Forwarded URL", expectedUrl, result.getResponse().getForwardedUrl());
-			}
-		};
-	}
-
-	/**
-	 * Asserts the request was forwarded to the given URL.
-	 * <p>This methods accepts {@link org.springframework.util.AntPathMatcher}
-	 * expressions.
-	 * @param urlPattern an AntPath expression to match against
-	 * @since 4.0
-	 * @see org.springframework.util.AntPathMatcher
-	 */
-	public static ResultMatcher forwardedUrlPattern(final String urlPattern) {
-		return new ResultMatcher() {
-			@Override
-			public void match(MvcResult result) {
-				assertTrue("AntPath expression", pathMatcher.isPattern(urlPattern));
-				assertTrue("Forwarded URL does not match the expected URL pattern",
-						pathMatcher.match(urlPattern, result.getResponse().getForwardedUrl()));
-			}
-		};
-	}
-
-	/**
-	 * Asserts the request was redirected to the given URL.
-	 * <p>This methods accepts only exact matches.
-	 * @param expectedUrl the exact URL expected
-	 */
-	public static ResultMatcher redirectedUrl(final String expectedUrl) {
-		return new ResultMatcher() {
-			@Override
-			public void match(MvcResult result) {
-				assertEquals("Redirected URL", expectedUrl, result.getResponse().getRedirectedUrl());
-			}
-		};
-	}
-
-	/**
-	 * Asserts the request was redirected to the given URL.
-	 * <p>This method accepts {@link org.springframework.util.AntPathMatcher}
-	 * expressions.
-	 * @param expectedUrl an AntPath expression to match against
-	 * @see org.springframework.util.AntPathMatcher
-	 * @since 4.0
-	 */
-	public static ResultMatcher redirectedUrlPattern(final String expectedUrl) {
-		return new ResultMatcher() {
-			@Override
-			public void match(MvcResult result) {
-				assertTrue("AntPath expression",pathMatcher.isPattern(expectedUrl));
-				assertTrue("Redirected URL",
-						pathMatcher.match(expectedUrl, result.getResponse().getRedirectedUrl()));
-			}
-		};
-	}
-
-	/**
-	 * Access to response status assertions.
-	 */
-	public static StatusResultMatchers status() {
-		return new StatusResultMatchers();
-	}
-
-	/**
-	 * Access to response header assertions.
-	 */
-	public static HeaderResultMatchers header() {
-		return new HeaderResultMatchers();
-	}
-
-	/**
-	 * Access to response body assertions.
-	 */
-	public static ContentResultMatchers content() {
-		return new ContentResultMatchers();
-	}
-
-	/**
-	 * Access to response body assertions using a
-	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression
-	 * to inspect a specific subset of the body.
-	 * <p>The JSON path expression can be a parameterized string using
-	 * formatting specifiers as defined in
-	 * {@link String#format(String, Object...)}.
-	 * @param expression the JSON path expression, optionally parameterized with arguments
-	 * @param args arguments to parameterize the JSON path expression with
-	 */
-	public static JsonPathResultMatchers jsonPath(String expression, Object ... args) {
-		return new JsonPathResultMatchers(expression, args);
-	}
-
-	/**
-	 * Access to response body assertions using a
-	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression
-	 * to inspect a specific subset of the body and a Hamcrest matcher for
-	 * asserting the value found at the JSON path.
-	 * @param expression the JSON path expression
-	 * @param matcher a matcher for the value expected at the JSON path
-	 */
-	public static <T> ResultMatcher jsonPath(String expression, Matcher<T> matcher) {
-		return new JsonPathResultMatchers(expression).value(matcher);
-	}
-
-	/**
-	 * Access to response body assertions using an XPath expression to
-	 * inspect a specific subset of the body.
-	 * <p>The XPath expression can be a parameterized string using formatting
-	 * specifiers as defined in {@link String#format(String, Object...)}.
-	 * @param expression the XPath expression, optionally parameterized with arguments
-	 * @param args arguments to parameterize the XPath expression with
-	 */
-	public static XpathResultMatchers xpath(String expression, Object... args) throws XPathExpressionException {
-		return new XpathResultMatchers(expression, null, args);
-	}
-
-	/**
-	 * Access to response body assertions using an XPath expression to
-	 * inspect a specific subset of the body.
-	 * <p>The XPath expression can be a parameterized string using formatting
-	 * specifiers as defined in {@link String#format(String, Object...)}.
-	 * @param expression the XPath expression, optionally parameterized with arguments
-	 * @param namespaces namespaces referenced in the XPath expression
-	 * @param args arguments to parameterize the XPath expression with
-	 */
-	public static XpathResultMatchers xpath(String expression, Map<String, String> namespaces, Object... args)
-			throws XPathExpressionException {
-
-		return new XpathResultMatchers(expression, namespaces, args);
-	}
-
-	/**
-	 * Access to response cookie assertions.
-	 */
-	public static CookieResultMatchers cookie() {
-		return new CookieResultMatchers();
-	}
-
 }

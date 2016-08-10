@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package org.springframework.test.web.servlet.result;
+package org.springframework.test.web;
 
-import org.springframework.test.web.http.result.HttpHeaderResultMatchers;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * Factory for response header assertions.
- * <p>An instance of this class is available via
- * {@link MockMvcResultMatchers#header}.
- *
- * @author Rossen Stoyanchev
- * @author Sam Brannen
- * @author Brian Clozel
- * @since 3.2
+ * 
+ * @author Rob Winch
+ * @since 5.0
  */
-public class HeaderResultMatchers extends HttpHeaderResultMatchers {
+class NoOpServlet extends HttpServlet {
 
-
-	/**
-	 * Protected constructor.
-	 * See {@link MockMvcResultMatchers#header()}.
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
-	protected HeaderResultMatchers() {
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 	}
 }
