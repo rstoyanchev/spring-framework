@@ -58,7 +58,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @author Sam Brannen
  * @since 3.2
  */
-public final class MockMvc {
+public final class MockMvc implements MockMvcOperations {
 
 	static String MVC_RESULT_ATTRIBUTE = MockMvc.class.getName().concat(".MVC_RESULT_ATTRIBUTE");
 
@@ -117,6 +117,7 @@ public final class MockMvc {
 		this.defaultResultHandlers = resultHandlers;
 	}
 
+
 	/**
 	 * Perform a request and return a type that allows chaining further
 	 * actions, such as asserting expectations, on the result.
@@ -130,6 +131,7 @@ public final class MockMvc {
 	 * @see org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 	 * @see org.springframework.test.web.servlet.result.MockMvcResultMatchers
 	 */
+	@Override
 	public ResultActions perform(RequestBuilder requestBuilder) throws Exception {
 
 		if (this.defaultRequestBuilder != null) {
