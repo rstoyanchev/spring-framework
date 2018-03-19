@@ -41,6 +41,8 @@ import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.http.codec.json.Jackson2SmileDecoder;
 import org.springframework.http.codec.json.Jackson2SmileEncoder;
+import org.springframework.http.codec.protobuf.ProtobufDecoder;
+import org.springframework.http.codec.protobuf.ProtobufHttpMessageWriter;
 import org.springframework.http.codec.xml.Jaxb2XmlDecoder;
 import org.springframework.http.codec.xml.Jaxb2XmlEncoder;
 import org.springframework.lang.Nullable;
@@ -66,6 +68,9 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs {
 
 	private static final boolean jaxb2Present =
 			ClassUtils.isPresent("javax.xml.bind.Binder", BaseCodecConfigurer.class.getClassLoader());
+
+	private static final boolean protobufPresent =
+			ClassUtils.isPresent("com.google.protobuf.Message", BaseDefaultCodecs.class.getClassLoader());
 
 
 	@Nullable
@@ -109,6 +114,9 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs {
 		readers.add(new DecoderHttpMessageReader<>(new ResourceDecoder()));
 		readers.add(new DecoderHttpMessageReader<>(StringDecoder.textPlainOnly()));
 		readers.add(new FormHttpMessageReader());
+		if (protobufPresent) {
+			readers.add(new DecoderHttpMessageReader<>(new ProtobufDecoder()));
+		}
 		extendTypedReaders(readers);
 		return readers;
 	}
@@ -174,6 +182,9 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs {
 		writers.add(new EncoderHttpMessageWriter<>(new DataBufferEncoder()));
 		writers.add(new ResourceHttpMessageWriter());
 		writers.add(new EncoderHttpMessageWriter<>(CharSequenceEncoder.textPlainOnly()));
+		if (protobufPresent) {
+			writers.add(new ProtobufHttpMessageWriter());
+		}
 		// No client or server specific multipart writers currently..
 		if (!forMultipart) {
 			extendTypedWriters(writers);

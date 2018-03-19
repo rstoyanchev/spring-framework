@@ -44,6 +44,7 @@ dependencies {
 	}
 	optional("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
 	optional("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
+	optional("com.google.protobuf:protobuf-java-util:${protobufVersion}")
 	testCompile("javax.xml.bind:jaxb-api:2.3.0")
 	testCompile("org.hibernate:hibernate-validator:6.0.10.Final")
 	testCompile "io.reactivex.rxjava2:rxjava:${rxjava2Version}"
