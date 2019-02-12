@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 the original author or authors.
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,23 @@ public interface PathContainer {
 	 * The list of path elements, either {@link Separator} or {@link PathSegment}.
 	 */
 	List<Element> elements();
+
+	/**
+	 * Join elements, mapping each element as follows:
+	 * <ul>
+	 * <li>{@link Separator Separator} -> {@link Element#value() value()}
+	 * <li>{@link PathSegment PathSegment} -> {@link PathSegment#valueToMatch() valueToMatch()}
+	 * </ul>
+	 * <p><strong>Note:</strong> this method may throw an
+	 * {@link IllegalStateException} if any path segment contains an encoded
+	 * slash ("%2F") or backslash ("%5C") since the decoded version of that
+	 * would result in a different path.
+	 * @return the result of joining the values
+	 * @throws IllegalStateException if any {@link Element#value() value()}
+	 * contains an encoded slash ("%2F") or backslash ("%5C")
+	 * @since 5.1.5
+	 */
+	String joinValuesToMatch();
 
 	/**
 	 * Extract a sub-path from the given offset into the elements list.

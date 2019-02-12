@@ -106,6 +106,17 @@ public class ResourceWebHandlerTests {
 		assertResponseBody(exchange, "h1 { color:red; }");
 	}
 
+	@Test // gh-22272
+	public void getResourcesWithEncodedUrl() {
+		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get(""));
+		setPathWithinHandlerMapping(exchange, "images/image-%E5%9B%BE%E7%89%87.png");
+		this.handler.handle(exchange).block(TIMEOUT);
+
+		HttpHeaders headers = exchange.getResponse().getHeaders();
+		assertEquals(MediaType.parseMediaType("image/png"), headers.getContentType());
+		assertEquals(155, headers.getContentLength());
+	}
+
 	@Test
 	public void getResourceHttpHeader() throws Exception {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.head(""));

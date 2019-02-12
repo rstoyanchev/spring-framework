@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2018 the original author or authors.
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.lang.Nullable;
@@ -49,6 +50,8 @@ final class DefaultPathContainer implements PathContainer {
 
 	private final List<Element> elements;
 
+	private final Supplier<String> valuesToMatchAggregator = new ValuesToMatchAggregator();
+
 
 	private DefaultPathContainer(String path, List<Element> elements) {
 		this.path = path;
@@ -59,6 +62,11 @@ final class DefaultPathContainer implements PathContainer {
 	@Override
 	public String value() {
 		return this.path;
+	}
+
+	@Override
+	public String joinValuesToMatch() {
+		return this.valuesToMatchAggregator.get();
 	}
 
 	@Override
@@ -246,6 +254,43 @@ final class DefaultPathContainer implements PathContainer {
 
 		public String toString() {
 			return "[value='" + this.value + "']";
+		}
+	}
+
+
+	/**
+	 * Lazy implementation of the logic for
+	 * {@link PathContainer#joinValuesToMatch()} producing the aggregated value
+	 * or an IllegalStateException if not possible.
+	 */
+	private class ValuesToMatchAggregator implements Supplier<String> {
+
+		@Nullable
+		private Object result;
+
+
+		@Override
+		public String get() {
+			if (this.result == null) {
+				this.result = init();
+			}
+			if (this.result instanceof IllegalStateException) {
+				throw (IllegalStateException) this.result;
+			}
+			if (this.result instanceof String) {
+				return (String) this.result;
+			}
+			throw new IllegalStateException("Unexpected result: " + this.result);
+		}
+
+		private Object init() {
+			if (path.contains("%2F") || path.contains("%5C")) {
+				return new IllegalStateException( "Path contains encoded '/' or '\\': " +
+						elements.stream().map(Element::value).collect(Collectors.toList()));
+			}
+			return elements.stream()
+					.map(e -> e instanceof PathSegment ? ((PathSegment) e).valueToMatch() : e.value())
+					.collect(Collectors.joining());
 		}
 	}
 

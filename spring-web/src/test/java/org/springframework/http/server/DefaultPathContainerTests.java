@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 the original author or authors.
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,7 @@ import org.springframework.http.server.PathContainer.PathSegment;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 /**
  * Unit tests for {@link DefaultPathContainer}.
@@ -36,7 +35,7 @@ import static org.junit.Assert.assertSame;
 public class DefaultPathContainerTests {
 
 	@Test
-	public void pathSegment() throws Exception {
+	public void pathSegment() {
 		// basic
 		testPathSegment("cars", "cars", new LinkedMultiValueMap<>());
 
@@ -49,7 +48,7 @@ public class DefaultPathContainerTests {
 	}
 
 	@Test
-	public void pathSegmentParams() throws Exception {
+	public void pathSegmentParams() {
 		// basic
 		LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("colors", "red");
@@ -92,7 +91,7 @@ public class DefaultPathContainerTests {
 	}
 
 	@Test
-	public void path() throws Exception {
+	public void path() {
 		// basic
 		testPath("/a/b/c", "/a/b/c", Arrays.asList("/", "a", "/", "b", "/", "c"));
 
@@ -122,7 +121,7 @@ public class DefaultPathContainerTests {
 	}
 
 	@Test
-	public void subPath() throws Exception {
+	public void subPath() {
 		// basic
 		PathContainer path = PathContainer.parsePath("/a/b/c");
 		assertSame(path, path.subPath(0));
@@ -136,6 +135,30 @@ public class DefaultPathContainerTests {
 		// trailing slash
 		path = PathContainer.parsePath("/a/b/");
 		assertEquals("/b/", path.subPath(2).value());
+	}
+
+	@Test // gh-22272
+	public void joinValuesToMatch() {
+		PathContainer path = PathContainer.parsePath("/foo%20bar/image-%E5%9B%BE%E7%89%87.png");
+		assertEquals("/foo bar/image-图片.png", path.joinValuesToMatch());
+
+		path = PathContainer.parsePath("/foo%2Fbar");
+		try {
+			path.joinValuesToMatch();
+			fail();
+		}
+		catch (IllegalStateException ex) {
+			assertEquals("Path contains encoded '/' or '\\': [/, foo%2Fbar]", ex.getMessage());
+		}
+
+		path = PathContainer.parsePath("/foo%5Cbar");
+		try {
+			path.joinValuesToMatch();
+			fail();
+		}
+		catch (IllegalStateException ex) {
+			assertEquals("Path contains encoded '/' or '\\': [/, foo%5Cbar]", ex.getMessage());
+		}
 	}
 
 }

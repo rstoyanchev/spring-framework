@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2018 the original author or authors.
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -1042,9 +1043,17 @@ public abstract class RequestPredicates {
 
 			private final List<Element> elements;
 
+			private final Supplier<String> joinedValuesToMatchSupplier;
+
+
 			public SubPathContainer(PathContainer original) {
 				this.value = prefixWithSlash(original.value());
 				this.elements = prependWithSeparator(original.elements());
+				this.joinedValuesToMatchSupplier = () -> {
+					String result = original.joinValuesToMatch();
+					return !original.value().startsWith("/") ? "/" + result : result;
+				};
+
 			}
 
 			private static String prefixWithSlash(String path) {
@@ -1071,6 +1080,11 @@ public abstract class RequestPredicates {
 			@Override
 			public List<Element> elements() {
 				return this.elements;
+			}
+
+			@Override
+			public String joinValuesToMatch() {
+				return this.joinedValuesToMatchSupplier.get();
 			}
 		}
 	}
