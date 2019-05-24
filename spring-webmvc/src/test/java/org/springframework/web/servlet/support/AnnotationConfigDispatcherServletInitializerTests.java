@@ -137,7 +137,8 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 
 		for (MockFilterRegistration filterRegistration : filterRegistrations.values()) {
 			assertThat(filterRegistration.isAsyncSupported()).isFalse();
-			assertThat(filterRegistration.getMappings().get(SERVLET_NAME)).isEqualTo(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE));
+			assertThat(filterRegistration.getMappings().get(SERVLET_NAME))
+					.isEqualTo(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE));
 		}
 	}
 

@@ -140,7 +140,8 @@ public class DefaultUriBuilderFactoryTests {
 		factory.setDefaultUriVariables(singletonMap("host", "www.example.com"));
 		UriBuilder uriBuilder = factory.uriString("https://{host}/user/{userId}/dashboard");
 
-		assertThat(uriBuilder.build(singletonMap("userId", "john;doe")).toString()).isEqualTo("https://www.example.com/user/john%3Bdoe/dashboard");
+		assertThat(uriBuilder.build(singletonMap("userId", "john;doe")).toString())
+				.isEqualTo("https://www.example.com/user/john%3Bdoe/dashboard");
 	}
 
 	@Test

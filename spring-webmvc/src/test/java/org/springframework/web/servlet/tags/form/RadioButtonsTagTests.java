@@ -495,8 +495,10 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 		assertThat(rootElement.elements().size()).isEqualTo(2);
 		Node value1 = rootElement.selectSingleNode("//input[@value = 'VALUE_1']");
 		Node value2 = rootElement.selectSingleNode("//input[@value = 'VALUE_2']");
-		assertThat(rootElement.selectSingleNode("//label[@for = '" + value1.valueOf("@id") + "']").getText()).isEqualTo("TestEnum: VALUE_1");
-		assertThat(rootElement.selectSingleNode("//label[@for = '" + value2.valueOf("@id") + "']").getText()).isEqualTo("TestEnum: VALUE_2");
+		assertThat(rootElement.selectSingleNode("//label[@for = '" + value1.valueOf("@id") + "']").getText())
+				.isEqualTo("TestEnum: VALUE_1");
+		assertThat(rootElement.selectSingleNode("//label[@for = '" + value2.valueOf("@id") + "']").getText())
+				.isEqualTo("TestEnum: VALUE_2");
 		assertThat(rootElement.selectSingleNode("//input[@checked]")).isEqualTo(value2);
 	}
 
@@ -520,8 +522,10 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 		assertThat(rootElement.elements().size()).isEqualTo(2);
 		Node value1 = rootElement.selectSingleNode("//input[@value = 'Value: VALUE_1']");
 		Node value2 = rootElement.selectSingleNode("//input[@value = 'Value: VALUE_2']");
-		assertThat(rootElement.selectSingleNode("//label[@for = '" + value1.valueOf("@id") + "']").getText()).isEqualTo("Label: VALUE_1");
-		assertThat(rootElement.selectSingleNode("//label[@for = '" + value2.valueOf("@id") + "']").getText()).isEqualTo("Label: VALUE_2");
+		assertThat(rootElement.selectSingleNode("//label[@for = '" + value1.valueOf("@id") + "']").getText())
+				.isEqualTo("Label: VALUE_1");
+		assertThat(rootElement.selectSingleNode("//label[@for = '" + value2.valueOf("@id") + "']").getText())
+				.isEqualTo("Label: VALUE_2");
 		assertThat(rootElement.selectSingleNode("//input[@checked]")).isEqualTo(value2);
 	}
 

@@ -122,10 +122,14 @@ public class RequestMappingHandlerMappingTests {
 		assertThat(this.handlerMapping.useSuffixPatternMatch()).isFalse();
 
 		this.handlerMapping.setUseRegisteredSuffixPatternMatch(false);
-		assertThat(this.handlerMapping.useSuffixPatternMatch()).as("'false' registeredSuffixPatternMatch shouldn't impact suffixPatternMatch").isFalse();
+		assertThat(this.handlerMapping.useSuffixPatternMatch())
+				.as("'false' registeredSuffixPatternMatch shouldn't impact suffixPatternMatch")
+				.isFalse();
 
 		this.handlerMapping.setUseRegisteredSuffixPatternMatch(true);
-		assertThat(this.handlerMapping.useSuffixPatternMatch()).as("'true' registeredSuffixPatternMatch should enable suffixPatternMatch").isTrue();
+		assertThat(this.handlerMapping.useSuffixPatternMatch())
+				.as("'true' registeredSuffixPatternMatch should enable suffixPatternMatch")
+				.isTrue();
 	}
 
 	@Test
@@ -157,8 +161,10 @@ public class RequestMappingHandlerMappingTests {
 	public void resolveRequestMappingViaComposedAnnotation() throws Exception {
 		RequestMappingInfo info = assertComposedAnnotationMapping("postJson", "/postJson", RequestMethod.POST);
 
-		assertThat(info.getConsumesCondition().getConsumableMediaTypes().iterator().next().toString()).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
-		assertThat(info.getProducesCondition().getProducibleMediaTypes().iterator().next().toString()).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
+		assertThat(info.getConsumesCondition().getConsumableMediaTypes().iterator().next().toString())
+				.isEqualTo(MediaType.APPLICATION_JSON_VALUE);
+		assertThat(info.getProducesCondition().getProducibleMediaTypes().iterator().next().toString())
+				.isEqualTo(MediaType.APPLICATION_JSON_VALUE);
 	}
 
 	@Test // SPR-14988

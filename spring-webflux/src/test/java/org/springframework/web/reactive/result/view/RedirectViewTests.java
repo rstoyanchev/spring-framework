@@ -122,7 +122,8 @@ public class RedirectViewTests {
 		this.exchange.getAttributes().put(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, attributes);
 		RedirectView view = new RedirectView(url);
 		view.render(new HashMap<>(), MediaType.TEXT_HTML, exchange).block();
-		assertThat(this.exchange.getResponse().getHeaders().getLocation()).isEqualTo(URI.create("https://url.somewhere.com?foo=bar"));
+		assertThat(this.exchange.getResponse().getHeaders().getLocation())
+				.isEqualTo(URI.create("https://url.somewhere.com?foo=bar"));
 	}
 
 	@Test
@@ -132,7 +133,8 @@ public class RedirectViewTests {
 		this.exchange = MockServerWebExchange.from(MockServerHttpRequest.get("https://url.somewhere.com?a=b&c=d"));
 		view.render(new HashMap<>(), MediaType.TEXT_HTML, this.exchange).block();
 		assertThat(this.exchange.getResponse().getStatusCode()).isEqualTo(HttpStatus.SEE_OTHER);
-		assertThat(this.exchange.getResponse().getHeaders().getLocation()).isEqualTo(URI.create("https://url.somewhere.com?foo=bar&a=b&c=d#bazz"));
+		assertThat(this.exchange.getResponse().getHeaders().getLocation())
+				.isEqualTo(URI.create("https://url.somewhere.com?foo=bar&a=b&c=d#bazz"));
 	}
 
 }

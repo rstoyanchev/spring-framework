@@ -62,7 +62,8 @@ public class RequestContextFilterTests {
 			public void doFilter(ServletRequest req, ServletResponse resp) throws IOException, ServletException {
 				++invocations;
 				if (invocations == 1) {
-					assertThat(RequestContextHolder.currentRequestAttributes().getAttribute("myAttr", RequestAttributes.SCOPE_REQUEST)).isSameAs("myValue");
+					RequestAttributes attrs = RequestContextHolder.currentRequestAttributes();
+					assertThat(attrs.getAttribute("myAttr", RequestAttributes.SCOPE_REQUEST)).isSameAs("myValue");
 					if (sex != null) {
 						throw sex;
 					}

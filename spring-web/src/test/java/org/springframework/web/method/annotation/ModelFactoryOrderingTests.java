@@ -144,8 +144,9 @@ public class ModelFactoryOrderingTests {
 	private void assertInvokedBefore(String beforeMethod, String... afterMethods) {
 		List<String> actual = getInvokedMethods();
 		for (String afterMethod : afterMethods) {
-			assertThat(actual.indexOf(beforeMethod) < actual.indexOf(afterMethod)).as(beforeMethod + " should be before " + afterMethod + ". Actual order: " +
-						actual.toString()).isTrue();
+			assertThat(actual.indexOf(beforeMethod) < actual.indexOf(afterMethod))
+					.as(beforeMethod + " should be before " + afterMethod + ". Actual order: " + actual.toString())
+					.isTrue();
 		}
 	}
 

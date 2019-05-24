@@ -190,7 +190,9 @@ public class FlashMapManagerTests {
 		this.flashMapManager.setFlashMaps(flashMaps);
 		this.flashMapManager.retrieveAndUpdate(this.request, this.response);
 
-		assertThat(this.flashMapManager.getFlashMaps().size()).as("Expired instances should be removed even if the saved FlashMap is empty").isEqualTo(0);
+		assertThat(this.flashMapManager.getFlashMaps().size())
+				.as("Expired instances should be removed even if the saved FlashMap is empty")
+				.isEqualTo(0);
 	}
 
 	@Test

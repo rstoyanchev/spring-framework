@@ -223,7 +223,8 @@ public class WebSocketStompClientTests {
 		verify(this.webSocketSession).sendMessage(binaryMessageCaptor.capture());
 		BinaryMessage binaryMessage = binaryMessageCaptor.getValue();
 		assertThat(binaryMessage).isNotNull();
-		assertThat(new String(binaryMessage.getPayload().array(), StandardCharsets.UTF_8)).isEqualTo("SEND\ndestination:/b\ncontent-type:application/octet-stream\ncontent-length:7\n\npayload\0");
+		assertThat(new String(binaryMessage.getPayload().array(), StandardCharsets.UTF_8)).isEqualTo(
+				"SEND\ndestination:/b\ncontent-type:application/octet-stream\ncontent-length:7\n\npayload\0");
 	}
 
 	@Test

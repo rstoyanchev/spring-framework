@@ -95,7 +95,9 @@ public class UriUtilsTests {
 	@Test
 	public void encode() {
 		assertThat(UriUtils.encode("foo", CHARSET)).as("Invalid encoded result").isEqualTo("foo");
-		assertThat(UriUtils.encode("https://example.com/foo bar", CHARSET)).as("Invalid encoded result").isEqualTo("https%3A%2F%2Fexample.com%2Ffoo%20bar");
+		assertThat(UriUtils.encode("https://example.com/foo bar", CHARSET))
+				.as("Invalid encoded result")
+				.isEqualTo("https%3A%2F%2Fexample.com%2Ffoo%20bar");
 	}
 
 	@Test

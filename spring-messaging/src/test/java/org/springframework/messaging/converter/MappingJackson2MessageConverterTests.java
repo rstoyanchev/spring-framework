@@ -185,7 +185,9 @@ public class MappingJackson2MessageConverterTests {
 		assertThat(actual.contains("\"array\":[\"Foo\",\"Bar\"]")).isTrue();
 		assertThat(actual.contains("\"bool\":true")).isTrue();
 		assertThat(actual.contains("\"bytes\":\"AQI=\"")).isTrue();
-		assertThat(message.getHeaders().get(MessageHeaders.CONTENT_TYPE, MimeType.class)).as("Invalid content-type").isEqualTo(new MimeType("application", "json"));
+		assertThat(message.getHeaders().get(MessageHeaders.CONTENT_TYPE, MimeType.class))
+				.as("Invalid content-type")
+				.isEqualTo(new MimeType("application", "json"));
 	}
 
 	@Test

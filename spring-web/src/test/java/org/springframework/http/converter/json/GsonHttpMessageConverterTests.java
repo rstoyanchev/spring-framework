@@ -131,7 +131,9 @@ public class GsonHttpMessageConverterTests {
 		assertThat(result.contains("\"array\":[\"Foo\",\"Bar\"]")).isTrue();
 		assertThat(result.contains("\"bool\":true")).isTrue();
 		assertThat(result.contains("\"bytes\":[1,2]")).isTrue();
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "json", utf8));
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "json", utf8));
 	}
 
 	@Test
@@ -153,7 +155,9 @@ public class GsonHttpMessageConverterTests {
 		assertThat(result.contains("\"array\":[\"Foo\",\"Bar\"]")).isTrue();
 		assertThat(result.contains("\"bool\":true")).isTrue();
 		assertThat(result.contains("\"bytes\":[1,2]")).isTrue();
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "json", utf8));
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "json", utf8));
 	}
 
 	@Test

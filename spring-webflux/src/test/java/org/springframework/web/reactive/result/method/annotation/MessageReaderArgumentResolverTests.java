@@ -169,7 +169,8 @@ public class MessageReaderArgumentResolverTests {
 		MethodParameter param = this.testMethod.arg(type);
 		Observable<?> observable = resolveValue(param, body);
 
-		assertThat(observable.toList().toBlocking().first()).isEqualTo(Arrays.asList(new TestBean("f1", "b1"), new TestBean("f2", "b2")));
+		assertThat(observable.toList().toBlocking().first())
+				.isEqualTo(Arrays.asList(new TestBean("f1", "b1"), new TestBean("f2", "b2")));
 	}
 
 	@Test

@@ -452,7 +452,8 @@ public class AsyncRestTemplateIntegrationTests extends AbstractMockWebServerTest
 	public void optionsForAllow() throws Exception {
 		Future<Set<HttpMethod>> allowedFuture = template.optionsForAllow(new URI(baseUrl + "/get"));
 		Set<HttpMethod> allowed = allowedFuture.get();
-		assertThat(allowed).as("Invalid response").isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD, HttpMethod.TRACE));
+		assertThat(allowed).as("Invalid response")
+				.isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD, HttpMethod.TRACE));
 	}
 
 	@Test
@@ -461,8 +462,8 @@ public class AsyncRestTemplateIntegrationTests extends AbstractMockWebServerTest
 		allowedFuture.addCallback(new ListenableFutureCallback<Set<HttpMethod>>() {
 			@Override
 			public void onSuccess(Set<HttpMethod> result) {
-				assertThat(result).as("Invalid response").isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS,
-								HttpMethod.HEAD, HttpMethod.TRACE));
+				EnumSet<?> set = EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD, HttpMethod.TRACE);
+				assertThat(result).as("Invalid response").isEqualTo(set);
 			}
 			@Override
 			public void onFailure(Throwable ex) {
@@ -475,7 +476,9 @@ public class AsyncRestTemplateIntegrationTests extends AbstractMockWebServerTest
 	@Test
 	public void optionsForAllowCallbackWithLambdas() throws Exception{
 		ListenableFuture<Set<HttpMethod>> allowedFuture = template.optionsForAllow(new URI(baseUrl + "/get"));
-		allowedFuture.addCallback(result -> assertThat(result).as("Invalid response").isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD,HttpMethod.TRACE)),
+		allowedFuture.addCallback(result -> assertThat(result)
+						.as("Invalid response")
+						.isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD,HttpMethod.TRACE)),
 				ex -> fail(ex.getMessage()));
 		waitTillDone(allowedFuture);
 	}

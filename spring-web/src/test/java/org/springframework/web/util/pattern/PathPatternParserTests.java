@@ -443,7 +443,9 @@ public class PathPatternParserTests {
 			if (head == null) {
 				fail("Ran out of data in parsed pattern. Pattern is: " + p.toChainString());
 			}
-			assertThat(head.getClass().getSimpleName()).as("Not expected section type. Pattern is: " + p.toChainString()).isEqualTo(sectionClass.getSimpleName());
+			assertThat(head.getClass().getSimpleName())
+					.as("Not expected section type. Pattern is: " + p.toChainString())
+					.isEqualTo(sectionClass.getSimpleName());
 			head = head.next;
 		}
 	}

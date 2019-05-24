@@ -57,7 +57,9 @@ public class HttpComponentsAsyncClientHttpRequestFactoryTests extends AbstractAs
 		HttpComponentsAsyncClientHttpRequest request = (HttpComponentsAsyncClientHttpRequest)
 				factory.createAsyncRequest(uri, HttpMethod.GET);
 
-		assertThat(request.getHttpContext().getAttribute(HttpClientContext.REQUEST_CONFIG)).as("No custom config should be set with a custom HttpAsyncClient").isNull();
+		assertThat(request.getHttpContext().getAttribute(HttpClientContext.REQUEST_CONFIG))
+				.as("No custom config should be set with a custom HttpAsyncClient")
+				.isNull();
 	}
 
 	@Test
@@ -71,7 +73,9 @@ public class HttpComponentsAsyncClientHttpRequestFactoryTests extends AbstractAs
 		HttpComponentsAsyncClientHttpRequest request = (HttpComponentsAsyncClientHttpRequest)
 				factory.createAsyncRequest(uri, HttpMethod.GET);
 
-		assertThat(request.getHttpContext().getAttribute(HttpClientContext.REQUEST_CONFIG)).as("No custom config should be set with a custom HttpClient").isNull();
+		assertThat(request.getHttpContext().getAttribute(HttpClientContext.REQUEST_CONFIG))
+				.as("No custom config should be set with a custom HttpClient")
+				.isNull();
 
 		factory.setConnectionRequestTimeout(4567);
 		HttpComponentsAsyncClientHttpRequest request2 = (HttpComponentsAsyncClientHttpRequest)

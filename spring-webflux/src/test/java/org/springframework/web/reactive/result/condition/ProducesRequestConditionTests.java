@@ -89,19 +89,27 @@ public class ProducesRequestConditionTests {
 		String base = "application/atom+xml";
 		ProducesRequestCondition condition = new ProducesRequestCondition(base + ";type=feed");
 		MockServerWebExchange exchange = MockServerWebExchange.from(get("/").header("Accept", base + ";type=feed"));
-		assertThat(condition.getMatchingCondition(exchange)).as("Declared parameter value must match if present in request").isNotNull();
+		assertThat(condition.getMatchingCondition(exchange))
+				.as("Declared parameter value must match if present in request")
+				.isNotNull();
 
 		condition = new ProducesRequestCondition(base + ";type=feed");
 		exchange = MockServerWebExchange.from(get("/").header("Accept", base + ";type=entry"));
-		assertThat(condition.getMatchingCondition(exchange)).as("Declared parameter value must match if present in request").isNull();
+		assertThat(condition.getMatchingCondition(exchange))
+				.as("Declared parameter value must match if present in request")
+				.isNull();
 
 		condition = new ProducesRequestCondition(base + ";type=feed");
 		exchange = MockServerWebExchange.from(get("/").header("Accept", base));
-		assertThat(condition.getMatchingCondition(exchange)).as("Declared parameter has no impact if not present in request").isNotNull();
+		assertThat(condition.getMatchingCondition(exchange))
+				.as("Declared parameter has no impact if not present in request")
+				.isNotNull();
 
 		condition = new ProducesRequestCondition(base);
 		exchange = MockServerWebExchange.from(get("/").header("Accept", base + ";type=feed"));
-		assertThat(condition.getMatchingCondition(exchange)).as("No impact from other parameters in request").isNotNull();
+		assertThat(condition.getMatchingCondition(exchange))
+				.as("No impact from other parameters in request")
+				.isNotNull();
 	}
 
 	@Test

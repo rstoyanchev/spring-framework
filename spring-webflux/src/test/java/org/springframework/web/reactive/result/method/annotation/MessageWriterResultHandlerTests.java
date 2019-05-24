@@ -107,7 +107,8 @@ public class MessageWriterResultHandlerTests {
 		MethodParameter type = on(TestController.class).resolveReturnType(String.class);
 		this.resultHandler.writeBody(body, type, this.exchange).block(Duration.ofSeconds(5));
 
-		assertThat(this.exchange.getResponse().getHeaders().getContentType()).isEqualTo(MediaType.parseMediaType("application/json;charset=UTF-8"));
+		assertThat(this.exchange.getResponse().getHeaders().getContentType())
+				.isEqualTo(MediaType.parseMediaType("application/json;charset=UTF-8"));
 	}
 
 	@Test

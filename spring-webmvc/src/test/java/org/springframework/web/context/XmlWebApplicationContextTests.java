@@ -108,7 +108,9 @@ public class XmlWebApplicationContextTests extends AbstractApplicationContextTes
 	@Test
 	@Override
 	public void count() {
-		assertThat(this.applicationContext.getBeanDefinitionCount() == 14).as("should have 14 beans, not "+ this.applicationContext.getBeanDefinitionCount()).isTrue();
+		assertThat(this.applicationContext.getBeanDefinitionCount() == 14)
+				.as("should have 14 beans, not "+ this.applicationContext.getBeanDefinitionCount())
+				.isTrue();
 	}
 
 	@Test

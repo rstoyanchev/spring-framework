@@ -89,10 +89,14 @@ public class PathExtensionContentNegotiationStrategyTests {
 
 		this.servletRequest.setContextPath("/project-1.0.0.M3");
 		this.servletRequest.setRequestURI("/project-1.0.0.M3/");
-		assertThat(strategy.resolveMediaTypes(webRequest)).as("Context path should be excluded").isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
+		assertThat(strategy.resolveMediaTypes(webRequest))
+				.as("Context path should be excluded")
+				.isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
 
 		this.servletRequest.setRequestURI("/project-1.0.0.M3");
-		assertThat(strategy.resolveMediaTypes(webRequest)).as("Context path should be excluded").isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
+		assertThat(strategy.resolveMediaTypes(webRequest))
+				.as("Context path should be excluded")
+				.isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
 	}
 
 	// SPR-9390

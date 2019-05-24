@@ -51,7 +51,8 @@ public class NashornScriptTemplateTests {
 		model.put("body", "This is the body");
 		String url = "org/springframework/web/reactive/result/view/script/nashorn/template.html";
 		MockServerHttpResponse response = render(url, model, ScriptTemplatingConfiguration.class);
-		assertThat(response.getBodyAsString().block()).isEqualTo("<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
+		String expected = "<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>";
+		assertThat(response.getBodyAsString().block()).isEqualTo(expected);
 	}
 
 	@Test  // SPR-13453
@@ -59,7 +60,8 @@ public class NashornScriptTemplateTests {
 		String url = "org/springframework/web/reactive/result/view/script/nashorn/template.html";
 		Class<?> configClass = ScriptTemplatingWithUrlConfiguration.class;
 		MockServerHttpResponse response = render(url, null, configClass);
-		assertThat(response.getBodyAsString().block()).isEqualTo(("<html><head><title>Check url parameter</title></head><body><p>" + url + "</p></body></html>"));
+		String expected = "<html><head><title>Check url parameter</title></head><body><p>" + url + "</p></body></html>";
+		assertThat(response.getBodyAsString().block()).isEqualTo(expected);
 	}
 
 	@Test // gh-22754

@@ -164,7 +164,9 @@ public class PatternsRequestConditionTests {
 		match = condition.getMatchingCondition(request);
 
 		assertThat(match).isNotNull();
-		assertThat(match.getPatterns().iterator().next()).as("Trailing slash should be insensitive to useSuffixPatternMatch settings (SPR-6164, SPR-5636)").isEqualTo("/foo/");
+		assertThat(match.getPatterns().iterator().next())
+				.as("Trailing slash should be insensitive to useSuffixPatternMatch settings (SPR-6164, SPR-5636)")
+				.isEqualTo("/foo/");
 
 		condition = new PatternsRequestCondition(new String[] {"/foo"}, null, null, false, false);
 		match = condition.getMatchingCondition(request);

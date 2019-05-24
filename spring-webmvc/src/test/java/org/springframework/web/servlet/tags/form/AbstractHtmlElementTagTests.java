@@ -136,7 +136,9 @@ public abstract class AbstractHtmlElementTagTests extends AbstractTagTests {
 
 	protected final void assertBlockTagContains(String output, String desiredContents) {
 		String contents = output.substring(output.indexOf(">") + 1, output.lastIndexOf("<"));
-		assertThat(contents.contains(desiredContents)).as("Expected to find '" + desiredContents + "' in the contents of block tag '" + output + "'").isTrue();
+		assertThat(contents.contains(desiredContents))
+				.as("Expected to find '" + desiredContents + "' in the contents of block tag '" + output + "'")
+				.isTrue();
 	}
 
 }

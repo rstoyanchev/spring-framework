@@ -114,10 +114,12 @@ public class RequestLoggingFilterTests {
 		filter.doFilter(request, response, filterChain);
 
 		assertThat(filter.beforeRequestMessage).isNotNull();
-		assertThat(filter.beforeRequestMessage).isEqualTo("Before request [uri=/hotels;headers=[Content-Type:\"application/json\", token:\"masked\"]]");
+		assertThat(filter.beforeRequestMessage)
+				.isEqualTo("Before request [uri=/hotels;headers=[Content-Type:\"application/json\", token:\"masked\"]]");
 
 		assertThat(filter.afterRequestMessage).isNotNull();
-		assertThat(filter.afterRequestMessage).isEqualTo("After request [uri=/hotels;headers=[Content-Type:\"application/json\", token:\"masked\"]]");
+		assertThat(filter.afterRequestMessage)
+				.isEqualTo("After request [uri=/hotels;headers=[Content-Type:\"application/json\", token:\"masked\"]]");
 	}
 
 	@Test

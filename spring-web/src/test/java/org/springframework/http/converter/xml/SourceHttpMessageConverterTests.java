@@ -291,8 +291,12 @@ public class SourceHttpMessageConverterTests {
 		converter.write(domSource, null, outputMessage);
 		assertThat(XmlContent.of(outputMessage.getBodyAsString(StandardCharsets.UTF_8)))
 				.isSimilarTo("<root>Hello World</root>");
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml"));
-		assertThat(outputMessage.getHeaders().getContentLength()).as("Invalid content-length").isEqualTo(outputMessage.getBodyAsBytes().length);
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml"));
+		assertThat(outputMessage.getHeaders().getContentLength())
+				.as("Invalid content-length")
+				.isEqualTo(outputMessage.getBodyAsBytes().length);
 	}
 
 	@Test
@@ -304,7 +308,9 @@ public class SourceHttpMessageConverterTests {
 		converter.write(saxSource, null, outputMessage);
 		assertThat(XmlContent.of(outputMessage.getBodyAsString(StandardCharsets.UTF_8)))
 				.isSimilarTo("<root>Hello World</root>");
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml"));
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml"));
 	}
 
 	@Test
@@ -316,7 +322,9 @@ public class SourceHttpMessageConverterTests {
 		converter.write(streamSource, null, outputMessage);
 		assertThat(XmlContent.of(outputMessage.getBodyAsString(StandardCharsets.UTF_8)))
 				.isSimilarTo("<root>Hello World</root>");
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml"));
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml"));
 	}
 
 }

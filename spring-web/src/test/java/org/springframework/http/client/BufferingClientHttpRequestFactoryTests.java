@@ -54,8 +54,12 @@ public class BufferingClientHttpRequestFactoryTests extends AbstractHttpRequestF
 			assertThat(response.getHeaders().containsKey(headerName)).as("Header not found").isTrue();
 			assertThat(response.getHeaders().containsKey(headerName)).as("Header not found").isTrue();
 
-			assertThat(response.getHeaders().get(headerName)).as("Header value not found").isEqualTo(Arrays.asList(headerValue1, headerValue2));
-			assertThat(response.getHeaders().get(headerName)).as("Header value not found").isEqualTo(Arrays.asList(headerValue1, headerValue2));
+			assertThat(response.getHeaders().get(headerName))
+					.as("Header value not found")
+					.isEqualTo(Arrays.asList(headerValue1, headerValue2));
+			assertThat(response.getHeaders().get(headerName))
+					.as("Header value not found")
+					.isEqualTo(Arrays.asList(headerValue1, headerValue2));
 
 			byte[] result = FileCopyUtils.copyToByteArray(response.getBody());
 			assertThat(Arrays.equals(body, result)).as("Invalid body").isTrue();

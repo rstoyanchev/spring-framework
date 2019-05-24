@@ -204,12 +204,14 @@ public class FreeMarkerMacroTests {
 
 	@Test
 	public void testForm1() throws Exception {
-		assertThat(getMacroOutput("FORM1")).isEqualTo("<input type=\"text\" id=\"name\" name=\"name\" value=\"Darren\"     >");
+		assertThat(getMacroOutput("FORM1"))
+				.isEqualTo("<input type=\"text\" id=\"name\" name=\"name\" value=\"Darren\"     >");
 	}
 
 	@Test
 	public void testForm2() throws Exception {
-		assertThat(getMacroOutput("FORM2")).isEqualTo("<input type=\"text\" id=\"name\" name=\"name\" value=\"Darren\" class=\"myCssClass\"    >");
+		assertThat(getMacroOutput("FORM2")).isEqualTo(
+				"<input type=\"text\" id=\"name\" name=\"name\" value=\"Darren\" class=\"myCssClass\"    >");
 	}
 
 	@Test
@@ -219,14 +221,16 @@ public class FreeMarkerMacroTests {
 
 	@Test
 	public void testForm4() throws Exception {
-		assertThat(getMacroOutput("FORM4")).isEqualTo("<textarea id=\"name\" name=\"name\" rows=10 cols=30>\nDarren</textarea>");
+		assertThat(getMacroOutput("FORM4")).isEqualTo(
+				"<textarea id=\"name\" name=\"name\" rows=10 cols=30>\nDarren</textarea>");
 	}
 
 	// TODO verify remaining output (fix whitespace)
 
 	@Test
 	public void testForm9() throws Exception {
-		assertThat(getMacroOutput("FORM9")).isEqualTo("<input type=\"password\" id=\"name\" name=\"name\" value=\"\"     >");
+		assertThat(getMacroOutput("FORM9"))
+				.isEqualTo("<input type=\"password\" id=\"name\" name=\"name\" value=\"\"     >");
 	}
 
 	@Test
@@ -259,24 +263,30 @@ public class FreeMarkerMacroTests {
 	@Test
 	public void testForm16() throws Exception {
 		String output = getMacroOutput("FORM16");
-		assertThat(output.startsWith(
-				"<input type=\"hidden\" name=\"_jedi\" value=\"on\"/>")).as("Wrong output: " + output).isTrue();
+		assertThat(output.startsWith("<input type=\"hidden\" name=\"_jedi\" value=\"on\"/>"))
+				.as("Wrong output: " + output)
+				.isTrue();
 		assertThat(output.contains(
-				"<input type=\"checkbox\" id=\"jedi\" name=\"jedi\" checked=\"checked\" />")).as("Wrong output: " + output).isTrue();
+				"<input type=\"checkbox\" id=\"jedi\" name=\"jedi\" checked=\"checked\" />"))
+				.as("Wrong output: " + output).isTrue();
 	}
 
 	@Test
 	public void testForm17() throws Exception {
-		assertThat(getMacroOutput("FORM17")).isEqualTo("<input type=\"text\" id=\"spouses0.name\" name=\"spouses[0].name\" value=\"Fred\"     >");
+		assertThat(getMacroOutput("FORM17")).isEqualTo(
+				"<input type=\"text\" id=\"spouses0.name\" name=\"spouses[0].name\" value=\"Fred\"     >");
 	}
 
 	@Test
 	public void testForm18() throws Exception {
 		String output = getMacroOutput("FORM18");
-		assertThat(output.startsWith(
-				"<input type=\"hidden\" name=\"_spouses[0].jedi\" value=\"on\"/>")).as("Wrong output: " + output).isTrue();
+		assertThat(output.startsWith("<input type=\"hidden\" name=\"_spouses[0].jedi\" value=\"on\"/>"))
+				.as("Wrong output: " + output)
+				.isTrue();
 		assertThat(output.contains(
-				"<input type=\"checkbox\" id=\"spouses0.jedi\" name=\"spouses[0].jedi\" checked=\"checked\" />")).as("Wrong output: " + output).isTrue();
+				"<input type=\"checkbox\" id=\"spouses0.jedi\" name=\"spouses[0].jedi\" checked=\"checked\" />"))
+				.as("Wrong output: " + output)
+				.isTrue();
 	}
 
 

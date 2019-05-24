@@ -741,14 +741,26 @@ public class SelectTagTests extends AbstractFormTagTests {
 
 			Element e;
 			e = (Element) selectElement.selectSingleNode("option[@value = '" + austria.getIsoCode() + "']");
-			assertThat(e).as("Option node not found with Country ISO code value [" + austria.getIsoCode() + "].").isNotNull();
-			assertThat(e.attribute("selected").getValue()).as("AT node not selected.").isEqualTo("selected");
-			assertThat(e.getData()).as("AT Locale displayLanguage property not used for option label.").isEqualTo(LOCALE_AT.getDisplayLanguage());
+			assertThat(e)
+					.as("Option node not found with Country ISO code value [" + austria.getIsoCode() + "].")
+					.isNotNull();
+			assertThat(e.attribute("selected").getValue())
+					.as("AT node not selected.")
+					.isEqualTo("selected");
+			assertThat(e.getData())
+					.as("AT Locale displayLanguage property not used for option label.")
+					.isEqualTo(LOCALE_AT.getDisplayLanguage());
 
 			e = (Element) selectElement.selectSingleNode("option[@value = '" + usa.getIsoCode() + "']");
-			assertThat(e).as("Option node not found with Country ISO code value [" + usa.getIsoCode() + "].").isNotNull();
-			assertThat(e.attribute("selected").getValue()).as("US node not selected.").isEqualTo("selected");
-			assertThat(e.getData()).as("US Locale displayLanguage property not used for option label.").isEqualTo(Locale.US.getDisplayLanguage());
+			assertThat(e)
+					.as("Option node not found with Country ISO code value [" + usa.getIsoCode() + "].")
+					.isNotNull();
+			assertThat(e.attribute("selected").getValue())
+					.as("US node not selected.")
+					.isEqualTo("selected");
+			assertThat(e.getData())
+					.as("US Locale displayLanguage property not used for option label.")
+					.isEqualTo(Locale.US.getDisplayLanguage());
 
 		}
 		finally {

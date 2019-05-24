@@ -90,15 +90,18 @@ public class RequestMappingHandlerMappingTests {
 		RequestMappingInfo info = this.handlerMapping.getMappingForMethod(method, UserController.class);
 
 		assertThat(info).isNotNull();
-		assertThat(info.getPatternsCondition().getPatterns()).isEqualTo(Collections.singleton(new PathPatternParser().parse("/api/user/{id}")));
+		assertThat(info.getPatternsCondition().getPatterns())
+				.isEqualTo(Collections.singleton(new PathPatternParser().parse("/api/user/{id}")));
 	}
 
 	@Test
 	public void resolveRequestMappingViaComposedAnnotation() throws Exception {
 		RequestMappingInfo info = assertComposedAnnotationMapping("postJson", "/postJson", RequestMethod.POST);
 
-		assertThat(info.getConsumesCondition().getConsumableMediaTypes().iterator().next().toString()).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
-		assertThat(info.getProducesCondition().getProducibleMediaTypes().iterator().next().toString()).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
+		assertThat(info.getConsumesCondition().getConsumableMediaTypes().iterator().next().toString())
+				.isEqualTo(MediaType.APPLICATION_JSON_VALUE);
+		assertThat(info.getProducesCondition().getProducibleMediaTypes().iterator().next().toString())
+				.isEqualTo(MediaType.APPLICATION_JSON_VALUE);
 	}
 
 	@Test // SPR-14988

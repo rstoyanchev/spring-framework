@@ -119,7 +119,9 @@ public class HttpHeadersTests {
 	@Test
 	public void acceptCharsetWildcard() {
 		headers.set("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-		assertThat(headers.getAcceptCharset()).as("Invalid Accept header").isEqualTo(Arrays.asList(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8));
+		assertThat(headers.getAcceptCharset())
+				.as("Invalid Accept header")
+				.isEqualTo(Arrays.asList(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8));
 	}
 
 	@Test
@@ -321,7 +323,9 @@ public class HttpHeadersTests {
 		long date = calendar.getTimeInMillis();
 		headers.setIfModifiedSince(date);
 		assertThat(headers.getIfModifiedSince()).as("Invalid If-Modified-Since header").isEqualTo(date);
-		assertThat(headers.getFirst("if-modified-since")).as("Invalid If-Modified-Since header").isEqualTo("Thu, 18 Dec 2008 10:20:00 GMT");
+		assertThat(headers.getFirst("if-modified-since"))
+				.as("Invalid If-Modified-Since header")
+				.isEqualTo("Thu, 18 Dec 2008 10:20:00 GMT");
 	}
 
 	@Test  // SPR-14144

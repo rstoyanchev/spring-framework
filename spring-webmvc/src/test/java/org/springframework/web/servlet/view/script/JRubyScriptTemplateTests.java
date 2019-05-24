@@ -62,7 +62,8 @@ public class JRubyScriptTemplateTests {
 		model.put("body", "This is the body");
 		String url = "org/springframework/web/servlet/view/script/jruby/template.erb";
 		MockHttpServletResponse response = render(url, model);
-		assertThat(response.getContentAsString()).isEqualTo("<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
+		assertThat(response.getContentAsString()).isEqualTo(
+				"<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
 	}
 
 	private MockHttpServletResponse render(String viewUrl, Map<String, Object> model) throws Exception {

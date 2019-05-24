@@ -87,7 +87,9 @@ public class ServletInvocableHandlerMethodTests {
 		ServletInvocableHandlerMethod handlerMethod = getHandlerMethod(new Handler(), "responseStatus");
 		handlerMethod.invokeAndHandle(this.webRequest, this.mavContainer);
 
-		assertThat(this.mavContainer.isRequestHandled()).as("Null return value + @ResponseStatus should result in 'request handled'").isTrue();
+		assertThat(this.mavContainer.isRequestHandled())
+				.as("Null return value + @ResponseStatus should result in 'request handled'")
+				.isTrue();
 		assertThat(this.response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
 	}
 
@@ -96,7 +98,9 @@ public class ServletInvocableHandlerMethodTests {
 		ServletInvocableHandlerMethod handlerMethod = getHandlerMethod(new Handler(), "composedResponseStatus");
 		handlerMethod.invokeAndHandle(this.webRequest, this.mavContainer);
 
-		assertThat(this.mavContainer.isRequestHandled()).as("Null return value + @ComposedResponseStatus should result in 'request handled'").isTrue();
+		assertThat(this.mavContainer.isRequestHandled())
+				.as("Null return value + @ComposedResponseStatus should result in 'request handled'")
+				.isTrue();
 		assertThat(this.response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
 	}
 
@@ -117,7 +121,9 @@ public class ServletInvocableHandlerMethodTests {
 				getHandlerMethod(new Handler(), "httpServletResponse", HttpServletResponse.class);
 		handlerMethod.invokeAndHandle(this.webRequest, this.mavContainer);
 
-		assertThat(this.mavContainer.isRequestHandled()).as("Null return value + HttpServletResponse arg should result in 'request handled'").isTrue();
+		assertThat(this.mavContainer.isRequestHandled())
+				.as("Null return value + HttpServletResponse arg should result in 'request handled'")
+				.isTrue();
 	}
 
 	@Test
@@ -129,7 +135,9 @@ public class ServletInvocableHandlerMethodTests {
 		ServletInvocableHandlerMethod handlerMethod = getHandlerMethod(new Handler(), "notModified");
 		handlerMethod.invokeAndHandle(this.webRequest, this.mavContainer);
 
-		assertThat(this.mavContainer.isRequestHandled()).as("Null return value + 'not modified' request should result in 'request handled'").isTrue();
+		assertThat(this.mavContainer.isRequestHandled())
+				.as("Null return value + 'not modified' request should result in 'request handled'")
+				.isTrue();
 	}
 
 	@Test  // SPR-9159

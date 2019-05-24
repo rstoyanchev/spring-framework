@@ -291,7 +291,8 @@ public class SimpleBrokerMessageHandlerTests {
 		verify(this.clientOutChannel, times(1)).send(this.messageCaptor.capture());
 		List<Message<?>> messages = this.messageCaptor.getAllValues();
 		assertThat(messages.size()).isEqualTo(1);
-		assertThat(messages.get(0).getHeaders().get(SimpMessageHeaderAccessor.MESSAGE_TYPE_HEADER)).isEqualTo(SimpMessageType.CONNECT_ACK);
+		assertThat(messages.get(0).getHeaders().get(SimpMessageHeaderAccessor.MESSAGE_TYPE_HEADER))
+				.isEqualTo(SimpMessageType.CONNECT_ACK);
 	}
 
 

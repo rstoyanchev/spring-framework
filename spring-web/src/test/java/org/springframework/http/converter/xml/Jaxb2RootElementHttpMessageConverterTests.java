@@ -79,15 +79,25 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 
 	@Test
 	public void canRead() {
-		assertThat(converter.canRead(RootElement.class, null)).as("Converter does not support reading @XmlRootElement").isTrue();
-		assertThat(converter.canRead(Type.class, null)).as("Converter does not support reading @XmlType").isTrue();
+		assertThat(converter.canRead(RootElement.class, null))
+				.as("Converter does not support reading @XmlRootElement")
+				.isTrue();
+		assertThat(converter.canRead(Type.class, null))
+				.as("Converter does not support reading @XmlType")
+				.isTrue();
 	}
 
 	@Test
 	public void canWrite() {
-		assertThat(converter.canWrite(RootElement.class, null)).as("Converter does not support writing @XmlRootElement").isTrue();
-		assertThat(converter.canWrite(RootElementSubclass.class, null)).as("Converter does not support writing @XmlRootElement subclass").isTrue();
-		assertThat(converter.canWrite(rootElementCglib.getClass(), null)).as("Converter does not support writing @XmlRootElement subclass").isTrue();
+		assertThat(converter.canWrite(RootElement.class, null))
+				.as("Converter does not support writing @XmlRootElement")
+				.isTrue();
+		assertThat(converter.canWrite(RootElementSubclass.class, null))
+				.as("Converter does not support writing @XmlRootElement subclass")
+				.isTrue();
+		assertThat(converter.canWrite(rootElementCglib.getClass(), null))
+				.as("Converter does not support writing @XmlRootElement subclass")
+				.isTrue();
 		assertThat(converter.canWrite(Type.class, null)).as("Converter supports writing @XmlType").isFalse();
 	}
 
@@ -172,7 +182,9 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 	public void writeXmlRootElement() throws Exception {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		converter.write(rootElement, null, outputMessage);
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml"));
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml"));
 		DifferenceEvaluator ev = chain(Default, downgradeDifferencesToEqual(XML_STANDALONE));
 		assertThat(XmlContent.of(outputMessage.getBodyAsString(StandardCharsets.UTF_8)))
 			.isSimilarTo("<rootElement><type s=\"Hello World\"/></rootElement>", ev);
@@ -182,7 +194,9 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 	public void writeXmlRootElementSubclass() throws Exception {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		converter.write(rootElementCglib, null, outputMessage);
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml"));
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml"));
 		DifferenceEvaluator ev = chain(Default, downgradeDifferencesToEqual(XML_STANDALONE));
 		assertThat(XmlContent.of(outputMessage.getBodyAsString(StandardCharsets.UTF_8)))
 				.isSimilarTo("<rootElement><type s=\"Hello World\"/></rootElement>", ev);

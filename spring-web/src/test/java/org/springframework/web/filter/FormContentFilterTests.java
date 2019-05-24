@@ -110,7 +110,9 @@ public class FormContentFilterTests {
 		this.filter.doFilter(this.request, this.response, this.filterChain);
 
 		assertThat(this.filterChain.getRequest()).as("Request not wrapped").isNotSameAs(this.request);
-		assertThat(this.filterChain.getRequest().getParameter("name")).as("Query string parameters should be listed ahead of form parameters").isEqualTo("value1");
+		assertThat(this.filterChain.getRequest().getParameter("name"))
+				.as("Query string parameters should be listed ahead of form parameters")
+				.isEqualTo("value1");
 	}
 
 	@Test

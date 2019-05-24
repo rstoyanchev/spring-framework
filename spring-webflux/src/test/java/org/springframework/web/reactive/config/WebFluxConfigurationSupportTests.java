@@ -137,7 +137,8 @@ public class WebFluxConfigurationSupportTests {
 
 		Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 		assertThat(map.size()).isEqualTo(1);
-		assertThat(map.keySet().iterator().next().getPatternsCondition().getPatterns()).isEqualTo(Collections.singleton(new PathPatternParser().parse("/api/user/{id}")));
+		assertThat(map.keySet().iterator().next().getPatternsCondition().getPatterns())
+				.isEqualTo(Collections.singleton(new PathPatternParser().parse("/api/user/{id}")));
 	}
 
 	@Test

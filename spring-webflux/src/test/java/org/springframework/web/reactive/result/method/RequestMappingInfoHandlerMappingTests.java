@@ -329,7 +329,10 @@ public class RequestMappingInfoHandlerMappingTests {
 		ServerWebExchange exchange = MockServerWebExchange.from(request);
 		Mono<Object> mono = this.handlerMapping.getHandler(exchange);
 
-		assertError(mono, UnsupportedMediaTypeStatusException.class, ex -> assertThat(ex.getSupportedMediaTypes()).as("Invalid supported consumable media types").isEqualTo(Collections.singletonList(new MediaType("application", "xml"))));
+		assertError(mono, UnsupportedMediaTypeStatusException.class, ex ->
+				assertThat(ex.getSupportedMediaTypes())
+						.as("Invalid supported consumable media types")
+						.isEqualTo(Collections.singletonList(new MediaType("application", "xml"))));
 	}
 
 	private void testHttpOptions(String requestURI, Set<HttpMethod> allowedMethods) {
@@ -353,7 +356,10 @@ public class RequestMappingInfoHandlerMappingTests {
 		ServerWebExchange exchange = MockServerWebExchange.from(get(url).accept(MediaType.APPLICATION_JSON));
 		Mono<Object> mono = this.handlerMapping.getHandler(exchange);
 
-		assertError(mono, NotAcceptableStatusException.class, ex -> assertThat(ex.getSupportedMediaTypes()).as("Invalid supported producible media types").isEqualTo(Collections.singletonList(new MediaType("application", "xml"))));
+		assertError(mono, NotAcceptableStatusException.class, ex ->
+				assertThat(ex.getSupportedMediaTypes())
+						.as("Invalid supported producible media types")
+						.isEqualTo(Collections.singletonList(new MediaType("application", "xml"))));
 	}
 
 	private void handleMatch(ServerWebExchange exchange, String pattern) {

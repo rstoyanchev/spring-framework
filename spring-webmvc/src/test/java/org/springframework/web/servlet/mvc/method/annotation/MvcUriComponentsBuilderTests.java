@@ -443,7 +443,8 @@ public class MvcUriComponentsBuilderTests {
 		this.request.setServerPort(9999);
 		this.request.setContextPath("/base");
 
-		assertThat(fromController(PersonsAddressesController.class).buildAndExpand("123").toString()).isEqualTo("https://example.org:9999/base/api/people/123/addresses");
+		assertThat(fromController(PersonsAddressesController.class).buildAndExpand("123").toString())
+				.isEqualTo("https://example.org:9999/base/api/people/123/addresses");
 	}
 
 	@Test

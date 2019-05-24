@@ -70,21 +70,29 @@ public class ContentNegotiationManagerFactoryBeanTests {
 
 		this.servletRequest.setRequestURI("/flower.gif");
 
-		assertThat(manager.resolveMediaTypes(this.webRequest)).as("Should be able to resolve file extensions by default").isEqualTo(Collections.singletonList(MediaType.IMAGE_GIF));
+		assertThat(manager.resolveMediaTypes(this.webRequest))
+				.as("Should be able to resolve file extensions by default")
+				.isEqualTo(Collections.singletonList(MediaType.IMAGE_GIF));
 
 		this.servletRequest.setRequestURI("/flower.foobarbaz");
 
-		assertThat(manager.resolveMediaTypes(this.webRequest)).as("Should ignore unknown extensions by default").isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
+		assertThat(manager.resolveMediaTypes(this.webRequest))
+				.as("Should ignore unknown extensions by default")
+				.isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
 
 		this.servletRequest.setRequestURI("/flower");
 		this.servletRequest.setParameter("format", "gif");
 
-		assertThat(manager.resolveMediaTypes(this.webRequest)).as("Should not resolve request parameters by default").isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
+		assertThat(manager.resolveMediaTypes(this.webRequest))
+				.as("Should not resolve request parameters by default")
+				.isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
 
 		this.servletRequest.setRequestURI("/flower");
 		this.servletRequest.addHeader("Accept", MediaType.IMAGE_GIF_VALUE);
 
-		assertThat(manager.resolveMediaTypes(this.webRequest)).as("Should resolve Accept header by default").isEqualTo(Collections.singletonList(MediaType.IMAGE_GIF));
+		assertThat(manager.resolveMediaTypes(this.webRequest))
+				.as("Should resolve Accept header by default")
+				.isEqualTo(Collections.singletonList(MediaType.IMAGE_GIF));
 	}
 
 	@Test

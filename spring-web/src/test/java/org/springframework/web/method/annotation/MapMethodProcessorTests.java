@@ -75,7 +75,8 @@ public class MapMethodProcessorTests {
 	@Test
 	public void resolveArgumentValue() throws Exception {
 		MethodParameter param = this.resolvable.annotNotPresent().arg(Map.class, String.class, Object.class);
-		assertThat(this.processor.resolveArgument(param, this.mavContainer, this.webRequest, null)).isSameAs(this.mavContainer.getModel());
+		assertThat(this.processor.resolveArgument(param, this.mavContainer, this.webRequest, null))
+				.isSameAs(this.mavContainer.getModel());
 	}
 
 	@Test

@@ -127,7 +127,8 @@ public class UriComponentsTests {
 
 	@Test // SPR-17630
 	public void uirTemplateExpandWithMismatchedCurlyBraces() {
-		assertThat(UriComponentsBuilder.fromUriString("/myurl/?q={{{{").encode().build().toUriString()).isEqualTo("/myurl/?q=%7B%7B%7B%7B");
+		assertThat(UriComponentsBuilder.fromUriString("/myurl/?q={{{{").encode().build().toUriString())
+				.isEqualTo("/myurl/?q=%7B%7B%7B%7B");
 	}
 
 	@Test // gh-22447

@@ -377,7 +377,8 @@ public class ErrorsTagTests extends AbstractFormTagTests {
 		this.tag.doEndTag();
 		this.tag.doFinally();
 		assertThat(getOutput()).isEqualTo(bodyContent);
-		assertThat(getPageContext().getAttribute(ErrorsTag.MESSAGES_ATTRIBUTE, PageContext.APPLICATION_SCOPE)).isEqualTo(existingAttribute);
+		assertThat(getPageContext().getAttribute(ErrorsTag.MESSAGES_ATTRIBUTE, PageContext.APPLICATION_SCOPE))
+				.isEqualTo(existingAttribute);
 	}
 
 	/**

@@ -201,7 +201,9 @@ public class RestTemplateIntegrationTests extends AbstractMockWebServerTestCase 
 	@Test
 	public void optionsForAllow() throws URISyntaxException {
 		Set<HttpMethod> allowed = template.optionsForAllow(new URI(baseUrl + "/get"));
-		assertThat(allowed).as("Invalid response").isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD, HttpMethod.TRACE));
+		assertThat(allowed)
+				.as("Invalid response")
+				.isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD, HttpMethod.TRACE));
 	}
 
 	@Test

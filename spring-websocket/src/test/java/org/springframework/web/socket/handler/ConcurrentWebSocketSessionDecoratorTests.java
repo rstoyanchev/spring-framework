@@ -207,7 +207,9 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 
 		decorator.close(CloseStatus.PROTOCOL_ERROR);
 
-		assertThat(session.getCloseStatus()).as("CloseStatus should have changed to SESSION_NOT_RELIABLE").isEqualTo(CloseStatus.SESSION_NOT_RELIABLE);
+		assertThat(session.getCloseStatus())
+				.as("CloseStatus should have changed to SESSION_NOT_RELIABLE")
+				.isEqualTo(CloseStatus.SESSION_NOT_RELIABLE);
 	}
 
 	private void sendBlockingMessage(ConcurrentWebSocketSessionDecorator session) throws InterruptedException {

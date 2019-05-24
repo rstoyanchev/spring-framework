@@ -42,7 +42,9 @@ public class DestinationPatternsMessageConditionTests {
 		DestinationPatternsMessageCondition c =
 				new DestinationPatternsMessageCondition(new String[] {"foo"}, new AntPathMatcher("."));
 
-		assertThat(c.getPatterns().iterator().next()).as("Pre-pending should be disabled when not using '/' as path separator").isEqualTo("foo");
+		assertThat(c.getPatterns().iterator().next())
+				.as("Pre-pending should be disabled when not using '/' as path separator")
+				.isEqualTo("foo");
 	}
 
 	// SPR-8255

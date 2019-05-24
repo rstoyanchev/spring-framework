@@ -214,7 +214,8 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getContentLength()).isEqualTo(17);
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("max-age=3600");
 		assertThat(this.response.containsHeader("Last-Modified")).isTrue();
-		assertThat(this.response.getDateHeader("Last-Modified") / 1000).isEqualTo(resourceLastModified("testalternatepath/baz.css") / 1000);
+		assertThat(this.response.getDateHeader("Last-Modified") / 1000)
+				.isEqualTo(resourceLastModified("testalternatepath/baz.css") / 1000);
 		assertThat(this.response.getHeader("Accept-Ranges")).isEqualTo("bytes");
 		assertThat(this.response.getHeaders("Accept-Ranges").size()).isEqualTo(1);
 		assertThat(this.response.getContentAsString()).isEqualTo("h1 { color:red; }");

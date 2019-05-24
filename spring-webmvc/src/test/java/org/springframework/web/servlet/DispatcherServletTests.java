@@ -107,7 +107,8 @@ public class DispatcherServletTests {
 
 	@Test
 	public void configuredDispatcherServlets() {
-		assertThat(("simple" + FrameworkServlet.DEFAULT_NAMESPACE_SUFFIX).equals(simpleDispatcherServlet.getNamespace())).as("Correct namespace").isTrue();
+		assertThat("simple" + FrameworkServlet.DEFAULT_NAMESPACE_SUFFIX)
+				.isEqualTo(simpleDispatcherServlet.getNamespace());
 		assertThat((FrameworkServlet.SERVLET_CONTEXT_PREFIX + "simple").equals(
 		simpleDispatcherServlet.getServletContextAttributeName())).as("Correct attribute").isTrue();
 		assertThat(simpleDispatcherServlet.getWebApplicationContext() ==
@@ -116,7 +117,9 @@ public class DispatcherServletTests {
 		assertThat("test".equals(complexDispatcherServlet.getNamespace())).as("Correct namespace").isTrue();
 		assertThat((FrameworkServlet.SERVLET_CONTEXT_PREFIX + "complex").equals(
 		complexDispatcherServlet.getServletContextAttributeName())).as("Correct attribute").isTrue();
-		assertThat(getServletContext().getAttribute(FrameworkServlet.SERVLET_CONTEXT_PREFIX + "complex") == null).as("Context not published").isTrue();
+		assertThat(getServletContext().getAttribute(FrameworkServlet.SERVLET_CONTEXT_PREFIX + "complex") == null)
+				.as("Context not published")
+				.isTrue();
 
 		simpleDispatcherServlet.destroy();
 		complexDispatcherServlet.destroy();
@@ -492,7 +495,9 @@ public class DispatcherServletTests {
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		complexDispatcherServlet.service(request, response);
 
-		assertThat(response.getStatus() == HttpServletResponse.SC_NOT_FOUND).as("Matched through parent controller/handler pair: not response=" + response.getStatus()).isFalse();
+		assertThat(response.getStatus() == HttpServletResponse.SC_NOT_FOUND)
+				.as("Matched through parent controller/handler pair: not response=" + response.getStatus())
+				.isFalse();
 	}
 
 	@Test

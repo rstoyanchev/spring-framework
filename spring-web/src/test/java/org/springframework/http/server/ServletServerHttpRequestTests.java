@@ -124,7 +124,9 @@ public class ServletServerHttpRequestTests {
 		assertThat(headerValues.size()).as("Invalid header values returned").isEqualTo(2);
 		assertThat(headerValues.contains(headerValue1)).as("Invalid header values returned").isTrue();
 		assertThat(headerValues.contains(headerValue2)).as("Invalid header values returned").isTrue();
-		assertThat(headers.getContentType()).as("Invalid Content-Type").isEqualTo(new MediaType("text", "plain", StandardCharsets.UTF_8));
+		assertThat(headers.getContentType())
+				.as("Invalid Content-Type")
+				.isEqualTo(new MediaType("text", "plain", StandardCharsets.UTF_8));
 	}
 
 	@Test

@@ -222,11 +222,21 @@ public class DelegatingWebMvcConfigurationTests {
 				delegatingConfig.mvcContentNegotiationManager(), delegatingConfig.mvcConversionService(),
 				delegatingConfig.mvcResourceUrlProvider());
 		assertThat(handlerMapping).isNotNull();
-		assertThat(handlerMapping.useRegisteredSuffixPatternMatch()).as("PathMatchConfigurer should configure RegisteredSuffixPatternMatch").isEqualTo(true);
-		assertThat(handlerMapping.useSuffixPatternMatch()).as("PathMatchConfigurer should configure SuffixPatternMatch").isEqualTo(true);
-		assertThat(handlerMapping.useTrailingSlashMatch()).as("PathMatchConfigurer should configure TrailingSlashMatch").isEqualTo(false);
-		assertThat(handlerMapping.getUrlPathHelper()).as("PathMatchConfigurer should configure UrlPathHelper").isEqualTo(pathHelper);
-		assertThat(handlerMapping.getPathMatcher()).as("PathMatchConfigurer should configure PathMatcher").isEqualTo(pathMatcher);
+		assertThat(handlerMapping.useRegisteredSuffixPatternMatch())
+				.as("PathMatchConfigurer should configure RegisteredSuffixPatternMatch")
+				.isEqualTo(true);
+		assertThat(handlerMapping.useSuffixPatternMatch())
+				.as("PathMatchConfigurer should configure SuffixPatternMatch")
+				.isEqualTo(true);
+		assertThat(handlerMapping.useTrailingSlashMatch())
+				.as("PathMatchConfigurer should configure TrailingSlashMatch")
+				.isEqualTo(false);
+		assertThat(handlerMapping.getUrlPathHelper())
+				.as("PathMatchConfigurer should configure UrlPathHelper")
+				.isEqualTo(pathHelper);
+		assertThat(handlerMapping.getPathMatcher())
+				.as("PathMatchConfigurer should configure PathMatcher")
+				.isEqualTo(pathMatcher);
 	}
 
 }

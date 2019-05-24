@@ -110,13 +110,17 @@ public class PatternsRequestConditionTests {
 		PatternsRequestCondition match = condition.getMatchingCondition(exchange);
 
 		assertThat(match).isNotNull();
-		assertThat(match.getPatterns().iterator().next().getPatternString()).as("Should match by default").isEqualTo("/foo");
+		assertThat(match.getPatterns().iterator().next().getPatternString())
+				.as("Should match by default")
+				.isEqualTo("/foo");
 
 		condition = createPatternsCondition("/foo");
 		match = condition.getMatchingCondition(exchange);
 
 		assertThat(match).isNotNull();
-		assertThat(match.getPatterns().iterator().next().getPatternString()).as("Trailing slash should be insensitive to useSuffixPatternMatch settings (SPR-6164, SPR-5636)").isEqualTo("/foo");
+		assertThat(match.getPatterns().iterator().next().getPatternString())
+				.as("Trailing slash should be insensitive to useSuffixPatternMatch settings (SPR-6164, SPR-5636)")
+				.isEqualTo("/foo");
 
 		PathPatternParser parser = new PathPatternParser();
 		parser.setMatchOptionalTrailingSeparator(false);

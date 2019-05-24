@@ -189,7 +189,11 @@ public class PayloadMethodArgumentResolverTests {
 		// See testValidator()
 		Message<?> message = MessageBuilder.withPayload("invalidValue".getBytes()).build();
 
-		assertThatExceptionOfType(MethodArgumentNotValidException.class).isThrownBy(() -> assertThat(this.resolver.resolveArgument(this.paramValidatedNotAnnotated, message)).isEqualTo("invalidValue"))
+		assertThatExceptionOfType(MethodArgumentNotValidException.class)
+				.isThrownBy(() -> {
+					Object argument = this.resolver.resolveArgument(this.paramValidatedNotAnnotated, message);
+					assertThat(argument).isEqualTo("invalidValue");
+				})
 			.withMessageContaining("invalid value");
 	}
 

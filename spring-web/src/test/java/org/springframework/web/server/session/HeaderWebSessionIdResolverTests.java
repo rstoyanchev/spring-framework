@@ -49,7 +49,8 @@ public class HeaderWebSessionIdResolverTests {
 	public void expireWhenValidThenSetsEmptyHeader() {
 		this.idResolver.expireSession(this.exchange);
 
-		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME)).isEqualTo(Arrays.asList(""));
+		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME))
+				.isEqualTo(Arrays.asList(""));
 	}
 
 	@Test
@@ -58,7 +59,8 @@ public class HeaderWebSessionIdResolverTests {
 
 		this.idResolver.expireSession(this.exchange);
 
-		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME)).isEqualTo(Arrays.asList(""));
+		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME))
+				.isEqualTo(Arrays.asList(""));
 	}
 
 	@Test
@@ -67,7 +69,8 @@ public class HeaderWebSessionIdResolverTests {
 
 		this.idResolver.expireSession(this.exchange);
 
-		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME)).isEqualTo(Arrays.asList(""));
+		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME))
+				.isEqualTo(Arrays.asList(""));
 	}
 
 	@Test
@@ -76,7 +79,8 @@ public class HeaderWebSessionIdResolverTests {
 
 		this.idResolver.setSessionId(this.exchange, id);
 
-		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME)).isEqualTo(Arrays.asList(id));
+		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME))
+				.isEqualTo(Arrays.asList(id));
 	}
 
 	@Test
@@ -86,7 +90,8 @@ public class HeaderWebSessionIdResolverTests {
 
 		this.idResolver.setSessionId(this.exchange, id);
 
-		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME)).isEqualTo(Arrays.asList(id));
+		assertThat(this.exchange.getResponse().getHeaders().get(HeaderWebSessionIdResolver.DEFAULT_HEADER_NAME))
+				.isEqualTo(Arrays.asList(id));
 	}
 
 	@Test

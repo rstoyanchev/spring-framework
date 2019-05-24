@@ -106,7 +106,9 @@ public class AtomFeedHttpMessageConverterTests {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		converter.write(feed, null, outputMessage);
 
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "atom+xml", StandardCharsets.UTF_8));
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "atom+xml", StandardCharsets.UTF_8));
 		String expected = "<feed xmlns=\"http://www.w3.org/2005/Atom\">" + "<title>title</title>" +
 				"<entry><id>id1</id><title>title1</title></entry>" +
 				"<entry><id>id2</id><title>title2</title></entry></feed>";
@@ -125,7 +127,9 @@ public class AtomFeedHttpMessageConverterTests {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		converter.write(feed, null, outputMessage);
 
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "atom+xml", Charset.forName(encoding)));
+		assertThat(outputMessage.getHeaders().getContentType())
+				.as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "atom+xml", Charset.forName(encoding)));
 	}
 
 }

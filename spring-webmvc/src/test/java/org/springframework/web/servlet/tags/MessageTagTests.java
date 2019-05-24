@@ -389,7 +389,7 @@ public class MessageTagTests extends AbstractTagTests {
 		assertThat(rc.getMessage("test", "default")).isEqualTo("test message");
 		assertThat(rc.getMessage("test", (Object[]) null, "default")).isEqualTo("test message");
 		assertThat(rc.getMessage("testArgs", new String[]{"arg1", "arg2"}, "default")).isEqualTo("test arg1 message arg2");
-		assertThat(rc.getMessage("testArgs", Arrays.asList(new String[]{"arg1", "arg2"}), "default")).isEqualTo("test arg1 message arg2");
+		assertThat(rc.getMessage("testArgs", Arrays.asList("arg1", "arg2"), "default")).isEqualTo("test arg1 message arg2");
 		assertThat(rc.getMessage("testa", "default")).isEqualTo("default");
 		assertThat(rc.getMessage("testa", (List) null, "default")).isEqualTo("default");
 		MessageSourceResolvable resolvable = new DefaultMessageSourceResolvable(new String[] {"test"});

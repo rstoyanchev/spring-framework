@@ -123,7 +123,10 @@ public class MessageMappingMessageHandlerTests {
 						new SimpleRouteMatcher(new AntPathMatcher()).parseRoute("string")));
 
 		StepVerifier.create(initMesssageHandler().handleMessage(message))
-				.expectErrorSatisfies(ex -> assertThat(ex.getMessage().startsWith("Could not resolve method parameter at index 0")).as("Actual: " + ex.getMessage()).isTrue())
+				.expectErrorSatisfies(ex -> {
+					String prefix = "Could not resolve method parameter at index 0";
+					assertThat(ex.getMessage().startsWith(prefix)).as("Actual: " + ex.getMessage()).isTrue();
+				})
 				.verify(Duration.ofSeconds(5));
 	}
 

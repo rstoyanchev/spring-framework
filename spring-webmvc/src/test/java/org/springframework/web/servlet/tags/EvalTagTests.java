@@ -87,7 +87,8 @@ public class EvalTagTests extends AbstractTagTests {
 		assertThat(action).isEqualTo(Tag.EVAL_BODY_INCLUDE);
 		action = tag.doEndTag();
 		assertThat(action).isEqualTo(Tag.EVAL_PAGE);
-		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString()).isEqualTo(formatter.print(new BigDecimal(".25"), Locale.getDefault()));
+		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString())
+				.isEqualTo(formatter.print(new BigDecimal(".25"), Locale.getDefault()));
 	}
 
 	@Test
@@ -109,7 +110,8 @@ public class EvalTagTests extends AbstractTagTests {
 		assertThat(action).isEqualTo(Tag.EVAL_BODY_INCLUDE);
 		action = tag.doEndTag();
 		assertThat(action).isEqualTo(Tag.EVAL_PAGE);
-		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString()).isEqualTo("function foo() { alert(\\\"hi\\\") }");
+		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString())
+				.isEqualTo("function foo() { alert(\\\"hi\\\") }");
 	}
 
 	@Test

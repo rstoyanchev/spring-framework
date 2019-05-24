@@ -504,7 +504,8 @@ public class SendToMethodReturnValueHandlerTests {
 		assertThat(accessor.getDestination()).isEqualTo(("/user/" + user.getName() + "/queue/dest"));
 		assertThat(accessor.getContentType()).isEqualTo(MIME_TYPE);
 		assertThat(accessor.getSubscriptionId()).as("Subscription id should not be copied").isNull();
-		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER)).isEqualTo(this.sendToUserInSessionDefaultDestReturnType);
+		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER))
+				.isEqualTo(this.sendToUserInSessionDefaultDestReturnType);
 	}
 
 	@Test

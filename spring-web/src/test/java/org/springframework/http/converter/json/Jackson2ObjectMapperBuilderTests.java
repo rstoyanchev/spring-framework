@@ -245,7 +245,8 @@ public class Jackson2ObjectMapperBuilderTests {
 				.modulesToInstall(CustomIntegerModule.class)
 				.build();
 		Serializers serializers = getSerializerFactoryConfig(objectMapper).serializers().iterator().next();
-		assertThat(serializers.findSerializer(null, SimpleType.construct(Integer.class), null).getClass()).isSameAs(CustomIntegerSerializer.class);
+		assertThat(serializers.findSerializer(null, SimpleType.construct(Integer.class), null).getClass())
+				.isSameAs(CustomIntegerSerializer.class);
 	}
 
 	@Test
@@ -254,7 +255,8 @@ public class Jackson2ObjectMapperBuilderTests {
 				.modulesToInstall(new CustomIntegerModule())
 				.build();
 		Serializers serializers = getSerializerFactoryConfig(objectMapper).serializers().iterator().next();
-		assertThat(serializers.findSerializer(null, SimpleType.construct(Integer.class), null).getClass()).isSameAs(CustomIntegerSerializer.class);
+		assertThat(serializers.findSerializer(null, SimpleType.construct(Integer.class), null).getClass())
+				.isSameAs(CustomIntegerSerializer.class);
 	}
 
 	@Test

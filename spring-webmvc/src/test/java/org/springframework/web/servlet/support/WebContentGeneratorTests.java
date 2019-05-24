@@ -58,7 +58,9 @@ public class WebContentGeneratorTests {
 	public void getAllowHeaderWithSupportedMethodsSetterEmpty() throws Exception {
 		WebContentGenerator generator = new TestWebContentGenerator();
 		generator.setSupportedMethods();
-		assertThat(generator.getAllowHeader()).as("Effectively \"no restriction\" on supported methods").isEqualTo("GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS");
+		assertThat(generator.getAllowHeader())
+				.as("Effectively \"no restriction\" on supported methods")
+				.isEqualTo("GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS");
 	}
 
 	@Test

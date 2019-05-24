@@ -204,7 +204,8 @@ public class EncoderHttpMessageWriterTests {
 		ReflectionUtils.makeAccessible(method);
 
 		assertThat((boolean) (Boolean) method.invoke(writer, streamingMediaType)).isTrue();
-		assertThat((boolean) (Boolean) method.invoke(writer, new MediaType(TEXT_PLAIN, Collections.singletonMap("streaming", "false")))).isFalse();
+		MediaType mediaType = new MediaType(TEXT_PLAIN, Collections.singletonMap("streaming", "false"));
+		assertThat((boolean) (Boolean) method.invoke(writer, mediaType)).isFalse();
 		assertThat((boolean) (Boolean) method.invoke(writer, TEXT_HTML)).isFalse();
 	}
 

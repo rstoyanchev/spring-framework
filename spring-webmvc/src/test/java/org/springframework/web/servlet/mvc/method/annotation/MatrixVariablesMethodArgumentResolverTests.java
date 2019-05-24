@@ -89,7 +89,8 @@ public class MatrixVariablesMethodArgumentResolverTests {
 		params.add("colors", "blue");
 		MethodParameter param = this.testMethod.annot(matrixAttribute().noName()).arg(List.class, String.class);
 
-		assertThat(this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null)).isEqualTo(Arrays.asList("red", "green", "blue"));
+		assertThat(this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null))
+				.isEqualTo(Arrays.asList("red", "green", "blue"));
 	}
 
 	@Test

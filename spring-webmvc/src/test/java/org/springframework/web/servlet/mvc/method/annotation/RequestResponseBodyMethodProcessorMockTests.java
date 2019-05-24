@@ -291,7 +291,8 @@ public class RequestResponseBodyMethodProcessorMockTests {
 		servletRequest.setContentType("text/plain");
 		servletRequest.setContent(new byte[0]);
 		given(stringMessageConverter.canRead(String.class, MediaType.TEXT_PLAIN)).willReturn(true);
-		assertThat(processor.resolveArgument(paramOptionalString, mavContainer, webRequest, new ValidatingBinderFactory())).isEqualTo(Optional.empty());
+		assertThat(processor.resolveArgument(paramOptionalString, mavContainer,
+				webRequest, new ValidatingBinderFactory())).isEqualTo(Optional.empty());
 	}
 
 	@Test
