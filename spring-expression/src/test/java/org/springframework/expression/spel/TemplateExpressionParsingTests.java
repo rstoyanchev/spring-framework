@@ -157,31 +157,45 @@ public class TemplateExpressionParsingTests extends AbstractExpressionTests {
 	public void testNestedExpressions() throws Exception {
 		SpelExpressionParser parser = new SpelExpressionParser();
 		// treat the nested ${..} as a part of the expression
-		Expression ex = parser.parseExpression("hello ${listOfNumbersUpToTen.$[#this<5]} world",DEFAULT_TEMPLATE_PARSER_CONTEXT);
+		Expression ex = parser.parseExpression(
+				"hello ${listOfNumbersUpToTen.$[#this<5]} world",
+				DEFAULT_TEMPLATE_PARSER_CONTEXT);
 		String s = ex.getValue(TestScenarioCreator.getTestEvaluationContext(),String.class);
 		assertThat(s).isEqualTo("hello 4 world");
 
 		// not a useful expression but tests nested expression syntax that clashes with template prefix/suffix
-		ex = parser.parseExpression("hello ${listOfNumbersUpToTen.$[#root.listOfNumbersUpToTen.$[#this%2==1]==3]} world",DEFAULT_TEMPLATE_PARSER_CONTEXT);
+		ex = parser.parseExpression(
+				"hello ${listOfNumbersUpToTen.$[#root.listOfNumbersUpToTen.$[#this%2==1]==3]} world",
+				DEFAULT_TEMPLATE_PARSER_CONTEXT);
 		assertThat(ex.getClass()).isEqualTo(CompositeStringExpression.class);
 		CompositeStringExpression cse = (CompositeStringExpression)ex;
 		Expression[] exprs = cse.getExpressions();
 		assertThat(exprs.length).isEqualTo(3);
-		assertThat(exprs[1].getExpressionString()).isEqualTo("listOfNumbersUpToTen.$[#root.listOfNumbersUpToTen.$[#this%2==1]==3]");
+		assertThat(exprs[1].getExpressionString())
+				.isEqualTo("listOfNumbersUpToTen.$[#root.listOfNumbersUpToTen.$[#this%2==1]==3]");
 		s = ex.getValue(TestScenarioCreator.getTestEvaluationContext(),String.class);
 		assertThat(s).isEqualTo("hello  world");
 
-		ex = parser.parseExpression("hello ${listOfNumbersUpToTen.$[#this<5]} ${listOfNumbersUpToTen.$[#this>5]} world",DEFAULT_TEMPLATE_PARSER_CONTEXT);
+		ex = parser.parseExpression(
+				"hello ${listOfNumbersUpToTen.$[#this<5]} ${listOfNumbersUpToTen.$[#this>5]} world",
+				DEFAULT_TEMPLATE_PARSER_CONTEXT);
 		s = ex.getValue(TestScenarioCreator.getTestEvaluationContext(),String.class);
 		assertThat(s).isEqualTo("hello 4 10 world");
 
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				parser.parseExpression("hello ${listOfNumbersUpToTen.$[#this<5]} ${listOfNumbersUpToTen.$[#this>5] world",DEFAULT_TEMPLATE_PARSER_CONTEXT))
-			.satisfies(pex -> assertThat(pex.getSimpleMessage()).isEqualTo("No ending suffix '}' for expression starting at character 41: ${listOfNumbersUpToTen.$[#this>5] world"));
+		assertThatExceptionOfType(ParseException.class)
+				.isThrownBy(() -> parser.parseExpression(
+						"hello ${listOfNumbersUpToTen.$[#this<5]} " +
+						"${listOfNumbersUpToTen.$[#this>5] world",DEFAULT_TEMPLATE_PARSER_CONTEXT))
+				.satisfies(pex -> assertThat(pex.getSimpleMessage()).isEqualTo(
+						"No ending suffix '}' for expression starting " +
+						"at character 41: ${listOfNumbersUpToTen.$[#this>5] world"));
 
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				parser.parseExpression("hello ${listOfNumbersUpToTen.$[#root.listOfNumbersUpToTen.$[#this%2==1==3]} world",DEFAULT_TEMPLATE_PARSER_CONTEXT))
-			.satisfies(pex -> assertThat(pex.getSimpleMessage()).isEqualTo("Found closing '}' at position 74 but most recent opening is '[' at position 30"));
+		assertThatExceptionOfType(ParseException.class)
+				.isThrownBy(() -> parser.parseExpression(
+						"hello ${listOfNumbersUpToTen.$[#root.listOfNumbersUpToTen.$[#this%2==1==3]} world",
+						DEFAULT_TEMPLATE_PARSER_CONTEXT))
+				.satisfies(pex -> assertThat(pex.getSimpleMessage()).isEqualTo(
+						"Found closing '}' at position 74 but most recent opening is '[' at position 30"));
 	}
 
 	@Test
@@ -212,15 +226,19 @@ public class TemplateExpressionParsingTests extends AbstractExpressionTests {
 		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
 				parser.parseExpression("hello ${'world'", DEFAULT_TEMPLATE_PARSER_CONTEXT))
 			.satisfies(pex -> {
-				assertThat(pex.getSimpleMessage()).isEqualTo("No ending suffix '}' for expression starting at character 6: ${'world'");
+				assertThat(pex.getSimpleMessage()).isEqualTo(
+						"No ending suffix '}' for expression starting at character 6: ${'world'");
 				assertThat(pex.getExpressionString()).isEqualTo("hello ${'world'");
 			});
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				parser.parseExpression("hello ${'wibble'${'world'}", DEFAULT_TEMPLATE_PARSER_CONTEXT))
-			.satisfies(pex -> assertThat(pex.getSimpleMessage()).isEqualTo("No ending suffix '}' for expression starting at character 6: ${'wibble'${'world'}"));
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				parser.parseExpression("hello ${} world", DEFAULT_TEMPLATE_PARSER_CONTEXT))
-			.satisfies(pex -> assertThat(pex.getSimpleMessage()).isEqualTo("No expression defined within delimiter '${}' at character 6"));
+		assertThatExceptionOfType(ParseException.class)
+				.isThrownBy(() -> parser.parseExpression(
+						"hello ${'wibble'${'world'}", DEFAULT_TEMPLATE_PARSER_CONTEXT))
+				.satisfies(pex -> assertThat(pex.getSimpleMessage()).isEqualTo(
+						"No ending suffix '}' for expression starting at character 6: ${'wibble'${'world'}"));
+		assertThatExceptionOfType(ParseException.class)
+				.isThrownBy(() -> parser.parseExpression("hello ${} world", DEFAULT_TEMPLATE_PARSER_CONTEXT))
+				.satisfies(pex -> assertThat(pex.getSimpleMessage()).isEqualTo(
+						"No expression defined within delimiter '${}' at character 6"));
 	}
 
 	@Test

@@ -1760,7 +1760,9 @@ public class DefaultListableBeanFactoryTests {
 		FactoryBeanDependentBean bean = (FactoryBeanDependentBean) lbf.autowire(FactoryBeanDependentBean.class,
 				AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, true);
 		Object mergedBeanDefinition2 = bean.getFactoryBean();
-		assertThat(mergedBeanDefinition2).as("The FactoryBeanDependentBean should have been autowired 'by type' with the LazyInitFactory.").isEqualTo(mergedBeanDefinition2);
+		assertThat(mergedBeanDefinition2)
+				.as("The FactoryBeanDependentBean should have been autowired 'by type' with the LazyInitFactory.")
+				.isEqualTo(mergedBeanDefinition2);
 	}
 
 	@Test
@@ -2740,7 +2742,9 @@ public class DefaultListableBeanFactoryTests {
 		}
 		else {
 			Object mergedBeanDefinition21 = tb.getAge();
-			assertThat(mergedBeanDefinition21).as("Property value was NOT set and still has default value").isEqualTo(mergedBeanDefinition21);
+			assertThat(mergedBeanDefinition21)
+					.as("Property value was NOT set and still has default value")
+					.isEqualTo(mergedBeanDefinition21);
 		}
 	}
 

@@ -215,7 +215,9 @@ public abstract class AbstractBeanFactoryTests {
 		assertThat(getBeanFactory().isSingleton("&singletonFactory")).isTrue();
 		assertThat(getBeanFactory().isSingleton("singletonFactory")).isTrue();
 		TestBean tb = (TestBean) getBeanFactory().getBean("singletonFactory");
-		assertThat(tb.getName().equals(DummyFactory.SINGLETON_NAME)).as("Singleton from factory has correct name, not " + tb.getName()).isTrue();
+		assertThat(tb.getName().equals(DummyFactory.SINGLETON_NAME))
+				.as("Singleton from factory has correct name, not " + tb.getName())
+				.isTrue();
 		DummyFactory factory = (DummyFactory) getBeanFactory().getBean("&singletonFactory");
 		TestBean tb2 = (TestBean) getBeanFactory().getBean("singletonFactory");
 		assertThat(tb == tb2).as("Singleton references ==").isTrue();

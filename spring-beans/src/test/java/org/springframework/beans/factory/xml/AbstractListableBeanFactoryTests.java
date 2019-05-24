@@ -55,8 +55,10 @@ public abstract class AbstractListableBeanFactoryTests extends AbstractBeanFacto
 
 	protected void assertTestBeanCount(int count) {
 		String[] defNames = getListableBeanFactory().getBeanNamesForType(TestBean.class, true, false);
-		assertThat(defNames.length == count).as("We should have " + count + " beans for class org.springframework.tests.sample.beans.TestBean, not " +
-				defNames.length).isTrue();
+		assertThat(defNames.length == count).as(
+				"We should have " + count + " beans for " +
+				"class org.springframework.tests.sample.beans.TestBean, not " + defNames.length)
+				.isTrue();
 
 		int countIncludingFactoryBeans = count + 2;
 		String[] names = getListableBeanFactory().getBeanNamesForType(TestBean.class, true, true);

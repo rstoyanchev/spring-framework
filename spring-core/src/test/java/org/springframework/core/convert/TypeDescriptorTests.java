@@ -98,10 +98,14 @@ public class TypeDescriptorTests {
 		assertThat(desc.isArray()).isFalse();
 		assertThat(desc.getElementTypeDescriptor().getType()).isEqualTo(List.class);
 		assertThat(desc.getElementTypeDescriptor()).isEqualTo(TypeDescriptor.nested(methodParameter, 1));
-		assertThat(desc.getElementTypeDescriptor().getElementTypeDescriptor()).isEqualTo(TypeDescriptor.nested(methodParameter, 2));
-		assertThat(desc.getElementTypeDescriptor().getElementTypeDescriptor().getMapValueTypeDescriptor()).isEqualTo(TypeDescriptor.nested(methodParameter, 3));
-		assertThat(desc.getElementTypeDescriptor().getElementTypeDescriptor().getMapKeyTypeDescriptor().getType()).isEqualTo(Integer.class);
-		assertThat(desc.getElementTypeDescriptor().getElementTypeDescriptor().getMapValueTypeDescriptor().getType()).isEqualTo(Enum.class);
+		assertThat(desc.getElementTypeDescriptor().getElementTypeDescriptor())
+				.isEqualTo(TypeDescriptor.nested(methodParameter, 2));
+		assertThat(desc.getElementTypeDescriptor().getElementTypeDescriptor().getMapValueTypeDescriptor())
+				.isEqualTo(TypeDescriptor.nested(methodParameter, 3));
+		assertThat(desc.getElementTypeDescriptor().getElementTypeDescriptor().getMapKeyTypeDescriptor().getType())
+				.isEqualTo(Integer.class);
+		assertThat(desc.getElementTypeDescriptor().getElementTypeDescriptor().getMapValueTypeDescriptor().getType())
+				.isEqualTo(Enum.class);
 		assertThat(desc.isMap()).isFalse();
 	}
 
@@ -181,7 +185,8 @@ public class TypeDescriptorTests {
 				getClass().getMethod("setComplexProperty", Map.class));
 		TypeDescriptor desc = new TypeDescriptor(property);
 		assertThat(desc.getMapKeyTypeDescriptor().getType()).isEqualTo(String.class);
-		assertThat(desc.getMapValueTypeDescriptor().getElementTypeDescriptor().getElementTypeDescriptor().getType()).isEqualTo(Integer.class);
+		assertThat(desc.getMapValueTypeDescriptor().getElementTypeDescriptor().getElementTypeDescriptor().getType())
+				.isEqualTo(Integer.class);
 	}
 
 	@Test
@@ -254,7 +259,9 @@ public class TypeDescriptorTests {
 
 	private void assertAnnotationFoundOnMethod(Class<? extends Annotation> annotationType, String methodName) throws Exception {
 		TypeDescriptor typeDescriptor = new TypeDescriptor(new MethodParameter(getClass().getMethod(methodName), -1));
-		assertThat(typeDescriptor.getAnnotation(annotationType)).as("Should have found @" + annotationType.getSimpleName() + " on " + methodName + ".").isNotNull();
+		assertThat(typeDescriptor.getAnnotation(annotationType))
+				.as("Should have found @" + annotationType.getSimpleName() + " on " + methodName + ".")
+				.isNotNull();
 	}
 
 	@Test
@@ -659,7 +666,8 @@ public class TypeDescriptorTests {
 		TypeDescriptor td = new TypeDescriptor(getClass().getField("passDownGeneric"));
 		assertThat(td.getElementTypeDescriptor().getType()).isEqualTo(List.class);
 		assertThat(td.getElementTypeDescriptor().getElementTypeDescriptor().getType()).isEqualTo(Set.class);
-		assertThat(td.getElementTypeDescriptor().getElementTypeDescriptor().getElementTypeDescriptor().getType()).isEqualTo(Integer.class);
+		assertThat(td.getElementTypeDescriptor().getElementTypeDescriptor().getElementTypeDescriptor().getType())
+				.isEqualTo(Integer.class);
 	}
 
 	@Test
@@ -687,8 +695,10 @@ public class TypeDescriptorTests {
 		class CustomSet extends HashSet<String> {
 		}
 
-		assertThat(TypeDescriptor.valueOf(String.class)).isEqualTo(TypeDescriptor.valueOf(CustomSet.class).getElementTypeDescriptor());
-		assertThat(TypeDescriptor.valueOf(String.class)).isEqualTo(TypeDescriptor.forObject(new CustomSet()).getElementTypeDescriptor());
+		assertThat(TypeDescriptor.valueOf(String.class))
+				.isEqualTo(TypeDescriptor.valueOf(CustomSet.class).getElementTypeDescriptor());
+		assertThat(TypeDescriptor.valueOf(String.class))
+				.isEqualTo(TypeDescriptor.forObject(new CustomSet()).getElementTypeDescriptor());
 	}
 
 	@Test
@@ -697,10 +707,14 @@ public class TypeDescriptorTests {
 		class CustomMap extends HashMap<String, Integer> {
 		}
 
-		assertThat(TypeDescriptor.valueOf(String.class)).isEqualTo(TypeDescriptor.valueOf(CustomMap.class).getMapKeyTypeDescriptor());
-		assertThat(TypeDescriptor.valueOf(Integer.class)).isEqualTo(TypeDescriptor.valueOf(CustomMap.class).getMapValueTypeDescriptor());
-		assertThat(TypeDescriptor.valueOf(String.class)).isEqualTo(TypeDescriptor.forObject(new CustomMap()).getMapKeyTypeDescriptor());
-		assertThat(TypeDescriptor.valueOf(Integer.class)).isEqualTo(TypeDescriptor.forObject(new CustomMap()).getMapValueTypeDescriptor());
+		assertThat(TypeDescriptor.valueOf(String.class))
+				.isEqualTo(TypeDescriptor.valueOf(CustomMap.class).getMapKeyTypeDescriptor());
+		assertThat(TypeDescriptor.valueOf(Integer.class))
+				.isEqualTo(TypeDescriptor.valueOf(CustomMap.class).getMapValueTypeDescriptor());
+		assertThat(TypeDescriptor.valueOf(String.class))
+				.isEqualTo(TypeDescriptor.forObject(new CustomMap()).getMapKeyTypeDescriptor());
+		assertThat(TypeDescriptor.valueOf(Integer.class))
+				.isEqualTo(TypeDescriptor.forObject(new CustomMap()).getMapValueTypeDescriptor());
 	}
 
 	@Test

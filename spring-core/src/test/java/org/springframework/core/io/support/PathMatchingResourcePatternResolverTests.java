@@ -153,7 +153,9 @@ public class PathMatchingResourcePatternResolverTests {
 
 	private void assertFilenameIn(Resource resource, String... filenames) {
 		String filename = resource.getFilename();
-		assertThat(Arrays.stream(filenames).anyMatch(filename::endsWith)).as(resource + " does not have a filename that matches any of the specified names").isTrue();
+		assertThat(Arrays.stream(filenames).anyMatch(filename::endsWith))
+				.as(resource + " does not have a filename that matches any of the specified names")
+				.isTrue();
 	}
 
 }

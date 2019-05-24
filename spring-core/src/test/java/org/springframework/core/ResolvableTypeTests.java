@@ -915,15 +915,20 @@ public class ResolvableTypeTests {
 		assertThat(forField("stringList")).hasToString("java.util.List<java.lang.String>");
 		assertThat(forField("stringListList")).hasToString("java.util.List<java.util.List<java.lang.String>>");
 		assertThat(forField("stringArrayList")).hasToString("java.util.List<java.lang.String[]>");
-		assertThat(forField("stringIntegerMultiValueMap")).hasToString("org.springframework.util.MultiValueMap<java.lang.String, java.lang.Integer>");
-		assertThat(forField("stringIntegerMultiValueMapSwitched")).hasToString(VariableNameSwitch.class.getName() + "<java.lang.Integer, java.lang.String>");
-		assertThat(forField("listOfListOfUnknown")).hasToString("java.util.List<java.util.List<?>>");
+		assertThat(forField("stringIntegerMultiValueMap"))
+				.hasToString("org.springframework.util.MultiValueMap<java.lang.String, java.lang.Integer>");
+		assertThat(forField("stringIntegerMultiValueMapSwitched"))
+				.hasToString(VariableNameSwitch.class.getName() + "<java.lang.Integer, java.lang.String>");
+		assertThat(forField("listOfListOfUnknown"))
+				.hasToString("java.util.List<java.util.List<?>>");
 
 		assertThat(forTypedField("typeVariableType")).hasToString("java.lang.String");
 		assertThat(forTypedField("parameterizedType")).hasToString("java.util.List<java.lang.String>");
 
-		assertThat(ResolvableType.forClass(ListOfGenericArray.class).toString()).isEqualTo(ListOfGenericArray.class.getName());
-		assertThat(ResolvableType.forClass(List.class, ListOfGenericArray.class).toString()).isEqualTo("java.util.List<java.util.List<java.lang.String>[]>");
+		assertThat(ResolvableType.forClass(ListOfGenericArray.class).toString())
+				.isEqualTo(ListOfGenericArray.class.getName());
+		assertThat(ResolvableType.forClass(List.class, ListOfGenericArray.class).toString())
+				.isEqualTo("java.util.List<java.util.List<java.lang.String>[]>");
 	}
 
 	@Test
@@ -1016,17 +1021,32 @@ public class ResolvableTypeTests {
 		ResolvableType charSequenceVariable = ResolvableType.forField(AssignmentBase.class.getField("c"), Assignment.class);
 		ResolvableType stringVariable = ResolvableType.forField(AssignmentBase.class.getField("s"), Assignment.class);
 
-		assertThatResolvableType(objectType).isAssignableFrom(objectVariable, charSequenceVariable, stringVariable);
-		assertThatResolvableType(charSequenceType).isAssignableFrom(charSequenceVariable, stringVariable).isNotAssignableFrom(objectVariable);
-		assertThatResolvableType(stringType).isAssignableFrom(stringVariable).isNotAssignableFrom(objectVariable, charSequenceVariable);
+		assertThatResolvableType(objectType)
+				.isAssignableFrom(objectVariable, charSequenceVariable, stringVariable);
+		assertThatResolvableType(charSequenceType)
+				.isAssignableFrom(charSequenceVariable, stringVariable)
+				.isNotAssignableFrom(objectVariable);
+		assertThatResolvableType(stringType)
+				.isAssignableFrom(stringVariable)
+				.isNotAssignableFrom(objectVariable, charSequenceVariable);
 
-		assertThatResolvableType(objectVariable).isAssignableFrom(objectType, charSequenceType, stringType);
-		assertThatResolvableType(charSequenceVariable).isAssignableFrom(charSequenceType, stringType).isNotAssignableFrom(objectType);
-		assertThatResolvableType(stringVariable).isAssignableFrom(stringType).isNotAssignableFrom(objectType, charSequenceType);
+		assertThatResolvableType(objectVariable)
+				.isAssignableFrom(objectType, charSequenceType, stringType);
+		assertThatResolvableType(charSequenceVariable)
+				.isAssignableFrom(charSequenceType, stringType)
+				.isNotAssignableFrom(objectType);
+		assertThatResolvableType(stringVariable)
+				.isAssignableFrom(stringType)
+				.isNotAssignableFrom(objectType, charSequenceType);
 
-		assertThatResolvableType(objectVariable).isAssignableFrom(objectVariable, charSequenceVariable, stringVariable);
-		assertThatResolvableType(charSequenceVariable).isAssignableFrom(charSequenceVariable, stringVariable).isNotAssignableFrom(objectVariable);
-		assertThatResolvableType(stringVariable).isAssignableFrom(stringVariable).isNotAssignableFrom(objectVariable, charSequenceVariable);
+		assertThatResolvableType(objectVariable)
+				.isAssignableFrom(objectVariable, charSequenceVariable, stringVariable);
+		assertThatResolvableType(charSequenceVariable)
+				.isAssignableFrom(charSequenceVariable, stringVariable)
+				.isNotAssignableFrom(objectVariable);
+		assertThatResolvableType(stringVariable)
+				.isAssignableFrom(stringVariable)
+				.isNotAssignableFrom(objectVariable, charSequenceVariable);
 	}
 
 	@Test
@@ -1062,15 +1082,24 @@ public class ResolvableTypeTests {
 		ResolvableType extendsCharSequenceList = ResolvableType.forField(AssignmentBase.class.getField("listxc"), Assignment.class);
 		ResolvableType extendsStringList = ResolvableType.forField(AssignmentBase.class.getField("listxs"), Assignment.class);
 
-		assertThatResolvableType(objectList).isNotAssignableFrom(extendsObjectList, extendsCharSequenceList, extendsStringList);
-		assertThatResolvableType(charSequenceList).isNotAssignableFrom(extendsObjectList, extendsCharSequenceList, extendsStringList);
-		assertThatResolvableType(stringList).isNotAssignableFrom(extendsObjectList, extendsCharSequenceList, extendsStringList);
-		assertThatResolvableType(extendsObjectList).isAssignableFrom(objectList, charSequenceList, stringList);
-		assertThatResolvableType(extendsObjectList).isAssignableFrom(extendsObjectList, extendsCharSequenceList, extendsStringList);
-		assertThatResolvableType(extendsCharSequenceList).isAssignableFrom(extendsCharSequenceList, extendsStringList).isNotAssignableFrom(extendsObjectList);
-		assertThatResolvableType(extendsCharSequenceList).isAssignableFrom(charSequenceList, stringList).isNotAssignableFrom(objectList);
-		assertThatResolvableType(extendsStringList).isAssignableFrom(extendsStringList).isNotAssignableFrom(extendsObjectList, extendsCharSequenceList);
-		assertThatResolvableType(extendsStringList).isAssignableFrom(stringList).isNotAssignableFrom(objectList, charSequenceList);
+		assertThatResolvableType(objectList)
+				.isNotAssignableFrom(extendsObjectList, extendsCharSequenceList, extendsStringList);
+		assertThatResolvableType(charSequenceList)
+				.isNotAssignableFrom(extendsObjectList, extendsCharSequenceList, extendsStringList);
+		assertThatResolvableType(stringList)
+				.isNotAssignableFrom(extendsObjectList, extendsCharSequenceList, extendsStringList);
+		assertThatResolvableType(extendsObjectList)
+				.isAssignableFrom(objectList, charSequenceList, stringList);
+		assertThatResolvableType(extendsObjectList)
+				.isAssignableFrom(extendsObjectList, extendsCharSequenceList, extendsStringList);
+		assertThatResolvableType(extendsCharSequenceList)
+				.isAssignableFrom(extendsCharSequenceList, extendsStringList).isNotAssignableFrom(extendsObjectList);
+		assertThatResolvableType(extendsCharSequenceList)
+				.isAssignableFrom(charSequenceList, stringList).isNotAssignableFrom(objectList);
+		assertThatResolvableType(extendsStringList)
+				.isAssignableFrom(extendsStringList).isNotAssignableFrom(extendsObjectList, extendsCharSequenceList);
+		assertThatResolvableType(extendsStringList)
+				.isAssignableFrom(stringList).isNotAssignableFrom(objectList, charSequenceList);
 	}
 
 	@Test
@@ -1081,11 +1110,17 @@ public class ResolvableTypeTests {
 		ResolvableType extendsCharSequenceList = ResolvableType.forField(AssignmentBase.class.getField("listxc"), Assignment.class);
 		ResolvableType extendsStringList = ResolvableType.forField(AssignmentBase.class.getField("listxs"), Assignment.class);
 
-		assertThatResolvableType(extendsCharSequenceCollection).isAssignableFrom(charSequenceCollection, charSequenceList, extendsCharSequenceList, extendsStringList);
-		assertThatResolvableType(charSequenceCollection).isAssignableFrom(charSequenceList).isNotAssignableFrom(extendsCharSequenceList, extendsStringList);
-		assertThatResolvableType(charSequenceList).isNotAssignableFrom(extendsCharSequenceCollection, charSequenceCollection);
-		assertThatResolvableType(extendsCharSequenceList).isNotAssignableFrom(extendsCharSequenceCollection, charSequenceCollection);
-		assertThatResolvableType(extendsStringList).isNotAssignableFrom(charSequenceCollection, charSequenceList, extendsCharSequenceList);
+		assertThatResolvableType(extendsCharSequenceCollection)
+				.isAssignableFrom(charSequenceCollection, charSequenceList, extendsCharSequenceList, extendsStringList);
+		assertThatResolvableType(charSequenceCollection)
+				.isAssignableFrom(charSequenceList)
+				.isNotAssignableFrom(extendsCharSequenceList, extendsStringList);
+		assertThatResolvableType(charSequenceList)
+				.isNotAssignableFrom(extendsCharSequenceCollection, charSequenceCollection);
+		assertThatResolvableType(extendsCharSequenceList)
+				.isNotAssignableFrom(extendsCharSequenceCollection, charSequenceCollection);
+		assertThatResolvableType(extendsStringList)
+				.isNotAssignableFrom(charSequenceCollection, charSequenceList, extendsCharSequenceList);
 	}
 
 	@Test
@@ -1095,10 +1130,17 @@ public class ResolvableTypeTests {
 		ResolvableType charSequenceArray = ResolvableType.forField(AssignmentBase.class.getField("carray"), Assignment.class);
 		ResolvableType stringArray = ResolvableType.forField(AssignmentBase.class.getField("sarray"), Assignment.class);
 
-		assertThatResolvableType(object).isAssignableFrom(objectArray, charSequenceArray, stringArray);
-		assertThatResolvableType(objectArray).isAssignableFrom(objectArray, charSequenceArray, stringArray).isNotAssignableFrom(object);
-		assertThatResolvableType(charSequenceArray).isAssignableFrom(charSequenceArray, stringArray).isNotAssignableFrom(object, objectArray);
-		assertThatResolvableType(stringArray).isAssignableFrom(stringArray).isNotAssignableFrom(object, objectArray, charSequenceArray);
+		assertThatResolvableType(object)
+				.isAssignableFrom(objectArray, charSequenceArray, stringArray);
+		assertThatResolvableType(objectArray)
+				.isAssignableFrom(objectArray, charSequenceArray, stringArray)
+				.isNotAssignableFrom(object);
+		assertThatResolvableType(charSequenceArray)
+				.isAssignableFrom(charSequenceArray, stringArray)
+				.isNotAssignableFrom(object, objectArray);
+		assertThatResolvableType(stringArray)
+				.isAssignableFrom(stringArray)
+				.isNotAssignableFrom(object, objectArray, charSequenceArray);
 	}
 
 	@Test
@@ -1117,28 +1159,46 @@ public class ResolvableTypeTests {
 		// Language Spec 4.5.1. Type Arguments and Wildcards
 
 		// ? extends T <= ? extends S if T <: S
-		assertThatResolvableType(extendsCharSequence).isAssignableFrom(extendsCharSequence, extendsString).isNotAssignableFrom(extendsObject);
-		assertThatResolvableType(extendsCharSequence).isAssignableFrom(charSequence, string).isNotAssignableFrom(object);
+		assertThatResolvableType(extendsCharSequence)
+				.isAssignableFrom(extendsCharSequence, extendsString)
+				.isNotAssignableFrom(extendsObject);
+		assertThatResolvableType(extendsCharSequence)
+				.isAssignableFrom(charSequence, string)
+				.isNotAssignableFrom(object);
 
 		// ? super T <= ? super S if S <: T
-		assertThatResolvableType(superCharSequence).isAssignableFrom(superObject, superCharSequence).isNotAssignableFrom(superString);
-		assertThatResolvableType(superCharSequence).isAssignableFrom(object, charSequence).isNotAssignableFrom(string);
+		assertThatResolvableType(superCharSequence)
+				.isAssignableFrom(superObject, superCharSequence)
+				.isNotAssignableFrom(superString);
+		assertThatResolvableType(superCharSequence)
+				.isAssignableFrom(object, charSequence)
+				.isNotAssignableFrom(string);
 
 		// [Implied] super / extends cannot be mixed
-		assertThatResolvableType(superCharSequence).isNotAssignableFrom(extendsObject, extendsCharSequence, extendsString);
-		assertThatResolvableType(extendsCharSequence).isNotAssignableFrom(superObject, superCharSequence, superString);
+		assertThatResolvableType(superCharSequence)
+				.isNotAssignableFrom(extendsObject, extendsCharSequence, extendsString);
+		assertThatResolvableType(extendsCharSequence)
+				.isNotAssignableFrom(superObject, superCharSequence, superString);
 
 		// T <= T
-		assertThatResolvableType(charSequence).isAssignableFrom(charSequence, string).isNotAssignableFrom(object);
+		assertThatResolvableType(charSequence)
+				.isAssignableFrom(charSequence, string)
+				.isNotAssignableFrom(object);
 
 		// T <= ? extends T
-		assertThatResolvableType(extendsCharSequence).isAssignableFrom(charSequence, string).isNotAssignableFrom(object);
-		assertThatResolvableType(charSequence).isNotAssignableFrom(extendsObject, extendsCharSequence, extendsString);
-		assertThatResolvableType(extendsAnon).isAssignableFrom(object, charSequence, string);
+		assertThatResolvableType(extendsCharSequence)
+				.isAssignableFrom(charSequence, string)
+				.isNotAssignableFrom(object);
+		assertThatResolvableType(charSequence)
+				.isNotAssignableFrom(extendsObject, extendsCharSequence, extendsString);
+		assertThatResolvableType(extendsAnon)
+				.isAssignableFrom(object, charSequence, string);
 
 		// T <= ? super T
-		assertThatResolvableType(superCharSequence).isAssignableFrom(object, charSequence).isNotAssignableFrom(string);
-		assertThatResolvableType(charSequence).isNotAssignableFrom(superObject, superCharSequence, superString);
+		assertThatResolvableType(superCharSequence)
+				.isAssignableFrom(object, charSequence).isNotAssignableFrom(string);
+		assertThatResolvableType(charSequence)
+				.isNotAssignableFrom(superObject, superCharSequence, superString);
 	}
 
 	@Test

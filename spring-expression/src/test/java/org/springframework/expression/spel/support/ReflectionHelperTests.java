@@ -370,8 +370,11 @@ public class ReflectionHelperTests extends AbstractExpressionTests {
 	/**
 	 * Used to validate the match returned from a compareArguments call.
 	 */
-	private void checkMatch(Class<?>[] inputTypes, Class<?>[] expectedTypes, StandardTypeConverter typeConverter, ArgumentsMatchKind expectedMatchKind) {
-		ReflectionHelper.ArgumentsMatchInfo matchInfo = ReflectionHelper.compareArguments(getTypeDescriptors(expectedTypes), getTypeDescriptors(inputTypes), typeConverter);
+	private void checkMatch(Class<?>[] inputTypes, Class<?>[] expectedTypes,
+			StandardTypeConverter typeConverter, ArgumentsMatchKind expectedMatchKind) {
+
+		ReflectionHelper.ArgumentsMatchInfo matchInfo = ReflectionHelper.compareArguments(
+				getTypeDescriptors(expectedTypes), getTypeDescriptors(inputTypes), typeConverter);
 		if (expectedMatchKind == null) {
 			assertThat(matchInfo).as("Did not expect them to match in any way").isNull();
 		}
@@ -386,15 +389,19 @@ public class ReflectionHelperTests extends AbstractExpressionTests {
 			assertThat(matchInfo.isCloseMatch()).isTrue();
 		}
 		else if (expectedMatchKind == ArgumentsMatchKind.REQUIRES_CONVERSION) {
-			assertThat(matchInfo.isMatchRequiringConversion()).as("expected to be a match requiring conversion, but was " + matchInfo).isTrue();
+			assertThat(matchInfo.isMatchRequiringConversion())
+					.as("expected to be a match requiring conversion, but was " + matchInfo)
+					.isTrue();
 		}
 	}
 
 	/**
 	 * Used to validate the match returned from a compareArguments call.
 	 */
-	private void checkMatch2(Class<?>[] inputTypes, Class<?>[] expectedTypes, StandardTypeConverter typeConverter, ArgumentsMatchKind expectedMatchKind) {
-		ReflectionHelper.ArgumentsMatchInfo matchInfo = ReflectionHelper.compareArgumentsVarargs(getTypeDescriptors(expectedTypes), getTypeDescriptors(inputTypes), typeConverter);
+	private void checkMatch2(Class<?>[] inputTypes, Class<?>[] expectedTypes,
+			StandardTypeConverter typeConverter, ArgumentsMatchKind expectedMatchKind) {
+		ReflectionHelper.ArgumentsMatchInfo matchInfo = ReflectionHelper.compareArgumentsVarargs(
+				getTypeDescriptors(expectedTypes), getTypeDescriptors(inputTypes), typeConverter);
 		if (expectedMatchKind == null) {
 			assertThat(matchInfo).as("Did not expect them to match in any way: " + matchInfo).isNull();
 		}
@@ -409,7 +416,9 @@ public class ReflectionHelperTests extends AbstractExpressionTests {
 			assertThat(matchInfo.isCloseMatch()).isTrue();
 		}
 		else if (expectedMatchKind == ArgumentsMatchKind.REQUIRES_CONVERSION) {
-			assertThat(matchInfo.isMatchRequiringConversion()).as("expected to be a match requiring conversion, but was " + matchInfo).isTrue();
+			assertThat(matchInfo.isMatchRequiringConversion())
+					.as("expected to be a match requiring conversion, but was " + matchInfo)
+					.isTrue();
 		}
 	}
 

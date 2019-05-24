@@ -325,17 +325,25 @@ public class AnnotationUtilsTests {
 		assertThat((Object) findAnnotationDeclaringClass(Transactional.class, NonAnnotatedClass.class)).isNull();
 
 		// inherited class-level annotation; note: @Transactional is inherited
-		assertThat(findAnnotationDeclaringClass(Transactional.class, InheritedAnnotationInterface.class)).isEqualTo(InheritedAnnotationInterface.class);
-		assertThat(findAnnotationDeclaringClass(Transactional.class, SubInheritedAnnotationInterface.class)).isNull();
-		assertThat(findAnnotationDeclaringClass(Transactional.class, InheritedAnnotationClass.class)).isEqualTo(InheritedAnnotationClass.class);
-		assertThat(findAnnotationDeclaringClass(Transactional.class, SubInheritedAnnotationClass.class)).isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClass(Transactional.class, InheritedAnnotationInterface.class))
+				.isEqualTo(InheritedAnnotationInterface.class);
+		assertThat(findAnnotationDeclaringClass(Transactional.class, SubInheritedAnnotationInterface.class))
+				.isNull();
+		assertThat(findAnnotationDeclaringClass(Transactional.class, InheritedAnnotationClass.class))
+				.isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClass(Transactional.class, SubInheritedAnnotationClass.class))
+				.isEqualTo(InheritedAnnotationClass.class);
 
 		// non-inherited class-level annotation; note: @Order is not inherited,
 		// but findAnnotationDeclaringClass() should still find it on classes.
-		assertThat(findAnnotationDeclaringClass(Order.class, NonInheritedAnnotationInterface.class)).isEqualTo(NonInheritedAnnotationInterface.class);
-		assertThat(findAnnotationDeclaringClass(Order.class, SubNonInheritedAnnotationInterface.class)).isNull();
-		assertThat(findAnnotationDeclaringClass(Order.class, NonInheritedAnnotationClass.class)).isEqualTo(NonInheritedAnnotationClass.class);
-		assertThat(findAnnotationDeclaringClass(Order.class, SubNonInheritedAnnotationClass.class)).isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClass(Order.class, NonInheritedAnnotationInterface.class))
+				.isEqualTo(NonInheritedAnnotationInterface.class);
+		assertThat(findAnnotationDeclaringClass(Order.class, SubNonInheritedAnnotationInterface.class))
+				.isNull();
+		assertThat(findAnnotationDeclaringClass(Order.class, NonInheritedAnnotationClass.class))
+				.isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClass(Order.class, SubNonInheritedAnnotationClass.class))
+				.isEqualTo(NonInheritedAnnotationClass.class);
 	}
 
 	@Test
@@ -346,18 +354,26 @@ public class AnnotationUtilsTests {
 		assertThat((Object) findAnnotationDeclaringClassForTypes(transactionalCandidateList, NonAnnotatedClass.class)).isNull();
 
 		// inherited class-level annotation; note: @Transactional is inherited
-		assertThat(findAnnotationDeclaringClassForTypes(transactionalCandidateList, InheritedAnnotationInterface.class)).isEqualTo(InheritedAnnotationInterface.class);
-		assertThat(findAnnotationDeclaringClassForTypes(transactionalCandidateList, SubInheritedAnnotationInterface.class)).isNull();
-		assertThat(findAnnotationDeclaringClassForTypes(transactionalCandidateList, InheritedAnnotationClass.class)).isEqualTo(InheritedAnnotationClass.class);
-		assertThat(findAnnotationDeclaringClassForTypes(transactionalCandidateList, SubInheritedAnnotationClass.class)).isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(transactionalCandidateList, InheritedAnnotationInterface.class))
+				.isEqualTo(InheritedAnnotationInterface.class);
+		assertThat(findAnnotationDeclaringClassForTypes(transactionalCandidateList, SubInheritedAnnotationInterface.class))
+				.isNull();
+		assertThat(findAnnotationDeclaringClassForTypes(transactionalCandidateList, InheritedAnnotationClass.class))
+				.isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(transactionalCandidateList, SubInheritedAnnotationClass.class))
+				.isEqualTo(InheritedAnnotationClass.class);
 
 		// non-inherited class-level annotation; note: @Order is not inherited,
 		// but findAnnotationDeclaringClassForTypes() should still find it on classes.
 		List<Class<? extends Annotation>> orderCandidateList = Collections.singletonList(Order.class);
-		assertThat(findAnnotationDeclaringClassForTypes(orderCandidateList, NonInheritedAnnotationInterface.class)).isEqualTo(NonInheritedAnnotationInterface.class);
-		assertThat(findAnnotationDeclaringClassForTypes(orderCandidateList, SubNonInheritedAnnotationInterface.class)).isNull();
-		assertThat(findAnnotationDeclaringClassForTypes(orderCandidateList, NonInheritedAnnotationClass.class)).isEqualTo(NonInheritedAnnotationClass.class);
-		assertThat(findAnnotationDeclaringClassForTypes(orderCandidateList, SubNonInheritedAnnotationClass.class)).isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(orderCandidateList, NonInheritedAnnotationInterface.class))
+				.isEqualTo(NonInheritedAnnotationInterface.class);
+		assertThat(findAnnotationDeclaringClassForTypes(orderCandidateList, SubNonInheritedAnnotationInterface.class))
+				.isNull();
+		assertThat(findAnnotationDeclaringClassForTypes(orderCandidateList, NonInheritedAnnotationClass.class))
+				.isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(orderCandidateList, SubNonInheritedAnnotationClass.class))
+				.isEqualTo(NonInheritedAnnotationClass.class);
 	}
 
 	@Test
@@ -369,22 +385,33 @@ public class AnnotationUtilsTests {
 		assertThat((Object) findAnnotationDeclaringClassForTypes(candidates, NonAnnotatedClass.class)).isNull();
 
 		// inherited class-level annotation; note: @Transactional is inherited
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, InheritedAnnotationInterface.class)).isEqualTo(InheritedAnnotationInterface.class);
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubInheritedAnnotationInterface.class)).isNull();
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, InheritedAnnotationClass.class)).isEqualTo(InheritedAnnotationClass.class);
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubInheritedAnnotationClass.class)).isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, InheritedAnnotationInterface.class))
+				.isEqualTo(InheritedAnnotationInterface.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubInheritedAnnotationInterface.class))
+				.isNull();
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, InheritedAnnotationClass.class))
+				.isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubInheritedAnnotationClass.class))
+				.isEqualTo(InheritedAnnotationClass.class);
 
 		// non-inherited class-level annotation; note: @Order is not inherited,
 		// but findAnnotationDeclaringClassForTypes() should still find it on classes.
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, NonInheritedAnnotationInterface.class)).isEqualTo(NonInheritedAnnotationInterface.class);
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubNonInheritedAnnotationInterface.class)).isNull();
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, NonInheritedAnnotationClass.class)).isEqualTo(NonInheritedAnnotationClass.class);
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubNonInheritedAnnotationClass.class)).isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, NonInheritedAnnotationInterface.class))
+				.isEqualTo(NonInheritedAnnotationInterface.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubNonInheritedAnnotationInterface.class))
+				.isNull();
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, NonInheritedAnnotationClass.class))
+				.isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubNonInheritedAnnotationClass.class))
+				.isEqualTo(NonInheritedAnnotationClass.class);
 
 		// class hierarchy mixed with @Transactional and @Order declarations
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, TransactionalClass.class)).isEqualTo(TransactionalClass.class);
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, TransactionalAndOrderedClass.class)).isEqualTo(TransactionalAndOrderedClass.class);
-		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubTransactionalAndOrderedClass.class)).isEqualTo(TransactionalAndOrderedClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, TransactionalClass.class))
+				.isEqualTo(TransactionalClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, TransactionalAndOrderedClass.class))
+				.isEqualTo(TransactionalAndOrderedClass.class);
+		assertThat(findAnnotationDeclaringClassForTypes(candidates, SubTransactionalAndOrderedClass.class))
+				.isEqualTo(TransactionalAndOrderedClass.class);
 	}
 
 	@Test

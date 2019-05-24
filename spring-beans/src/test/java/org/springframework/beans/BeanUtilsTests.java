@@ -280,7 +280,9 @@ public class BeanUtilsTests {
 		assertThat(keyDescr.getPropertyType()).isEqualTo(String.class);
 		for (PropertyDescriptor propertyDescriptor : descrs) {
 			if (propertyDescriptor.getName().equals(keyDescr.getName())) {
-				assertThat(propertyDescriptor.getPropertyType()).as(propertyDescriptor.getName() + " has unexpected type").isEqualTo(keyDescr.getPropertyType());
+				assertThat(propertyDescriptor.getPropertyType())
+						.as(propertyDescriptor.getName() + " has unexpected type")
+						.isEqualTo(keyDescr.getPropertyType());
 			}
 		}
 	}

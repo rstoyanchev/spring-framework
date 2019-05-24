@@ -4107,27 +4107,37 @@ public class SpelCompilationCoverageTests extends AbstractExpressionTests {
 		assertCanCompile(expression);
 		assertThat(expression.getValue(payload).toString()).isEqualTo("instanceof Two");
 		ast = getAst();
-		assertThat(ast.getExitDescriptor()).isEqualTo("Lorg/springframework/expression/spel/SpelCompilationCoverageTests$Two");
+		assertThat(ast.getExitDescriptor())
+				.isEqualTo("Lorg/springframework/expression/spel/SpelCompilationCoverageTests$Two");
 
 		expression = parser.parseExpression("holder.three");
-		assertThat(expression.getValue(payload).getClass().getName()).isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Three");
+		assertThat(expression.getValue(payload).getClass().getName())
+				.isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Three");
 		assertCanCompile(expression);
-		assertThat(expression.getValue(payload).getClass().getName()).isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Three");
+		assertThat(expression.getValue(payload).getClass().getName())
+				.isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Three");
 		ast = getAst();
-		assertThat(ast.getExitDescriptor()).isEqualTo("Lorg/springframework/expression/spel/SpelCompilationCoverageTests$Three");
+		assertThat(ast.getExitDescriptor())
+				.isEqualTo("Lorg/springframework/expression/spel/SpelCompilationCoverageTests$Three");
 
 		expression = parser.parseExpression("DR[0]");
-		assertThat(expression.getValue(payload).getClass().getName()).isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Two");
+		assertThat(expression.getValue(payload).getClass().getName())
+				.isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Two");
 		assertCanCompile(expression);
-		assertThat(expression.getValue(payload).getClass().getName()).isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Two");
-		assertThat(getAst().getExitDescriptor()).isEqualTo("Lorg/springframework/expression/spel/SpelCompilationCoverageTests$Two");
+		assertThat(expression.getValue(payload).getClass().getName())
+				.isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Two");
+		assertThat(getAst().getExitDescriptor())
+				.isEqualTo("Lorg/springframework/expression/spel/SpelCompilationCoverageTests$Two");
 
 		expression = parser.parseExpression("DR[0].three");
-		assertThat(expression.getValue(payload).getClass().getName()).isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Three");
+		assertThat(expression.getValue(payload).getClass().getName())
+				.isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Three");
 		assertCanCompile(expression);
-		assertThat(expression.getValue(payload).getClass().getName()).isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Three");
+		assertThat(expression.getValue(payload).getClass().getName())
+				.isEqualTo("org.springframework.expression.spel.SpelCompilationCoverageTests$Three");
 		ast = getAst();
-		assertThat(ast.getExitDescriptor()).isEqualTo("Lorg/springframework/expression/spel/SpelCompilationCoverageTests$Three");
+		assertThat(ast.getExitDescriptor())
+				.isEqualTo("Lorg/springframework/expression/spel/SpelCompilationCoverageTests$Three");
 
 		expression = parser.parseExpression("DR[0].three.four");
 		assertThat(expression.getValue(payload)).isEqualTo(0.04d);

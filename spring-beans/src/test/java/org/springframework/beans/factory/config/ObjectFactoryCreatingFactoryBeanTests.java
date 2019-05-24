@@ -150,7 +150,9 @@ public class ObjectFactoryCreatingFactoryBeanTests {
 
 	@Test
 	public void testEnsureOFBFBReportsThatItActuallyCreatesObjectFactoryInstances() {
-		assertThat(new ObjectFactoryCreatingFactoryBean().getObjectType()).as("Must be reporting that it creates ObjectFactory instances (as per class contract).").isEqualTo(ObjectFactory.class);
+		assertThat(new ObjectFactoryCreatingFactoryBean().getObjectType())
+				.as("Must be reporting that it creates ObjectFactory instances (as per class contract).")
+				.isEqualTo(ObjectFactory.class);
 	}
 
 

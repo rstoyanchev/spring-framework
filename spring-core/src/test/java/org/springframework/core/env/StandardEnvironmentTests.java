@@ -102,8 +102,10 @@ public class StandardEnvironmentTests {
 	public void propertySourceOrder() {
 		ConfigurableEnvironment env = new StandardEnvironment();
 		MutablePropertySources sources = env.getPropertySources();
-		assertThat(sources.precedenceOf(PropertySource.named(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME))).isEqualTo(0);
-		assertThat(sources.precedenceOf(PropertySource.named(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME))).isEqualTo(1);
+		PropertySource<?> source = PropertySource.named(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME);
+		assertThat(sources.precedenceOf(source)).isEqualTo(0);
+		source = PropertySource.named(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME);
+		assertThat(sources.precedenceOf(source)).isEqualTo(1);
 		assertThat(sources).hasSize(2);
 	}
 
@@ -111,7 +113,8 @@ public class StandardEnvironmentTests {
 	public void propertySourceTypes() {
 		ConfigurableEnvironment env = new StandardEnvironment();
 		MutablePropertySources sources = env.getPropertySources();
-		assertThat(sources.get(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)).isInstanceOf(SystemEnvironmentPropertySource.class);
+		assertThat(sources.get(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME))
+				.isInstanceOf(SystemEnvironmentPropertySource.class);
 	}
 
 	@Test

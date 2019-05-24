@@ -107,10 +107,12 @@ public class ResourceTests {
 
 	@Test
 	public void testClassPathResourceWithClassLoader() throws IOException {
-		Resource resource =
-				new ClassPathResource("org/springframework/core/io/Resource.class", getClass().getClassLoader());
+		Resource resource = new ClassPathResource(
+				"org/springframework/core/io/Resource.class", getClass().getClassLoader());
 		doTestResource(resource);
-		assertThat(new ClassPathResource("org/springframework/core/../core/io/./Resource.class", getClass().getClassLoader())).isEqualTo(resource);
+		assertThat(new ClassPathResource(
+				"org/springframework/core/../core/io/./Resource.class", getClass().getClassLoader()))
+				.isEqualTo(resource);
 	}
 
 	@Test

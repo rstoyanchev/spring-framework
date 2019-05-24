@@ -93,7 +93,9 @@ public class BeanFactoryUtilsTests {
 		// Leaf count
 		assertThat(this.listableBeanFactory.getBeanDefinitionCount() == 1).isTrue();
 		// Count minus duplicate
-		assertThat(BeanFactoryUtils.countBeansIncludingAncestors(this.listableBeanFactory) == 8).as("Should count 8 beans, not " + BeanFactoryUtils.countBeansIncludingAncestors(this.listableBeanFactory)).isTrue();
+		assertThat(BeanFactoryUtils.countBeansIncludingAncestors(this.listableBeanFactory) == 8)
+				.as("Should count 8 beans, not " + BeanFactoryUtils.countBeansIncludingAncestors(this.listableBeanFactory))
+				.isTrue();
 	}
 
 	@Test

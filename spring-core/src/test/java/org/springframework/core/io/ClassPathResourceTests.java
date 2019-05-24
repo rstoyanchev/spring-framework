@@ -92,20 +92,22 @@ public class ClassPathResourceTests {
 
 	@Test
 	public void getDescriptionWithClassLoaderConstructorAndLeadingSlash() {
-		assertDescriptionContainsExpectedPath(
-				new ClassPathResource(FQ_RESOURCE_PATH_WITH_LEADING_SLASH, getClass().getClassLoader()), FQ_RESOURCE_PATH);
+		assertDescriptionContainsExpectedPath(new ClassPathResource(
+				FQ_RESOURCE_PATH_WITH_LEADING_SLASH, getClass().getClassLoader()), FQ_RESOURCE_PATH);
 	}
 
 	@Test
 	public void dropLeadingSlashForClassLoaderAccess() {
 		assertThat(new ClassPathResource("/test.html").getPath()).isEqualTo("test.html");
-		assertThat(((ClassPathResource) new ClassPathResource("").createRelative("/test.html")).getPath()).isEqualTo("test.html");
+		assertThat(((ClassPathResource) new ClassPathResource("").createRelative("/test.html")).getPath())
+				.isEqualTo("test.html");
 	}
 
 	@Test
 	public void preserveLeadingSlashForClassRelativeAccess() {
 		assertThat(new ClassPathResource("/test.html", getClass()).getPath()).isEqualTo("/test.html");
-		assertThat(((ClassPathResource) new ClassPathResource("", getClass()).createRelative("/test.html")).getPath()).isEqualTo("/test.html");
+		assertThat(((ClassPathResource) new ClassPathResource("", getClass()).createRelative("/test.html")).getPath())
+				.isEqualTo("/test.html");
 	}
 
 	@Test

@@ -82,7 +82,9 @@ public class MutablePropertyValuesTests extends AbstractPropertyValuesTests {
 
 		MutablePropertyValues pvs2 = new MutablePropertyValues(pvs);
 		PropertyValues changes = pvs2.changesSince(pvs);
-		assertThat(changes.getPropertyValues().length == 0).as("changes are empty, not of length " + changes.getPropertyValues().length).isTrue();
+		assertThat(changes.getPropertyValues().length == 0)
+				.as("changes are empty, not of length " + changes.getPropertyValues().length)
+				.isTrue();
 
 		pvs2.addPropertyValue(new PropertyValue("forname", "Gordon"));
 		changes = pvs2.changesSince(pvs);
@@ -93,7 +95,9 @@ public class MutablePropertyValuesTests extends AbstractPropertyValuesTests {
 
 		MutablePropertyValues pvs3 = new MutablePropertyValues(pvs);
 		changes = pvs3.changesSince(pvs);
-		assertThat(changes.getPropertyValues().length == 0).as("changes are empty, not of length " + changes.getPropertyValues().length).isTrue();
+		assertThat(changes.getPropertyValues().length == 0)
+				.as("changes are empty, not of length " + changes.getPropertyValues().length)
+				.isTrue();
 
 		// add new
 		pvs3.addPropertyValue(new PropertyValue("foo", "bar"));

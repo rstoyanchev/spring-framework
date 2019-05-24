@@ -581,51 +581,93 @@ public class GenericConversionServiceTests {
 		conversionService.addConverter(new MyStringToStringCollectionConverter());
 		conversionService.addConverter(new MyStringToIntegerCollectionConverter());
 
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("integerCollection")))).isEqualTo(Collections.singleton(4));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection")))).isEqualTo(Collections.singleton(4));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection")))).isEqualTo(Collections.singleton(4));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection")))).isEqualTo(Collections.singleton(4));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection")))).isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("integerCollection"))))
+				.isEqualTo(Collections.singleton(4));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection"))))
+				.isEqualTo(Collections.singleton(4));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection"))))
+				.isEqualTo(Collections.singleton(4));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection"))))
+				.isEqualTo(Collections.singleton(4));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
 	}
 
 	@Test
 	public void adaptedCollectionTypesFromSameSourceType() throws Exception {
 		conversionService.addConverter(new MyStringToStringCollectionConverter());
 
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection")))).isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
 
-		assertThatExceptionOfType(ConverterNotFoundException.class).isThrownBy(() ->
-				conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("integerCollection"))));
+		assertThatExceptionOfType(ConverterNotFoundException.class)
+				.isThrownBy(() -> conversionService.convert(
+						"test", TypeDescriptor.valueOf(String.class),
+						new TypeDescriptor(getClass().getField("integerCollection"))));
 	}
 
 	@Test
 	public void genericCollectionAsSource() throws Exception {
 		conversionService.addConverter(new MyStringToGenericCollectionConverter());
 
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection")))).isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
 
 		// The following is unpleasant but a consequence of the generic collection converter above...
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("integerCollection")))).isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("integerCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
 	}
 
 	@Test
 	public void rawCollectionAsSource() throws Exception {
 		conversionService.addConverter(new MyStringToRawCollectionConverter());
 
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection")))).isEqualTo(Collections.singleton("testX"));
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection")))).isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("stringCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("genericCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("rawCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
 
 		// The following is unpleasant but a consequence of the raw collection converter above...
-		assertThat(conversionService.convert("test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("integerCollection")))).isEqualTo(Collections.singleton("testX"));
+		assertThat(conversionService.convert(
+				"test", TypeDescriptor.valueOf(String.class), new TypeDescriptor(getClass().getField("integerCollection"))))
+				.isEqualTo(Collections.singleton("testX"));
 	}
 
 

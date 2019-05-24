@@ -76,7 +76,9 @@ public class ParameterResolutionTests {
 		Parameter[] parameters = executable.getParameters();
 		for (int parameterIndex = startIndex; parameterIndex < parameters.length; parameterIndex++) {
 			Parameter parameter = parameters[parameterIndex];
-			assertThat(ParameterResolutionDelegate.isAutowirable(parameter, parameterIndex)).as("Parameter " + parameter + " must be autowirable").isTrue();
+			assertThat(ParameterResolutionDelegate.isAutowirable(parameter, parameterIndex))
+					.as("Parameter " + parameter + " must be autowirable")
+					.isTrue();
 		}
 	}
 
@@ -87,7 +89,9 @@ public class ParameterResolutionTests {
 		Parameter[] parameters = notAutowirableConstructor.getParameters();
 		for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
 			Parameter parameter = parameters[parameterIndex];
-			assertThat(ParameterResolutionDelegate.isAutowirable(parameter, parameterIndex)).as("Parameter " + parameter + " must not be autowirable").isFalse();
+			assertThat(ParameterResolutionDelegate.isAutowirable(parameter, parameterIndex))
+					.as("Parameter " + parameter + " must not be autowirable")
+					.isFalse();
 		}
 	}
 

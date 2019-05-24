@@ -213,7 +213,9 @@ public class CollectionToCollectionConverterTests {
 		resources.add(new FileSystemResource("test"));
 		resources.add(new TestResource());
 		TypeDescriptor sourceType = TypeDescriptor.forObject(resources);
-		assertThat(conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources")))).isSameAs(resources);
+		assertThat(conversionService.convert(
+				resources, sourceType, new TypeDescriptor(getClass().getField("resources"))))
+				.isSameAs(resources);
 	}
 
 	@Test
@@ -224,7 +226,9 @@ public class CollectionToCollectionConverterTests {
 		resources.add(new FileSystemResource("test"));
 		resources.add(new TestResource());
 		TypeDescriptor sourceType = TypeDescriptor.forObject(resources);
-		assertThat(conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources")))).isSameAs(resources);
+		assertThat(conversionService.convert(
+				resources, sourceType, new TypeDescriptor(getClass().getField("resources"))))
+				.isSameAs(resources);
 	}
 
 	@Test
@@ -233,7 +237,9 @@ public class CollectionToCollectionConverterTests {
 		resources.add(null);
 		resources.add(null);
 		TypeDescriptor sourceType = TypeDescriptor.forObject(resources);
-		assertThat(conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources")))).isSameAs(resources);
+		assertThat(conversionService.convert(
+				resources, sourceType, new TypeDescriptor(getClass().getField("resources"))))
+				.isSameAs(resources);
 	}
 
 	@Test
@@ -242,8 +248,9 @@ public class CollectionToCollectionConverterTests {
 		resources.add(null);
 		resources.add(null);
 		TypeDescriptor sourceType = new TypeDescriptor(getClass().getField("strings"));
-		assertThatExceptionOfType(ConverterNotFoundException.class).isThrownBy(() ->
-				conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources"))));
+		assertThatExceptionOfType(ConverterNotFoundException.class)
+				.isThrownBy(() -> conversionService.convert(
+						resources, sourceType, new TypeDescriptor(getClass().getField("resources"))));
 	}
 
 	@Test
@@ -252,8 +259,9 @@ public class CollectionToCollectionConverterTests {
 		resources.add(new ClassPathResource("test"));
 		resources.add(3);
 		TypeDescriptor sourceType = TypeDescriptor.forObject(resources);
-		assertThatExceptionOfType(ConversionFailedException.class).isThrownBy(() ->
-				conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources"))));
+		assertThatExceptionOfType(ConversionFailedException.class)
+				.isThrownBy(() -> conversionService.convert(
+						resources, sourceType, new TypeDescriptor(getClass().getField("resources"))));
 	}
 
 	@Test
@@ -262,7 +270,9 @@ public class CollectionToCollectionConverterTests {
 		List<String> list = new ArrayList<>();
 		list.add("A");
 		list.add("C");
-		assertThat(conversionService.convert(list, TypeDescriptor.forObject(list), new TypeDescriptor(getClass().getField("enumSet")))).isEqualTo(EnumSet.of(MyEnum.A, MyEnum.C));
+		assertThat(conversionService.convert(
+				list, TypeDescriptor.forObject(list), new TypeDescriptor(getClass().getField("enumSet"))))
+				.isEqualTo(EnumSet.of(MyEnum.A, MyEnum.C));
 	}
 
 

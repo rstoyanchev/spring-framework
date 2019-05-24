@@ -122,7 +122,9 @@ public class ExpressionWithConversionTests extends AbstractExpressionTests {
 		assertThat(evaluationContext.getTypeConverter()
 				.canConvert(TypeDescriptor.valueOf(String.class), collectionType)).isTrue();
 		// ... and it can be done successfully
-		assertThat(evaluationContext.getTypeConverter().convertValue("1,2,3,4", TypeDescriptor.valueOf(String.class), collectionType).toString()).isEqualTo("[1, 2, 3, 4]");
+		Object expected = evaluationContext.getTypeConverter()
+				.convertValue("1,2,3,4", TypeDescriptor.valueOf(String.class), collectionType);
+		assertThat(expected.toString()).isEqualTo("[1, 2, 3, 4]");
 
 		evaluationContext.setVariable("target", new TestTarget());
 

@@ -888,9 +888,10 @@ public class AutowiredAnnotationBeanPostProcessorTests {
 		bf.registerBeanDefinition("annotatedBean", new RootBeanDefinition(MapMethodInjectionBean.class));
 		bf.registerBeanDefinition("testBean1", new RootBeanDefinition(TestBean.class));
 		bf.registerBeanDefinition("testBean2", new RootBeanDefinition(TestBean.class));
-		assertThatExceptionOfType(UnsatisfiedDependencyException.class).as("should have failed, more than one bean of type").isThrownBy(() ->
-				bf.getBean("annotatedBean"))
-			.satisfies(methodParameterDeclaredOn(MapMethodInjectionBean.class));
+		assertThatExceptionOfType(UnsatisfiedDependencyException.class)
+				.as("should have failed, more than one bean of type")
+				.isThrownBy(() -> bf.getBean("annotatedBean"))
+				.satisfies(methodParameterDeclaredOn(MapMethodInjectionBean.class));
 	}
 
 	@Test
@@ -1509,7 +1510,9 @@ public class AutowiredAnnotationBeanPostProcessorTests {
 
 		assertThat(factoryBean).as("The singleton StringFactoryBean should have been registered.").isNotNull();
 		assertThat(bean).as("The factoryBeanDependentBean should have been registered.").isNotNull();
-		assertThat(bean.getFactoryBean()).as("The FactoryBeanDependentBean should have been autowired 'by type' with the StringFactoryBean.").isEqualTo(factoryBean);
+		assertThat(bean.getFactoryBean())
+				.as("The FactoryBeanDependentBean should have been autowired 'by type' with the StringFactoryBean.")
+				.isEqualTo(factoryBean);
 	}
 
 	@Test
@@ -1693,7 +1696,8 @@ public class AutowiredAnnotationBeanPostProcessorTests {
 		assertThat(bean.repositoryMap.get("repo")).isSameAs(repo);
 		assertThat(bean.stringRepositoryMap.get("repo")).isSameAs(repo);
 
-		assertThat(bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(Repository.class, String.class))).isEqualTo(new String[] {"repo"});
+		assertThat(bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(Repository.class, String.class)))
+				.isEqualTo(new String[] {"repo"});
 	}
 
 	@Test
@@ -2047,8 +2051,10 @@ public class AutowiredAnnotationBeanPostProcessorTests {
 		GenericInterface1Impl bean1 = (GenericInterface1Impl) bf.getBean("bean1");
 		GenericInterface2Impl bean2 = (GenericInterface2Impl) bf.getBean("bean2");
 		assertThat(bean1.gi2).isSameAs(bean2);
-		assertThat(bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(GenericInterface1.class, String.class))).isEqualTo(new String[] {"bean1"});
-		assertThat(bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(GenericInterface2.class, String.class))).isEqualTo(new String[] {"bean2"});
+		assertThat(bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(GenericInterface1.class, String.class)))
+				.isEqualTo(new String[] {"bean1"});
+		assertThat(bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(GenericInterface2.class, String.class)))
+				.isEqualTo(new String[] {"bean2"});
 	}
 
 	@Test

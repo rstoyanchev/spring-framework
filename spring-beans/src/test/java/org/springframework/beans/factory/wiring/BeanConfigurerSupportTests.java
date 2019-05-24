@@ -97,7 +97,9 @@ public class BeanConfigurerSupportTests {
 		configurer.setBeanFactory(factory);
 		configurer.setBeanWiringInfoResolver(resolver);
 		configurer.configureBean(beanInstance);
-		assertThat(beanInstance.getSpouse().getName()).as("Bean is evidently not being configured (for some reason)").isEqualTo("David Gavurin");
+		assertThat(beanInstance.getSpouse().getName())
+				.as("Bean is evidently not being configured (for some reason)")
+				.isEqualTo("David Gavurin");
 	}
 
 	@Test
@@ -117,7 +119,9 @@ public class BeanConfigurerSupportTests {
 		configurer.setBeanFactory(factory);
 		configurer.setBeanWiringInfoResolver(resolver);
 		configurer.configureBean(beanInstance);
-		assertThat(beanInstance.getSpouse().getName()).as("Bean is evidently not being configured (for some reason)").isEqualTo("David Gavurin");
+		assertThat(beanInstance.getSpouse().getName())
+				.as("Bean is evidently not being configured (for some reason)")
+				.isEqualTo("David Gavurin");
 	}
 
 

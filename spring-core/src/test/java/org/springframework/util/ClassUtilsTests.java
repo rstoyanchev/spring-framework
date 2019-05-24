@@ -254,8 +254,12 @@ public class ClassUtilsTests {
 
 	@Test
 	public void testGetMethodCountForName() {
-		assertThat(ClassUtils.getMethodCountForName(OverloadedMethodsClass.class, "print")).as("Verifying number of overloaded 'print' methods for OverloadedMethodsClass.").isEqualTo(2);
-		assertThat(ClassUtils.getMethodCountForName(SubOverloadedMethodsClass.class, "print")).as("Verifying number of overloaded 'print' methods for SubOverloadedMethodsClass.").isEqualTo(4);
+		assertThat(ClassUtils.getMethodCountForName(OverloadedMethodsClass.class, "print"))
+				.as("Verifying number of overloaded 'print' methods for OverloadedMethodsClass.")
+				.isEqualTo(2);
+		assertThat(ClassUtils.getMethodCountForName(SubOverloadedMethodsClass.class, "print"))
+				.as("Verifying number of overloaded 'print' methods for SubOverloadedMethodsClass.")
+				.isEqualTo(4);
 	}
 
 	@Test

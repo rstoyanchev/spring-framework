@@ -38,36 +38,60 @@ public class AutowireUtilsTests {
 	@Test
 	public void genericMethodReturnTypes() {
 		Method notParameterized = ReflectionUtils.findMethod(MyTypeWithMethods.class, "notParameterized");
-		Object actual = AutowireUtils.resolveReturnTypeForFactoryMethod(notParameterized, new Object[0], getClass().getClassLoader());
-		assertThat(actual).isEqualTo(String.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				notParameterized, new Object[0], getClass().getClassLoader()))
+				.isEqualTo(String.class);
 
-		Method notParameterizedWithArguments = ReflectionUtils.findMethod(MyTypeWithMethods.class, "notParameterizedWithArguments", Integer.class, Boolean.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(notParameterizedWithArguments, new Object[]{99, true}, getClass().getClassLoader())).isEqualTo(String.class);
+		Method notParameterizedWithArguments = ReflectionUtils.findMethod(
+				MyTypeWithMethods.class, "notParameterizedWithArguments", Integer.class, Boolean.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				notParameterizedWithArguments, new Object[]{99, true}, getClass().getClassLoader()))
+				.isEqualTo(String.class);
 
 		Method createProxy = ReflectionUtils.findMethod(MyTypeWithMethods.class, "createProxy", Object.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(createProxy, new Object[]{"foo"}, getClass().getClassLoader())).isEqualTo(String.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				createProxy, new Object[]{"foo"}, getClass().getClassLoader()))
+				.isEqualTo(String.class);
 
-		Method createNamedProxyWithDifferentTypes = ReflectionUtils.findMethod(MyTypeWithMethods.class, "createNamedProxy", String.class, Object.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(createNamedProxyWithDifferentTypes, new Object[]{"enigma", 99L}, getClass().getClassLoader())).isEqualTo(Long.class);
+		Method createNamedProxyWithDifferentTypes = ReflectionUtils.findMethod(
+				MyTypeWithMethods.class, "createNamedProxy", String.class, Object.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				createNamedProxyWithDifferentTypes, new Object[]{"enigma", 99L}, getClass().getClassLoader()))
+				.isEqualTo(Long.class);
 
-		Method createNamedProxyWithDuplicateTypes = ReflectionUtils.findMethod(MyTypeWithMethods.class, "createNamedProxy", String.class, Object.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(createNamedProxyWithDuplicateTypes, new Object[]{"enigma", "foo"}, getClass().getClassLoader())).isEqualTo(String.class);
+		Method createNamedProxyWithDuplicateTypes = ReflectionUtils.findMethod(
+				MyTypeWithMethods.class, "createNamedProxy", String.class, Object.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				createNamedProxyWithDuplicateTypes, new Object[]{"enigma", "foo"}, getClass().getClassLoader()))
+				.isEqualTo(String.class);
 
 		Method createMock = ReflectionUtils.findMethod(MyTypeWithMethods.class, "createMock", Class.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(createMock, new Object[]{Runnable.class}, getClass().getClassLoader())).isEqualTo(Runnable.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(createMock, new Object[]{Runnable.class.getName()}, getClass().getClassLoader())).isEqualTo(Runnable.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				createMock, new Object[]{Runnable.class}, getClass().getClassLoader()))
+				.isEqualTo(Runnable.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				createMock, new Object[]{Runnable.class.getName()}, getClass().getClassLoader()))
+				.isEqualTo(Runnable.class);
 
-		Method createNamedMock = ReflectionUtils.findMethod(MyTypeWithMethods.class, "createNamedMock", String.class, Class.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(createNamedMock, new Object[]{"foo", Runnable.class}, getClass().getClassLoader())).isEqualTo(Runnable.class);
+		Method createNamedMock = ReflectionUtils.findMethod(
+				MyTypeWithMethods.class, "createNamedMock", String.class, Class.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				createNamedMock, new Object[]{"foo", Runnable.class}, getClass().getClassLoader()))
+				.isEqualTo(Runnable.class);
 
 		Method createVMock = ReflectionUtils.findMethod(MyTypeWithMethods.class, "createVMock", Object.class, Class.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(createVMock, new Object[]{"foo", Runnable.class}, getClass().getClassLoader())).isEqualTo(Runnable.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				createVMock, new Object[]{"foo", Runnable.class}, getClass().getClassLoader()))
+				.isEqualTo(Runnable.class);
 
 		// Ideally we would expect String.class instead of Object.class, but
 		// resolveReturnTypeForFactoryMethod() does not currently support this form of
 		// look-up.
-		Method extractValueFrom = ReflectionUtils.findMethod(MyTypeWithMethods.class, "extractValueFrom", MyInterfaceType.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(extractValueFrom, new Object[]{new MySimpleInterfaceType()}, getClass().getClassLoader())).isEqualTo(Object.class);
+		Method extractValueFrom = ReflectionUtils.findMethod(
+				MyTypeWithMethods.class, "extractValueFrom", MyInterfaceType.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				extractValueFrom, new Object[]{new MySimpleInterfaceType()}, getClass().getClassLoader()))
+				.isEqualTo(Object.class);
 
 		// Ideally we would expect Boolean.class instead of Object.class, but this
 		// information is not available at run-time due to type erasure.
@@ -75,7 +99,9 @@ public class AutowireUtilsTests {
 		map.put(0, false);
 		map.put(1, true);
 		Method extractMagicValue = ReflectionUtils.findMethod(MyTypeWithMethods.class, "extractMagicValue", Map.class);
-		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(extractMagicValue, new Object[]{map}, getClass().getClassLoader())).isEqualTo(Object.class);
+		assertThat(AutowireUtils.resolveReturnTypeForFactoryMethod(
+				extractMagicValue, new Object[]{map}, getClass().getClassLoader()))
+				.isEqualTo(Object.class);
 	}
 
 

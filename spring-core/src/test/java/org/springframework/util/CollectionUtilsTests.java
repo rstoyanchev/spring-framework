@@ -134,14 +134,18 @@ public class CollectionUtilsTests {
 
 	@Test
 	public void testContainsInstanceWithNullCollection() throws Exception {
-		assertThat(CollectionUtils.containsInstance(null, this)).as("Must return false if supplied Collection argument is null").isFalse();
+		assertThat(CollectionUtils.containsInstance(null, this))
+				.as("Must return false if supplied Collection argument is null")
+				.isFalse();
 	}
 
 	@Test
 	public void testContainsInstanceWithInstancesThatAreEqualButDistinct() throws Exception {
 		List<Instance> list = new ArrayList<>();
 		list.add(new Instance("fiona"));
-		assertThat(CollectionUtils.containsInstance(list, new Instance("fiona"))).as("Must return false if instance is not in the supplied Collection argument").isFalse();
+		assertThat(CollectionUtils.containsInstance(list, new Instance("fiona")))
+				.as("Must return false if instance is not in the supplied Collection argument")
+				.isFalse();
 	}
 
 	@Test
@@ -150,7 +154,9 @@ public class CollectionUtilsTests {
 		list.add(new Instance("apple"));
 		Instance instance = new Instance("fiona");
 		list.add(instance);
-		assertThat(CollectionUtils.containsInstance(list, instance)).as("Must return true if instance is in the supplied Collection argument").isTrue();
+		assertThat(CollectionUtils.containsInstance(list, instance))
+				.as("Must return true if instance is in the supplied Collection argument")
+				.isTrue();
 	}
 
 	@Test
@@ -158,7 +164,9 @@ public class CollectionUtilsTests {
 		List<Instance> list = new ArrayList<>();
 		list.add(new Instance("apple"));
 		list.add(new Instance("fiona"));
-		assertThat(CollectionUtils.containsInstance(list, null)).as("Must return false if null instance is supplied").isFalse();
+		assertThat(CollectionUtils.containsInstance(list, null))
+				.as("Must return false if null instance is supplied")
+				.isFalse();
 	}
 
 	@Test

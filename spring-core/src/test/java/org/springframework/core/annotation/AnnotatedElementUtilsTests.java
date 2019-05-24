@@ -141,7 +141,9 @@ public class AnnotatedElementUtilsTests {
 	@Test
 	public void isAnnotatedOnClassWithMetaDepth() {
 		assertThat(isAnnotated(TransactionalComponentClass.class, TransactionalComponent.class)).isTrue();
-		assertThat(isAnnotated(SubTransactionalComponentClass.class, TransactionalComponent.class)).as("isAnnotated() does not search the class hierarchy.").isFalse();
+		assertThat(isAnnotated(SubTransactionalComponentClass.class, TransactionalComponent.class))
+				.as("isAnnotated() does not search the class hierarchy.")
+				.isFalse();
 		assertThat(isAnnotated(TransactionalComponentClass.class, Transactional.class)).isTrue();
 		assertThat(isAnnotated(TransactionalComponentClass.class, Component.class)).isTrue();
 		assertThat(isAnnotated(ComposedTransactionalComponentClass.class, Transactional.class)).isTrue();
@@ -165,7 +167,9 @@ public class AnnotatedElementUtilsTests {
 	@Test
 	public void isAnnotatedWithNameOnClassWithMetaDepth() {
 		assertThat(isAnnotated(TransactionalComponentClass.class, TransactionalComponent.class.getName())).isTrue();
-		assertThat(isAnnotated(SubTransactionalComponentClass.class, TransactionalComponent.class.getName())).as("isAnnotated() does not search the class hierarchy.").isFalse();
+		assertThat(isAnnotated(SubTransactionalComponentClass.class, TransactionalComponent.class.getName()))
+				.as("isAnnotated() does not search the class hierarchy.")
+				.isFalse();
 		assertThat(isAnnotated(TransactionalComponentClass.class, TX_NAME)).isTrue();
 		assertThat(isAnnotated(TransactionalComponentClass.class, Component.class.getName())).isTrue();
 		assertThat(isAnnotated(ComposedTransactionalComponentClass.class, TX_NAME)).isTrue();
@@ -252,8 +256,11 @@ public class AnnotatedElementUtilsTests {
 	public void getAllAnnotationAttributesOnClassWithMultipleComposedAnnotations() {
 		// See org.springframework.core.env.EnvironmentSystemIntegrationTests
 		MultiValueMap<String, Object> attributes = getAllAnnotationAttributes(TxFromMultipleComposedAnnotations.class, TX_NAME);
-		assertThat(attributes).as("Annotation attributes map for @Transactional on TxFromMultipleComposedAnnotations").isNotNull();
-		assertThat(attributes.get("value")).as("value for TxFromMultipleComposedAnnotations.").isEqualTo(asList("TxInheritedComposed", "TxComposed"));
+		assertThat(attributes)
+				.as("Annotation attributes map for @Transactional on TxFromMultipleComposedAnnotations")
+				.isNotNull();
+		assertThat(attributes.get("value")).as("value for TxFromMultipleComposedAnnotations.")
+				.isEqualTo(asList("TxInheritedComposed", "TxComposed"));
 	}
 
 	@Test
@@ -585,14 +592,18 @@ public class AnnotatedElementUtilsTests {
 	public void findMergedAnnotationAttributesInheritedFromAbstractMethod() throws NoSuchMethodException {
 		Method method = ConcreteClassWithInheritedAnnotation.class.getMethod("handle");
 		AnnotationAttributes attributes = findMergedAnnotationAttributes(method, Transactional.class);
-		assertThat(attributes).as("Should find @Transactional on ConcreteClassWithInheritedAnnotation.handle() method").isNotNull();
+		assertThat(attributes)
+				.as("Should find @Transactional on ConcreteClassWithInheritedAnnotation.handle() method")
+				.isNotNull();
 	}
 
 	@Test
 	public void findMergedAnnotationAttributesInheritedFromBridgedMethod() throws NoSuchMethodException {
 		Method method = ConcreteClassWithInheritedAnnotation.class.getMethod("handleParameterized", String.class);
 		AnnotationAttributes attributes = findMergedAnnotationAttributes(method, Transactional.class);
-		assertThat(attributes).as("Should find @Transactional on bridged ConcreteClassWithInheritedAnnotation.handleParameterized()").isNotNull();
+		assertThat(attributes)
+				.as("Should find @Transactional on bridged ConcreteClassWithInheritedAnnotation.handleParameterized()")
+				.isNotNull();
 	}
 
 	/**
@@ -764,14 +775,18 @@ public class AnnotatedElementUtilsTests {
 	@Test
 	public void javaLangAnnotationTypeViaFindMergedAnnotation() throws Exception {
 		Constructor<?> deprecatedCtor = Date.class.getConstructor(String.class);
-		assertThat(findMergedAnnotation(deprecatedCtor, Deprecated.class)).isEqualTo(deprecatedCtor.getAnnotation(Deprecated.class));
-		assertThat(findMergedAnnotation(Date.class, Deprecated.class)).isEqualTo(Date.class.getAnnotation(Deprecated.class));
+		assertThat(findMergedAnnotation(deprecatedCtor, Deprecated.class))
+				.isEqualTo(deprecatedCtor.getAnnotation(Deprecated.class));
+		assertThat(findMergedAnnotation(Date.class, Deprecated.class))
+				.isEqualTo(Date.class.getAnnotation(Deprecated.class));
 	}
 
 	@Test
 	public void javaxAnnotationTypeViaFindMergedAnnotation() throws Exception {
-		assertThat(findMergedAnnotation(ResourceHolder.class, Resource.class)).isEqualTo(ResourceHolder.class.getAnnotation(Resource.class));
-		assertThat(findMergedAnnotation(SpringAppConfigClass.class, Resource.class)).isEqualTo(SpringAppConfigClass.class.getAnnotation(Resource.class));
+		assertThat(findMergedAnnotation(ResourceHolder.class, Resource.class))
+				.isEqualTo(ResourceHolder.class.getAnnotation(Resource.class));
+		assertThat(findMergedAnnotation(SpringAppConfigClass.class, Resource.class))
+				.isEqualTo(SpringAppConfigClass.class.getAnnotation(Resource.class));
 	}
 
 	@Test

@@ -146,7 +146,8 @@ public class MethodParameterTests {
 
 		methodParameter = MethodParameter.forExecutable(constructor, 2);
 		assertThat(methodParameter.getParameterType()).isEqualTo(Callable.class);
-		assertThat(methodParameter.getGenericParameterType()).isEqualTo(ResolvableType.forClassWithGenerics(Callable.class, Integer.class).getType());
+		assertThat(methodParameter.getGenericParameterType())
+				.isEqualTo(ResolvableType.forClassWithGenerics(Callable.class, Integer.class).getType());
 	}
 
 

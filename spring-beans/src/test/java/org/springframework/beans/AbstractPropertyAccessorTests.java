@@ -314,7 +314,9 @@ public abstract class AbstractPropertyAccessorTests {
 		assertThat(kerry.getSpouse() == target).as("nested set worked").isTrue();
 
 		AbstractPropertyAccessor kerryAccessor = createAccessor(kerry);
-		assertThat("Lewisham".equals(kerryAccessor.getPropertyValue("spouse.spouse.spouse.spouse.company"))).as("spouse.spouse.spouse.spouse.company=Lewisham").isTrue();
+		assertThat("Lewisham".equals(kerryAccessor.getPropertyValue("spouse.spouse.spouse.spouse.company")))
+				.as("spouse.spouse.spouse.spouse.company=Lewisham")
+				.isTrue();
 	}
 
 	@Test

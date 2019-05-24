@@ -40,7 +40,9 @@ public class ClassNameBeanWiringInfoResolverTests {
 		Long beanInstance = new Long(1);
 		BeanWiringInfo info = resolver.resolveWiringInfo(beanInstance);
 		assertThat(info).isNotNull();
-		assertThat(info.getBeanName()).as("Not resolving bean name to the class name of the supplied bean instance as per class contract.").isEqualTo(beanInstance.getClass().getName());
+		assertThat(info.getBeanName())
+				.as("Not resolving bean name to the class name of the supplied bean instance as per class contract.")
+				.isEqualTo(beanInstance.getClass().getName());
 	}
 
 }

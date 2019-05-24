@@ -68,18 +68,26 @@ public abstract class AbstractExpressionTests {
 			if (expectedValue == null) {
 				return;  // no point doing other checks
 			}
-			assertThat(expectedValue).as("Expression returned null value, but expected '" + expectedValue + "'").isNull();
+			assertThat(expectedValue)
+					.as("Expression returned null value, but expected '" + expectedValue + "'")
+					.isNull();
 		}
 
 		Class<?> resultType = value.getClass();
-		assertThat(resultType).as("Type of the actual result was not as expected.  Expected '" + expectedResultType +
-				"' but result was of type '" + resultType + "'").isEqualTo(expectedResultType);
+		assertThat(resultType).as(
+				"Type of the actual result was not as expected.  Expected '" + expectedResultType +
+				"' but result was of type '" + resultType + "'")
+				.isEqualTo(expectedResultType);
 
 		if (expectedValue instanceof String) {
-			assertThat(AbstractExpressionTests.stringValueOf(value)).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+			assertThat(AbstractExpressionTests.stringValueOf(value))
+					.as("Did not get expected value for expression '" + expression + "'.")
+					.isEqualTo(expectedValue);
 		}
 		else {
-			assertThat(value).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+			assertThat(value)
+					.as("Did not get expected value for expression '" + expression + "'.")
+					.isEqualTo(expectedValue);
 		}
 	}
 
@@ -125,17 +133,25 @@ public abstract class AbstractExpressionTests {
 			if (expectedValue == null) {
 				return;  // no point doing other checks
 			}
-			assertThat(expectedValue).as("Expression returned null value, but expected '" + expectedValue + "'").isNull();
+			assertThat(expectedValue)
+					.as("Expression returned null value, but expected '" + expectedValue + "'")
+					.isNull();
 		}
 		Class<? extends Object> resultType = value.getClass();
 		if (expectedValue instanceof String) {
-			assertThat(AbstractExpressionTests.stringValueOf(value)).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+			assertThat(AbstractExpressionTests.stringValueOf(value))
+					.as("Did not get expected value for expression '" + expression + "'.")
+					.isEqualTo(expectedValue);
 		}
 		else {
-			assertThat(value).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+			assertThat(value)
+					.as("Did not get expected value for expression '" + expression + "'.")
+					.isEqualTo(expectedValue);
 		}
-		assertThat(expectedClassOfResult.equals(resultType)).as("Type of the result was not as expected.  Expected '" + expectedClassOfResult +
-				"' but result was of type '" + resultType + "'").isTrue();
+		assertThat(expectedClassOfResult.equals(resultType)).as(
+				"Type of the result was not as expected.  Expected '" + expectedClassOfResult +
+				"' but result was of type '" + resultType + "'")
+				.isTrue();
 
 		assertThat(expr.isWritable(context)).as("isWritable").isEqualTo(shouldBeWritable);
 	}
