@@ -89,12 +89,16 @@ public class ParameterizedSpringRuleTests {
 
 		// Verifying 'parameterized' support:
 		Employee employee = this.applicationContext.getBean(this.employeeBeanName, Employee.class);
-		assertThat(employee.getName()).as("Name of the employee configured as bean [" + this.employeeBeanName + "].").isEqualTo(this.employeeName);
+		assertThat(employee.getName())
+				.as("Name of the employee configured as bean [" + this.employeeBeanName + "].")
+				.isEqualTo(this.employeeName);
 	}
 
 	@AfterClass
 	public static void verifyNumParameterizedRuns() {
-		assertThat(invocationCount.get()).as("Number of times the parameterized test method was executed.").isEqualTo(employeeData().length);
+		assertThat(invocationCount.get())
+				.as("Number of times the parameterized test method was executed.")
+				.isEqualTo(employeeData().length);
 	}
 
 }

@@ -47,8 +47,12 @@ public class MergedSqlConfigTests {
 		assertThat(cfg.getEncoding()).as("encoding").isEqualTo("");
 		assertThat(cfg.getSeparator()).as("separator").isEqualTo(DEFAULT_STATEMENT_SEPARATOR);
 		assertThat(cfg.getCommentPrefix()).as("commentPrefix").isEqualTo(DEFAULT_COMMENT_PREFIX);
-		assertThat(cfg.getBlockCommentStartDelimiter()).as("blockCommentStartDelimiter").isEqualTo(DEFAULT_BLOCK_COMMENT_START_DELIMITER);
-		assertThat(cfg.getBlockCommentEndDelimiter()).as("blockCommentEndDelimiter").isEqualTo(DEFAULT_BLOCK_COMMENT_END_DELIMITER);
+		assertThat(cfg.getBlockCommentStartDelimiter())
+				.as("blockCommentStartDelimiter")
+				.isEqualTo(DEFAULT_BLOCK_COMMENT_START_DELIMITER);
+		assertThat(cfg.getBlockCommentEndDelimiter())
+				.as("blockCommentEndDelimiter")
+				.isEqualTo(DEFAULT_BLOCK_COMMENT_END_DELIMITER);
 		assertThat(cfg.getErrorMode()).as("errorMode").isEqualTo(FAIL_ON_ERROR);
 	}
 
@@ -115,8 +119,12 @@ public class MergedSqlConfigTests {
 		assertThat(cfg.getEncoding()).as("encoding").isEqualTo("global");
 		assertThat(cfg.getSeparator()).as("separator").isEqualTo("\n");
 		assertThat(cfg.getCommentPrefix()).as("commentPrefix").isEqualTo(DEFAULT_COMMENT_PREFIX);
-		assertThat(cfg.getBlockCommentStartDelimiter()).as("blockCommentStartDelimiter").isEqualTo(DEFAULT_BLOCK_COMMENT_START_DELIMITER);
-		assertThat(cfg.getBlockCommentEndDelimiter()).as("blockCommentEndDelimiter").isEqualTo(DEFAULT_BLOCK_COMMENT_END_DELIMITER);
+		assertThat(cfg.getBlockCommentStartDelimiter())
+				.as("blockCommentStartDelimiter")
+				.isEqualTo(DEFAULT_BLOCK_COMMENT_START_DELIMITER);
+		assertThat(cfg.getBlockCommentEndDelimiter())
+				.as("blockCommentEndDelimiter")
+				.isEqualTo(DEFAULT_BLOCK_COMMENT_END_DELIMITER);
 		assertThat(cfg.getErrorMode()).as("errorMode").isEqualTo(IGNORE_FAILED_DROPS);
 	}
 
@@ -133,8 +141,12 @@ public class MergedSqlConfigTests {
 		assertThat(cfg.getEncoding()).as("encoding").isEqualTo("local");
 		assertThat(cfg.getSeparator()).as("separator").isEqualTo("@@");
 		assertThat(cfg.getCommentPrefix()).as("commentPrefix").isEqualTo(DEFAULT_COMMENT_PREFIX);
-		assertThat(cfg.getBlockCommentStartDelimiter()).as("blockCommentStartDelimiter").isEqualTo(DEFAULT_BLOCK_COMMENT_START_DELIMITER);
-		assertThat(cfg.getBlockCommentEndDelimiter()).as("blockCommentEndDelimiter").isEqualTo(DEFAULT_BLOCK_COMMENT_END_DELIMITER);
+		assertThat(cfg.getBlockCommentStartDelimiter())
+				.as("blockCommentStartDelimiter")
+				.isEqualTo(DEFAULT_BLOCK_COMMENT_START_DELIMITER);
+		assertThat(cfg.getBlockCommentEndDelimiter())
+				.as("blockCommentEndDelimiter")
+				.isEqualTo(DEFAULT_BLOCK_COMMENT_END_DELIMITER);
 		assertThat(cfg.getErrorMode()).as("errorMode").isEqualTo(CONTINUE_ON_ERROR);
 	}
 

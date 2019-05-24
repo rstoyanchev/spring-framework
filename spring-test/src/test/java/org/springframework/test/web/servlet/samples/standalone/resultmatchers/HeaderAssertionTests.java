@@ -214,7 +214,9 @@ public class HeaderAssertionTests {
 	}
 
 	private void assertMessageContains(AssertionError error, String expected) {
-		assertThat(error.getMessage().contains(expected)).as("Failure message should contain [" + expected + "], actual is [" + error.getMessage() + "]").isTrue();
+		assertThat(error.getMessage().contains(expected))
+				.as("Failure message should contain [" + expected + "], actual is [" + error.getMessage() + "]")
+				.isTrue();
 	}
 
 

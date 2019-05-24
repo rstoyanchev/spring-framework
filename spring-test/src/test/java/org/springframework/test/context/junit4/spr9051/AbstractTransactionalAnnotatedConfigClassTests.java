@@ -88,7 +88,9 @@ public abstract class AbstractTransactionalAnnotatedConfigClassTests {
 	}
 
 	protected void assertNumRowsInPersonTable(int expectedNumRows, String testState) {
-		assertThat(countRowsInTable("person")).as("the number of rows in the person table (" + testState + ").").isEqualTo(expectedNumRows);
+		assertThat(countRowsInTable("person"))
+				.as("the number of rows in the person table (" + testState + ").")
+				.isEqualTo(expectedNumRows);
 	}
 
 	protected void assertAddPerson(final String name) {

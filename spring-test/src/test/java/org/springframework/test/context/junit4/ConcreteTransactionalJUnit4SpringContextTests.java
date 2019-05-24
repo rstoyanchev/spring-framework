@@ -94,25 +94,33 @@ public class ConcreteTransactionalJUnit4SpringContextTests extends AbstractTrans
 	@Before
 	public void setUp() {
 		long expected = (isActualTransactionActive() ? 2 : 1);
-		assertThat(countRowsInPersonTable()).as("Verifying the number of rows in the person table before a test method.").isEqualTo(expected);
+		assertThat(countRowsInPersonTable())
+				.as("Verifying the number of rows in the person table before a test method.")
+				.isEqualTo(expected);
 	}
 
 	@After
 	public void tearDown() {
 		long expected = (isActualTransactionActive() ? 4 : 1);
-		assertThat(countRowsInPersonTable()).as("Verifying the number of rows in the person table after a test method.").isEqualTo(expected);
+		assertThat(countRowsInPersonTable())
+				.as("Verifying the number of rows in the person table after a test method.")
+				.isEqualTo(expected);
 	}
 
 	@BeforeTransaction
 	public void beforeTransaction() {
-		assertThat(countRowsInPersonTable()).as("Verifying the number of rows in the person table before a transactional test method.").isEqualTo(1);
+		assertThat(countRowsInPersonTable())
+				.as("Verifying the number of rows in the person table before a transactional test method.")
+				.isEqualTo(1);
 		assertThat(addPerson(YODA)).as("Adding yoda").isEqualTo(1);
 	}
 
 	@AfterTransaction
 	public void afterTransaction() {
 		assertThat(deletePerson(YODA)).as("Deleting yoda").isEqualTo(1);
-		assertThat(countRowsInPersonTable()).as("Verifying the number of rows in the person table after a transactional test method.").isEqualTo(1);
+		assertThat(countRowsInPersonTable())
+				.as("Verifying the number of rows in the person table after a transactional test method.")
+				.isEqualTo(1);
 	}
 
 
@@ -120,22 +128,28 @@ public class ConcreteTransactionalJUnit4SpringContextTests extends AbstractTrans
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void verifyBeanNameSet() {
 		assertThatTransaction().isNotActive();
-		assertThat(this.beanName.startsWith(getClass().getName())).as("The bean name of this test instance should have been set to the fully qualified class name " +
-				"due to BeanNameAware semantics.").isTrue();
+		assertThat(this.beanName.startsWith(getClass().getName())).as(
+				"The bean name of this test instance should have been set to the fully qualified class name " +
+				"due to BeanNameAware semantics.")
+				.isTrue();
 	}
 
 	@Test
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void verifyApplicationContext() {
 		assertThatTransaction().isNotActive();
-		assertThat(super.applicationContext).as("The application context should have been set due to ApplicationContextAware semantics.").isNotNull();
+		assertThat(super.applicationContext)
+				.as("The application context should have been set due to ApplicationContextAware semantics.")
+				.isNotNull();
 	}
 
 	@Test
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void verifyBeanInitialized() {
 		assertThatTransaction().isNotActive();
-		assertThat(this.beanInitialized).as("This test bean should have been initialized due to InitializingBean semantics.").isTrue();
+		assertThat(this.beanInitialized)
+				.as("This test bean should have been initialized due to InitializingBean semantics.")
+				.isTrue();
 	}
 
 	@Test
@@ -174,7 +188,9 @@ public class ConcreteTransactionalJUnit4SpringContextTests extends AbstractTrans
 		assertThatTransaction().isActive();
 		assertThat(addPerson(JANE)).as("Adding jane").isEqualTo(1);
 		assertThat(addPerson(SUE)).as("Adding sue").isEqualTo(1);
-		assertThat(countRowsInPersonTable()).as("Verifying the number of rows in the person table in modifyTestDataWithinTransaction().").isEqualTo(4);
+		assertThat(countRowsInPersonTable())
+				.as("Verifying the number of rows in the person table in modifyTestDataWithinTransaction().")
+				.isEqualTo(4);
 	}
 
 

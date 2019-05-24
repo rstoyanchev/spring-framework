@@ -70,14 +70,18 @@ public class ClassLevelTransactionalSpringRunnerTests extends AbstractTransactio
 
 	@AfterClass
 	public static void verifyFinalTestData() {
-		assertThat(countRowsInPersonTable(jdbcTemplate)).as("Verifying the final number of rows in the person table after all tests.").isEqualTo(4);
+		assertThat(countRowsInPersonTable(jdbcTemplate))
+				.as("Verifying the final number of rows in the person table after all tests.")
+				.isEqualTo(4);
 	}
 
 	@Before
 	public void verifyInitialTestData() {
 		clearPersonTable(jdbcTemplate);
 		assertThat(addPerson(jdbcTemplate, BOB)).as("Adding bob").isEqualTo(1);
-		assertThat(countRowsInPersonTable(jdbcTemplate)).as("Verifying the initial number of rows in the person table.").isEqualTo(1);
+		assertThat(countRowsInPersonTable(jdbcTemplate))
+				.as("Verifying the initial number of rows in the person table.")
+				.isEqualTo(1);
 	}
 
 	@Test
@@ -86,7 +90,9 @@ public class ClassLevelTransactionalSpringRunnerTests extends AbstractTransactio
 		assertThat(deletePerson(jdbcTemplate, BOB)).as("Deleting bob").isEqualTo(1);
 		assertThat(addPerson(jdbcTemplate, JANE)).as("Adding jane").isEqualTo(1);
 		assertThat(addPerson(jdbcTemplate, SUE)).as("Adding sue").isEqualTo(1);
-		assertThat(countRowsInPersonTable(jdbcTemplate)).as("Verifying the number of rows in the person table within a transaction.").isEqualTo(2);
+		assertThat(countRowsInPersonTable(jdbcTemplate))
+				.as("Verifying the number of rows in the person table within a transaction.")
+				.isEqualTo(2);
 	}
 
 	@Test
@@ -96,7 +102,9 @@ public class ClassLevelTransactionalSpringRunnerTests extends AbstractTransactio
 		assertThat(addPerson(jdbcTemplate, LUKE)).as("Adding luke").isEqualTo(1);
 		assertThat(addPerson(jdbcTemplate, LEIA)).as("Adding leia").isEqualTo(1);
 		assertThat(addPerson(jdbcTemplate, YODA)).as("Adding yoda").isEqualTo(1);
-		assertThat(countRowsInPersonTable(jdbcTemplate)).as("Verifying the number of rows in the person table without a transaction.").isEqualTo(4);
+		assertThat(countRowsInPersonTable(jdbcTemplate))
+				.as("Verifying the number of rows in the person table without a transaction.")
+				.isEqualTo(4);
 	}
 
 }

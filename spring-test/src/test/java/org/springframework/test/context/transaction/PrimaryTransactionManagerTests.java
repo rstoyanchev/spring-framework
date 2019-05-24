@@ -85,7 +85,9 @@ public final class PrimaryTransactionManagerTests {
 	}
 
 	private void assertNumUsers(int expected) {
-		assertThat(JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "user")).as("Number of rows in the 'user' table").isEqualTo(expected);
+		assertThat(JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "user"))
+				.as("Number of rows in the 'user' table")
+				.isEqualTo(expected);
 	}
 
 

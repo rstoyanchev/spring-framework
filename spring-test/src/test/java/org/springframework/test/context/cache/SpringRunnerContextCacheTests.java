@@ -82,16 +82,24 @@ public class SpringRunnerContextCacheTests {
 	@Test
 	public void verifyContextDirty() {
 		assertContextCacheStatistics("verifyContextWasDirtied()", 1, 0, 2);
-		assertThat(this.applicationContext).as("The application context should have been autowired.").isNotNull();
-		assertThat(this.applicationContext).as("The application context should have been 'dirtied'.").isNotSameAs(SpringRunnerContextCacheTests.dirtiedApplicationContext);
+		assertThat(this.applicationContext)
+				.as("The application context should have been autowired.")
+				.isNotNull();
+		assertThat(this.applicationContext)
+				.as("The application context should have been 'dirtied'.")
+				.isNotSameAs(SpringRunnerContextCacheTests.dirtiedApplicationContext);
 		SpringRunnerContextCacheTests.dirtiedApplicationContext = this.applicationContext;
 	}
 
 	@Test
 	public void verifyContextNotDirty() {
 		assertContextCacheStatistics("verifyContextWasNotDirtied()", 1, 1, 2);
-		assertThat(this.applicationContext).as("The application context should have been autowired.").isNotNull();
-		assertThat(this.applicationContext).as("The application context should NOT have been 'dirtied'.").isSameAs(SpringRunnerContextCacheTests.dirtiedApplicationContext);
+		assertThat(this.applicationContext)
+				.as("The application context should have been autowired.")
+				.isNotNull();
+		assertThat(this.applicationContext)
+				.as("The application context should NOT have been 'dirtied'.")
+				.isSameAs(SpringRunnerContextCacheTests.dirtiedApplicationContext);
 	}
 
 }

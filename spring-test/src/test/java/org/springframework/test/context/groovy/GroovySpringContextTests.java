@@ -87,13 +87,17 @@ public class GroovySpringContextTests implements BeanNameAware, InitializingBean
 
 	@Test
 	public void verifyBeanNameSet() {
-		assertThat(this.beanName.startsWith(getClass().getName())).as("The bean name of this test instance should have been set to the fully qualified class name " +
-				"due to BeanNameAware semantics.").isTrue();
+		assertThat(this.beanName.startsWith(getClass().getName())).as(
+				"The bean name of this test instance should have been set to the fully qualified class name " +
+				"due to BeanNameAware semantics.")
+				.isTrue();
 	}
 
 	@Test
 	public void verifyBeanInitialized() {
-		assertThat(this.beanInitialized).as("This test bean should have been initialized due to InitializingBean semantics.").isTrue();
+		assertThat(this.beanInitialized)
+				.as("This test bean should have been initialized due to InitializingBean semantics.")
+				.isTrue();
 	}
 
 	@Test

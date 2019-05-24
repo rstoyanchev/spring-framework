@@ -66,7 +66,8 @@ public class DefaultMockMvcBuilderTests {
 		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, child);
 
 		DefaultMockMvcBuilder builder = webAppContextSetup(child);
-		assertThat(WebApplicationContextUtils.getRequiredWebApplicationContext(this.servletContext)).isSameAs(builder.initWebAppContext());
+		assertThat(WebApplicationContextUtils.getRequiredWebApplicationContext(this.servletContext))
+				.isSameAs(builder.initWebAppContext());
 	}
 
 	/**
@@ -83,7 +84,8 @@ public class DefaultMockMvcBuilderTests {
 		child.setServletContext(this.servletContext);
 
 		DefaultMockMvcBuilder builder = webAppContextSetup(child);
-		assertThat(WebApplicationContextUtils.getRequiredWebApplicationContext(this.servletContext)).isSameAs(builder.initWebAppContext().getParent());
+		assertThat(WebApplicationContextUtils.getRequiredWebApplicationContext(this.servletContext))
+				.isSameAs(builder.initWebAppContext().getParent());
 	}
 
 	/**

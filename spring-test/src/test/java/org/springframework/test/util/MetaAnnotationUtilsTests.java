@@ -113,8 +113,10 @@ public class MetaAnnotationUtilsTests {
 	@Test
 	public void findAnnotationDescriptorWithInheritedAnnotationOnClass() {
 		// Note: @Transactional is inherited
-		assertThat(findAnnotationDescriptor(InheritedAnnotationClass.class, Transactional.class).getRootDeclaringClass()).isEqualTo(InheritedAnnotationClass.class);
-		assertThat(findAnnotationDescriptor(SubInheritedAnnotationClass.class, Transactional.class).getRootDeclaringClass()).isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDescriptor(InheritedAnnotationClass.class, Transactional.class).getRootDeclaringClass())
+				.isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDescriptor(SubInheritedAnnotationClass.class, Transactional.class).getRootDeclaringClass())
+				.isEqualTo(InheritedAnnotationClass.class);
 	}
 
 	@Test
@@ -145,8 +147,10 @@ public class MetaAnnotationUtilsTests {
 	@Test
 	public void findAnnotationDescriptorForNonInheritedAnnotationOnClass() {
 		// Note: @Order is not inherited.
-		assertThat(findAnnotationDescriptor(NonInheritedAnnotationClass.class, Order.class).getRootDeclaringClass()).isEqualTo(NonInheritedAnnotationClass.class);
-		assertThat(findAnnotationDescriptor(SubNonInheritedAnnotationClass.class, Order.class).getRootDeclaringClass()).isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDescriptor(NonInheritedAnnotationClass.class, Order.class).getRootDeclaringClass())
+				.isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDescriptor(SubNonInheritedAnnotationClass.class, Order.class).getRootDeclaringClass())
+				.isEqualTo(NonInheritedAnnotationClass.class);
 	}
 
 	@Test
@@ -209,18 +213,22 @@ public class MetaAnnotationUtilsTests {
 				MetaAnnotatedAndSuperAnnotatedContextConfigClass.class, ContextConfiguration.class);
 
 		assertThat(descriptor).as("AnnotationDescriptor should not be null").isNotNull();
-		assertThat(descriptor.getRootDeclaringClass()).as("rootDeclaringClass").isEqualTo(MetaAnnotatedAndSuperAnnotatedContextConfigClass.class);
+		assertThat(descriptor.getRootDeclaringClass()).as("rootDeclaringClass")
+				.isEqualTo(MetaAnnotatedAndSuperAnnotatedContextConfigClass.class);
 		assertThat(descriptor.getDeclaringClass()).as("declaringClass").isEqualTo(MetaConfig.class);
 		assertThat(descriptor.getAnnotationType()).as("annotationType").isEqualTo(ContextConfiguration.class);
 		assertThat(descriptor.getComposedAnnotation()).as("composedAnnotation should not be null").isNotNull();
 		assertThat(descriptor.getComposedAnnotationType()).as("composedAnnotationType").isEqualTo(MetaConfig.class);
 
-		assertThat(descriptor.getAnnotationAttributes().getClassArray("classes")).as("configured classes").isEqualTo(new Class<?>[] {String.class});
+		assertThat(descriptor.getAnnotationAttributes().getClassArray("classes"))
+				.as("configured classes")
+				.isEqualTo(new Class<?>[] {String.class});
 	}
 
 	@Test
 	public void findAnnotationDescriptorForClassWithLocalMetaAnnotationAndMetaAnnotatedInterface() {
-		assertAtComponentOnComposedAnnotation(ClassWithLocalMetaAnnotationAndMetaAnnotatedInterface.class, "meta2", Meta2.class);
+		assertAtComponentOnComposedAnnotation(
+				ClassWithLocalMetaAnnotationAndMetaAnnotatedInterface.class, "meta2", Meta2.class);
 	}
 
 	@Test
@@ -281,8 +289,10 @@ public class MetaAnnotationUtilsTests {
 	@SuppressWarnings("unchecked")
 	public void findAnnotationDescriptorForTypesWithInheritedAnnotationOnClass() {
 		// Note: @Transactional is inherited
-		assertThat(findAnnotationDescriptorForTypes(InheritedAnnotationClass.class, Transactional.class).getRootDeclaringClass()).isEqualTo(InheritedAnnotationClass.class);
-		assertThat(findAnnotationDescriptorForTypes(SubInheritedAnnotationClass.class, Transactional.class).getRootDeclaringClass()).isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDescriptorForTypes(InheritedAnnotationClass.class, Transactional.class).getRootDeclaringClass())
+				.isEqualTo(InheritedAnnotationClass.class);
+		assertThat(findAnnotationDescriptorForTypes(SubInheritedAnnotationClass.class, Transactional.class).getRootDeclaringClass())
+				.isEqualTo(InheritedAnnotationClass.class);
 	}
 
 	@Test
@@ -315,8 +325,10 @@ public class MetaAnnotationUtilsTests {
 	@SuppressWarnings("unchecked")
 	public void findAnnotationDescriptorForTypesForNonInheritedAnnotationOnClass() {
 		// Note: @Order is not inherited.
-		assertThat(findAnnotationDescriptorForTypes(NonInheritedAnnotationClass.class, Order.class).getRootDeclaringClass()).isEqualTo(NonInheritedAnnotationClass.class);
-		assertThat(findAnnotationDescriptorForTypes(SubNonInheritedAnnotationClass.class, Order.class).getRootDeclaringClass()).isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDescriptorForTypes(NonInheritedAnnotationClass.class, Order.class).getRootDeclaringClass())
+				.isEqualTo(NonInheritedAnnotationClass.class);
+		assertThat(findAnnotationDescriptorForTypes(SubNonInheritedAnnotationClass.class, Order.class).getRootDeclaringClass())
+				.isEqualTo(NonInheritedAnnotationClass.class);
 	}
 
 	@Test
@@ -370,7 +382,8 @@ public class MetaAnnotationUtilsTests {
 		assertThat(descriptor.getRootDeclaringClass()).isEqualTo(startClass);
 		assertThat(descriptor.getAnnotationType()).isEqualTo(annotationType);
 		assertThat(((ContextConfiguration) descriptor.getAnnotation()).value()).isEqualTo(new Class<?>[] {});
-		assertThat(descriptor.getAnnotationAttributes().getClassArray("classes")).isEqualTo(new Class<?>[] {MetaConfig.DevConfig.class, MetaConfig.ProductionConfig.class});
+		assertThat(descriptor.getAnnotationAttributes().getClassArray("classes"))
+				.isEqualTo(new Class<?>[] {MetaConfig.DevConfig.class, MetaConfig.ProductionConfig.class});
 		assertThat(descriptor.getComposedAnnotation()).isNotNull();
 		assertThat(descriptor.getComposedAnnotationType()).isEqualTo(MetaConfig.class);
 	}
@@ -388,7 +401,8 @@ public class MetaAnnotationUtilsTests {
 		assertThat(descriptor.getRootDeclaringClass()).isEqualTo(startClass);
 		assertThat(descriptor.getAnnotationType()).isEqualTo(annotationType);
 		assertThat(((ContextConfiguration) descriptor.getAnnotation()).value()).isEqualTo(new Class<?>[] {});
-		assertThat(descriptor.getAnnotationAttributes().getClassArray("classes")).isEqualTo(new Class<?>[] {MetaAnnotationUtilsTests.class});
+		assertThat(descriptor.getAnnotationAttributes().getClassArray("classes"))
+				.isEqualTo(new Class<?>[] {MetaAnnotationUtilsTests.class});
 		assertThat(descriptor.getComposedAnnotation()).isNotNull();
 		assertThat(descriptor.getComposedAnnotationType()).isEqualTo(MetaConfig.class);
 	}
