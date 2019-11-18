@@ -63,6 +63,11 @@ public interface ClientCodecConfigurer extends CodecConfigurer {
 	@Override
 	ClientDefaultCodecs defaultCodecs();
 
+	/**
+	 * Clone this {@link ClientCodecConfigurer}
+	 */
+	@Override
+	ClientCodecConfigurer clone();
 
 	/**
 	 * Static factory method for a {@code ClientCodecConfigurer}.

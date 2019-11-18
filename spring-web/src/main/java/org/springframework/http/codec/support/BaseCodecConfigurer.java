@@ -38,9 +38,9 @@ import org.springframework.util.Assert;
  */
 class BaseCodecConfigurer implements CodecConfigurer {
 
-	private final BaseDefaultCodecs defaultCodecs;
+	protected final BaseDefaultCodecs defaultCodecs;
 
-	private final DefaultCustomCodecs customCodecs = new DefaultCustomCodecs();
+	protected final DefaultCustomCodecs customCodecs;
 
 
 	/**
@@ -48,10 +48,14 @@ class BaseCodecConfigurer implements CodecConfigurer {
 	 * a client or server specific variant.
 	 */
 	BaseCodecConfigurer(BaseDefaultCodecs defaultCodecs) {
-		Assert.notNull(defaultCodecs, "'defaultCodecs' is required");
-		this.defaultCodecs = defaultCodecs;
+		this(defaultCodecs, new DefaultCustomCodecs());
 	}
 
+	protected BaseCodecConfigurer(BaseDefaultCodecs defaultCodecs, DefaultCustomCodecs customCodecs) {
+		Assert.notNull(defaultCodecs, "'defaultCodecs' is required");
+		this.defaultCodecs = defaultCodecs;
+		this.customCodecs = customCodecs;
+	}
 
 	@Override
 	public DefaultCodecs defaultCodecs() {
@@ -87,6 +91,11 @@ class BaseCodecConfigurer implements CodecConfigurer {
 		return getWritersInternal(false);
 	}
 
+	@Override
+	public BaseCodecConfigurer clone() {
+		return new BaseCodecConfigurer(this.defaultCodecs.clone(), this.customCodecs.clone());
+	}
+
 	/**
 	 * Internal method that returns the configured writers.
 	 * @param forMultipart whether to returns writers for general use ("false"),
@@ -110,7 +119,7 @@ class BaseCodecConfigurer implements CodecConfigurer {
 	/**
 	 * Default implementation of {@code CustomCodecs}.
 	 */
-	private static final class DefaultCustomCodecs implements CustomCodecs {
+	protected static final class DefaultCustomCodecs implements CustomCodecs {
 
 		private final List<HttpMessageReader<?>> typedReaders = new ArrayList<>();
 
@@ -143,6 +152,15 @@ class BaseCodecConfigurer implements CodecConfigurer {
 			(canWriteObject ? this.objectWriters : this.typedWriters).add(writer);
 		}
 
+		@Override
+		public DefaultCustomCodecs clone() {
+			DefaultCustomCodecs codecs = new DefaultCustomCodecs();
+			codecs.typedReaders.addAll(this.typedReaders);
+			codecs.typedWriters.addAll(this.typedWriters);
+			codecs.objectReaders.addAll(this.objectReaders);
+			codecs.objectWriters.addAll(this.objectWriters);
+			return codecs;
+		}
 
 		// Package private accessors...
 

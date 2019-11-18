@@ -66,6 +66,7 @@ import org.springframework.web.util.UriBuilderFactory;
  * @author Rossen Stoyanchev
  * @author Arjen Poutsma
  * @author Sebastien Deleuze
+ * @author Brian Clozel
  * @since 5.0
  */
 public interface WebClient {
@@ -290,11 +291,22 @@ public interface WebClient {
 		Builder clientConnector(ClientHttpConnector connector);
 
 		/**
-		 * Configure the {@link ExchangeStrategies} to use.
-		 * <p>By default this is obtained from {@link ExchangeStrategies#withDefaults()}.
+		 * Provide the {@link ExchangeStrategies} to use.
+		 * <p>This is useful for changing the default settings, yet still allowing
+		 * further customizations via {@link #exchangeStrategies(Consumer)}.
+		 * If not set, defaults are obtained from {@link ExchangeStrategies#withDefaults()}.
 		 * @param strategies the strategies to use
 		 */
 		Builder exchangeStrategies(ExchangeStrategies strategies);
+
+		/**
+		 * Customize the {@link ExchangeStrategies}.
+		 * <p>Allows further customization on {@link ExchangeStrategies},
+		 * mutating them if they were {@link #exchangeStrategies(ExchangeStrategies) set},
+		 * or starting from {@link ExchangeStrategies#withDefaults() defaults}.
+		 * @since 5.1.12
+		 */
+		Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> builderConsumer);
 
 		/**
 		 * Provide an {@link ExchangeFunction} pre-configured with

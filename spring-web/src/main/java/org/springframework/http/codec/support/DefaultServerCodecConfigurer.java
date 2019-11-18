@@ -35,4 +35,8 @@ public class DefaultServerCodecConfigurer extends BaseCodecConfigurer implements
 		return (ServerDefaultCodecs) super.defaultCodecs();
 	}
 
+	@Override
+	public DefaultServerCodecConfigurer clone() {
+		return (DefaultServerCodecConfigurer) super.clone();
+	}
 }

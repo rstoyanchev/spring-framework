@@ -79,14 +79,14 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 	@Nullable
 	private ClientHttpConnector connector;
 
-	private ExchangeStrategies exchangeStrategies;
+	private ExchangeStrategies.Builder exchangeStrategies;
 
 	@Nullable
 	private ExchangeFunction exchangeFunction;
 
 
 	public DefaultWebClientBuilder() {
-		this.exchangeStrategies = ExchangeStrategies.withDefaults();
+		this.exchangeStrategies = ExchangeStrategies.builder();
 	}
 
 	public DefaultWebClientBuilder(DefaultWebClientBuilder other) {
@@ -205,7 +205,13 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 	@Override
 	public WebClient.Builder exchangeStrategies(ExchangeStrategies strategies) {
 		Assert.notNull(strategies, "ExchangeStrategies must not be null");
-		this.exchangeStrategies = strategies;
+		this.exchangeStrategies = strategies.mutate();
+		return this;
+	}
+
+	@Override
+	public WebClient.Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> builderConsumer) {
+		builderConsumer.accept(this.exchangeStrategies);
 		return this;
 	}
 
@@ -229,7 +235,7 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 	@Override
 	public WebClient build() {
 		ExchangeFunction exchange = (this.exchangeFunction == null ?
-				ExchangeFunctions.create(getOrInitConnector(), this.exchangeStrategies) :
+				ExchangeFunctions.create(getOrInitConnector(), this.exchangeStrategies.build()) :
 				this.exchangeFunction);
 		ExchangeFunction filteredExchange = (this.filters != null ? this.filters.stream()
 				.reduce(ExchangeFilterFunction::andThen)

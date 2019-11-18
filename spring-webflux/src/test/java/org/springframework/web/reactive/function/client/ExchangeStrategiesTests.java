@@ -39,4 +39,14 @@ public class ExchangeStrategiesTests {
 		assertThat(strategies.messageWriters().isEmpty()).isFalse();
 	}
 
+	@Test
+	public void mutate() {
+		ExchangeStrategies strategies = ExchangeStrategies.empty().build();
+		assertThat(strategies.messageReaders().isEmpty()).isTrue();
+		assertThat(strategies.messageWriters().isEmpty()).isTrue();
+		ExchangeStrategies mutated = strategies.mutate().codecs(codecs -> codecs.defaultCodecs()).build();
+		assertThat(mutated.messageReaders().isEmpty()).isFalse();
+		assertThat(mutated.messageWriters().isEmpty()).isFalse();
+	}
+
 }

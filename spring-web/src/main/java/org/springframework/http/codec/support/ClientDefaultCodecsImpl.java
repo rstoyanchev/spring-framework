@@ -73,6 +73,14 @@ class ClientDefaultCodecsImpl extends BaseDefaultCodecs implements ClientCodecCo
 		this.sseDecoder = decoder;
 	}
 
+	@Override
+	public ClientDefaultCodecsImpl clone() {
+		ClientDefaultCodecsImpl codecs = new ClientDefaultCodecsImpl();
+		// TODO: copy codecs.multipartCodecs
+		codecs.sseDecoder = this.sseDecoder;
+		codecs.partWritersSupplier = this.partWritersSupplier;
+		return codecs;
+	}
 
 	@Override
 	protected void extendObjectReaders(List<HttpMessageReader<?>> objectReaders) {
