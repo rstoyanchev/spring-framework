@@ -49,6 +49,17 @@ class ClientDefaultCodecsImpl extends BaseDefaultCodecs implements ClientCodecCo
 	private Supplier<List<HttpMessageWriter<?>>> partWritersSupplier;
 
 
+	ClientDefaultCodecsImpl() {
+	}
+
+	ClientDefaultCodecsImpl(ClientDefaultCodecsImpl other) {
+		super(other);
+		this.multipartCodecs = new DefaultMultipartCodecs(other.multipartCodecs);
+		this.sseDecoder = other.sseDecoder;
+		this.partWritersSupplier = other.partWritersSupplier;
+	}
+
+
 	/**
 	 * Set a supplier for part writers to use when
 	 * {@link #multipartCodecs()} are not explicitly configured.
@@ -123,6 +134,17 @@ class ClientDefaultCodecsImpl extends BaseDefaultCodecs implements ClientCodecCo
 	private static class DefaultMultipartCodecs implements ClientCodecConfigurer.MultipartCodecs {
 
 		private final List<HttpMessageWriter<?>> writers = new ArrayList<>();
+
+
+		DefaultMultipartCodecs() {
+		}
+
+		DefaultMultipartCodecs(@Nullable DefaultMultipartCodecs other) {
+			if (other != null) {
+				this.writers.addAll(other.writers);
+			}
+		}
+
 
 		@Override
 		public ClientCodecConfigurer.MultipartCodecs encoder(Encoder<?> encoder) {

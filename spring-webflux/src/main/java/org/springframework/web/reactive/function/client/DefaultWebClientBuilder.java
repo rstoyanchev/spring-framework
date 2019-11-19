@@ -79,14 +79,16 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 	@Nullable
 	private ClientHttpConnector connector;
 
-	private ExchangeStrategies.Builder exchangeStrategies;
+	@Nullable
+	private ExchangeStrategies strategies;
+
+	private List<Consumer<ExchangeStrategies.Builder>> strategiesConfigurers;
 
 	@Nullable
 	private ExchangeFunction exchangeFunction;
 
 
 	public DefaultWebClientBuilder() {
-		this.exchangeStrategies = ExchangeStrategies.builder();
 	}
 
 	public DefaultWebClientBuilder(DefaultWebClientBuilder other) {
@@ -108,7 +110,7 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 		this.defaultRequest = other.defaultRequest;
 		this.filters = other.filters != null ? new ArrayList<>(other.filters) : null;
 		this.connector = other.connector;
-		this.exchangeStrategies = other.exchangeStrategies;
+		this.strategies = other.strategies;
 		this.exchangeFunction = other.exchangeFunction;
 	}
 
@@ -205,13 +207,13 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 	@Override
 	public WebClient.Builder exchangeStrategies(ExchangeStrategies strategies) {
 		Assert.notNull(strategies, "ExchangeStrategies must not be null");
-		this.exchangeStrategies = strategies.mutate();
+		this.strategies = strategies;
 		return this;
 	}
 
 	@Override
-	public WebClient.Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> builderConsumer) {
-		builderConsumer.accept(this.exchangeStrategies);
+	public WebClient.Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> configurer) {
+		this.strategiesConfigurers.add(configurer);
 		return this;
 	}
 
@@ -235,7 +237,7 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 	@Override
 	public WebClient build() {
 		ExchangeFunction exchange = (this.exchangeFunction == null ?
-				ExchangeFunctions.create(getOrInitConnector(), this.exchangeStrategies.build()) :
+				ExchangeFunctions.create(getOrInitConnector(), initExchangeStrategies()) :
 				this.exchangeFunction);
 		ExchangeFunction filteredExchange = (this.filters != null ? this.filters.stream()
 				.reduce(ExchangeFilterFunction::andThen)
@@ -258,6 +260,18 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 			return new JettyClientHttpConnector();
 		}
 		throw new IllegalStateException("No suitable default ClientHttpConnector found");
+	}
+
+	private ExchangeStrategies initExchangeStrategies() {
+		if (CollectionUtils.isEmpty(this.strategiesConfigurers)) {
+			return this.strategies != null ? this.strategies : ExchangeStrategies.withDefaults();
+		}
+
+		ExchangeStrategies.Builder builder =
+				this.strategies != null ? this.strategies.mutate() : ExchangeStrategies.builder();
+
+		this.strategiesConfigurers.forEach(configurer -> configurer.accept(builder));
+		return builder.build();
 	}
 
 	private UriBuilderFactory initUriBuilderFactory() {

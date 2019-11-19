@@ -106,6 +106,22 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs {
 	private boolean registerDefaults = true;
 
 
+	BaseDefaultCodecs() {
+	}
+
+	protected BaseDefaultCodecs(BaseDefaultCodecs other) {
+		this.jackson2JsonDecoder = other.jackson2JsonDecoder;
+		this.jackson2JsonEncoder = other.jackson2JsonEncoder;
+		this.protobufDecoder = other.protobufDecoder;
+		this.protobufEncoder = other.protobufEncoder;
+		this.jaxb2Decoder = other.jaxb2Decoder;
+		this.jaxb2Encoder = other.jaxb2Encoder;
+		this.maxInMemorySize = other.maxInMemorySize;
+		this.enableLoggingRequestDetails = other.enableLoggingRequestDetails;
+		this.registerDefaults = other.registerDefaults;
+	}
+	
+	
 	@Override
 	public void jackson2JsonDecoder(Decoder<?> decoder) {
 		this.jackson2JsonDecoder = decoder;
@@ -149,21 +165,6 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs {
 	@Override
 	public void enableLoggingRequestDetails(boolean enable) {
 		this.enableLoggingRequestDetails = enable;
-	}
-
-	@Override
-	public BaseDefaultCodecs clone() {
-		BaseDefaultCodecs codecs = new BaseDefaultCodecs();
-		codecs.enableLoggingRequestDetails = this.enableLoggingRequestDetails;
-		codecs.maxInMemorySize = this.maxInMemorySize;
-		codecs.registerDefaults = this.registerDefaults;
-		codecs.jackson2JsonDecoder = this.jackson2JsonDecoder;
-		codecs.jackson2JsonEncoder = this.jackson2JsonEncoder;
-		codecs.protobufDecoder = this.protobufDecoder;
-		codecs.protobufEncoder = this.protobufEncoder;
-		codecs.jaxb2Decoder = this.jaxb2Decoder;
-		codecs.jaxb2Encoder = this.jaxb2Encoder;
-		return codecs;
 	}
 
 	protected boolean isEnableLoggingRequestDetails() {

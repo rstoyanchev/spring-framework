@@ -48,14 +48,16 @@ class BaseCodecConfigurer implements CodecConfigurer {
 	 * a client or server specific variant.
 	 */
 	BaseCodecConfigurer(BaseDefaultCodecs defaultCodecs) {
-		this(defaultCodecs, new DefaultCustomCodecs());
-	}
-
-	protected BaseCodecConfigurer(BaseDefaultCodecs defaultCodecs, DefaultCustomCodecs customCodecs) {
 		Assert.notNull(defaultCodecs, "'defaultCodecs' is required");
 		this.defaultCodecs = defaultCodecs;
-		this.customCodecs = customCodecs;
+		this.customCodecs = new DefaultCustomCodecs();
 	}
+
+	BaseCodecConfigurer(BaseCodecConfigurer other) {
+		this.defaultCodecs = other.cloneDefaultCodecs();
+		this.customCodecs = new DefaultCustomCodecs(other.customCodecs);
+	}
+
 
 	@Override
 	public DefaultCodecs defaultCodecs() {
@@ -91,10 +93,16 @@ class BaseCodecConfigurer implements CodecConfigurer {
 		return getWritersInternal(false);
 	}
 
+
 	@Override
-	public BaseCodecConfigurer clone() {
-		return new BaseCodecConfigurer(this.defaultCodecs.clone(), this.customCodecs.clone());
+	public CodecConfigurer clone() {
+		return new BaseCodecConfigurer(this);
 	}
+
+	protected BaseDefaultCodecs cloneDefaultCodecs() {
+		return new BaseDefaultCodecs(this.defaultCodecs);
+	}
+
 
 	/**
 	 * Internal method that returns the configured writers.
@@ -130,6 +138,16 @@ class BaseCodecConfigurer implements CodecConfigurer {
 		private final List<HttpMessageWriter<?>> objectWriters = new ArrayList<>();
 
 
+		DefaultCustomCodecs() {
+		}
+
+		DefaultCustomCodecs(DefaultCustomCodecs other) {
+			other.typedReaders.addAll(this.typedReaders);
+			other.typedWriters.addAll(this.typedWriters);
+			other.objectReaders.addAll(this.objectReaders);
+			other.objectWriters.addAll(this.objectWriters);
+		}
+
 		@Override
 		public void decoder(Decoder<?> decoder) {
 			reader(new DecoderHttpMessageReader<>(decoder));
@@ -150,16 +168,6 @@ class BaseCodecConfigurer implements CodecConfigurer {
 		public void writer(HttpMessageWriter<?> writer) {
 			boolean canWriteObject = writer.canWrite(ResolvableType.forClass(Object.class), null);
 			(canWriteObject ? this.objectWriters : this.typedWriters).add(writer);
-		}
-
-		@Override
-		public DefaultCustomCodecs clone() {
-			DefaultCustomCodecs codecs = new DefaultCustomCodecs();
-			codecs.typedReaders.addAll(this.typedReaders);
-			codecs.typedWriters.addAll(this.typedWriters);
-			codecs.objectReaders.addAll(this.objectReaders);
-			codecs.objectWriters.addAll(this.objectWriters);
-			return codecs;
 		}
 
 		// Package private accessors...

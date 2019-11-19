@@ -306,7 +306,7 @@ public interface WebClient {
 		 * or starting from {@link ExchangeStrategies#withDefaults() defaults}.
 		 * @since 5.1.12
 		 */
-		Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> builderConsumer);
+		Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> configurer);
 
 		/**
 		 * Provide an {@link ExchangeFunction} pre-configured with
