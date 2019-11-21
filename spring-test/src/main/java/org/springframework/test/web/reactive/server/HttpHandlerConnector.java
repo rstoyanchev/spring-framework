@@ -83,7 +83,9 @@ public class HttpHandlerConnector implements ClientHttpConnector {
 	private Mono<ClientHttpResponse> doConnect(
 			HttpMethod httpMethod, URI uri, Function<? super ClientHttpRequest, Mono<Void>> requestCallback) {
 
-		MonoProcessor<ClientHttpResponse> result = MonoProcessor.create();
+		MonoProcessor<Void> requestResult = MonoProcessor.create();
+		MonoProcessor<Void> handlerResult = MonoProcessor.create();
+		MonoProcessor<ClientHttpResponse> responseResult = MonoProcessor.create();
 
 		MockClientHttpRequest mockClientRequest = new MockClientHttpRequest(httpMethod, uri);
 		MockServerHttpResponse mockServerResponse = new MockServerHttpResponse();
@@ -92,20 +94,25 @@ public class HttpHandlerConnector implements ClientHttpConnector {
 			log("Invoking HttpHandler for ", httpMethod, uri);
 			ServerHttpRequest mockServerRequest = adaptRequest(mockClientRequest, requestBody);
 			ServerHttpResponse responseToUse = prepareResponse(mockServerResponse, mockServerRequest);
-			this.handler.handle(mockServerRequest, responseToUse).subscribe(aVoid -> {}, result::onError);
+			this.handler.handle(mockServerRequest, responseToUse).subscribe(handlerResult);
 			return Mono.empty();
 		});
 
 		mockServerResponse.setWriteHandler(responseBody ->
 				Mono.fromRunnable(() -> {
 					log("Creating client response for ", httpMethod, uri);
-					result.onNext(adaptResponse(mockServerResponse, responseBody));
+					responseResult.onNext(adaptResponse(mockServerResponse, responseBody));
 				}));
 
 		log("Writing client request for ", httpMethod, uri);
-		requestCallback.apply(mockClientRequest).subscribe(aVoid -> {}, result::onError);
+		requestCallback.apply(mockClientRequest).subscribe(requestResult);
 
-		return result;
+		return Mono.when(requestResult, handlerResult, responseResult)
+				.onErrorMap(ex -> {
+					ClientHttpResponse response = responseResult.peek();
+					return (response != null ? new FailureAfterResponseCompletedException(response, ex) : ex);
+				})
+				.then(Mono.fromCallable(responseResult::peek));
 	}
 
 	private void log(String message, HttpMethod httpMethod, URI uri) {
@@ -133,6 +140,23 @@ public class HttpHandlerConnector implements ClientHttpConnector {
 		clientResponse.getCookies().putAll(response.getCookies());
 		clientResponse.setBody(body);
 		return clientResponse;
+	}
+
+
+	public static class FailureAfterResponseCompletedException extends RuntimeException {
+
+		private final ClientHttpResponse completedResponse;
+
+
+		public FailureAfterResponseCompletedException(ClientHttpResponse response, Throwable cause) {
+			super("Error occurred after response was completed", cause);
+			this.completedResponse = response;
+		}
+
+
+		public ClientHttpResponse getCompletedResponse() {
+			return this.completedResponse;
+		}
 	}
 
 }
