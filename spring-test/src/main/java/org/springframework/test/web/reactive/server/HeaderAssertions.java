@@ -16,6 +16,7 @@
 
 package org.springframework.test.web.reactive.server;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -247,6 +248,13 @@ public class HeaderAssertions {
 	 */
 	public WebTestClient.ResponseSpec lastModified(long lastModified) {
 		return assertHeader("Last-Modified", lastModified, getHeaders().getLastModified());
+	}
+
+	/**
+	 * Expect a "Location" header with the given value.
+	 */
+	public WebTestClient.ResponseSpec location(String location) {
+		return assertHeader("Location", URI.create(location), getHeaders().getLocation());
 	}
 
 

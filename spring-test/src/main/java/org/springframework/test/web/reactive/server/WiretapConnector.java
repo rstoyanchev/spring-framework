@@ -100,7 +100,7 @@ class WiretapConnector implements ClientHttpConnector {
 	/**
 	 * Holder for {@link WiretapClientHttpRequest} and {@link WiretapClientHttpResponse}.
 	 */
-	class Info {
+	static class Info {
 
 		private final WiretapClientHttpRequest request;
 
