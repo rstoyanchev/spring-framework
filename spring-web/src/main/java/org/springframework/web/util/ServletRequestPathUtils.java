@@ -15,13 +15,19 @@
  */
 package org.springframework.web.util;
 
+import java.nio.charset.StandardCharsets;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletMapping;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.MappingMatch;
 
 import org.springframework.http.server.PathContainer;
 import org.springframework.http.server.RequestPath;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Utility class to parse the path of an {@link HttpServletRequest} to a
@@ -57,7 +63,16 @@ public abstract class ServletRequestPathUtils {
 	public static RequestPath parseAndCache(HttpServletRequest request) {
 		String requestUri = (String) request.getAttribute(WebUtils.INCLUDE_REQUEST_URI_ATTRIBUTE);
 		requestUri = (requestUri != null ? requestUri : request.getRequestURI());
-		RequestPath requestPath = RequestPath.parse(requestUri, request.getContextPath());
+		RequestPath requestPath = null;
+		if (UrlPathHelper.servlet4Present) {
+			String servletPath = Servlet4Delegate.getServletPath(request);
+			if (servletPath != null) {
+				requestPath = ServletRequestPath.parse(requestUri, request.getContextPath(), servletPath);
+			}
+		}
+		if (requestPath == null) {
+			requestPath = RequestPath.parse(requestUri, request.getContextPath());
+		}
 		request.setAttribute(PATH_ATTRIBUTE, requestPath);
 		return requestPath;
 	}
@@ -170,6 +185,29 @@ public abstract class ServletRequestPathUtils {
 	public static boolean hasCachedPath(ServletRequest request) {
 		return (request.getAttribute(PATH_ATTRIBUTE) != null ||
 				request.getAttribute(UrlPathHelper.PATH_ATTRIBUTE) != null);
+	}
+
+
+	/**
+	 * Inner class to avoid a hard dependency on Servlet 4 {@link HttpServletMapping}
+	 * and {@link MappingMatch} at runtime.
+	 */
+	private static class Servlet4Delegate {
+
+		@Nullable
+		public static String getServletPath(HttpServletRequest request) {
+			HttpServletMapping mapping = (HttpServletMapping) request.getAttribute(RequestDispatcher.INCLUDE_MAPPING);
+			if (mapping == null) {
+				mapping = request.getHttpServletMapping();
+			}
+			MappingMatch match = mapping.getMappingMatch();
+			if (!ObjectUtils.nullSafeEquals(match, MappingMatch.PATH)) {
+				return null;
+			}
+			String servletPath = (String) request.getAttribute(WebUtils.INCLUDE_SERVLET_PATH_ATTRIBUTE);
+			servletPath = (servletPath != null ? servletPath : request.getServletPath());
+			return UriUtils.encodePath(servletPath, StandardCharsets.UTF_8);
+		}
 	}
 
 }
