@@ -33,6 +33,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.cors.reactive.CorsUtils;
+import org.springframework.web.cors.reactive.PreFlightHandler;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebHandler;
@@ -54,8 +55,8 @@ import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
  * <p>{@code DispatcherHandler} is also designed to be a Spring bean itself and
  * implements {@link ApplicationContextAware} for access to the context it runs
  * in. If {@code DispatcherHandler} is declared with the bean name "webHandler"
- * it is discovered by {@link WebHttpHandlerBuilder#applicationContext} which
- * creates a processing chain together with {@code WebFilter},
+ * it is discovered by {@link WebHttpHandlerBuilder#applicationContext(ApplicationContext)}
+ * which creates a processing chain together with {@code WebFilter},
  * {@code WebExceptionHandler} and others.
  *
  * <p>A {@code DispatcherHandler} bean declaration is included in
@@ -68,7 +69,7 @@ import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
  * @since 5.0
  * @see WebHttpHandlerBuilder#applicationContext(ApplicationContext)
  */
-public class DispatcherHandler implements WebHandler, ApplicationContextAware {
+public class DispatcherHandler implements WebHandler, PreFlightHandler, ApplicationContextAware {
 
 	@Nullable
 	private List<HandlerMapping> handlerMappings;
@@ -194,6 +195,15 @@ public class DispatcherHandler implements WebHandler, ApplicationContextAware {
 			}
 		}
 		throw new IllegalStateException("No HandlerResultHandler for " + handlerResult.getReturnValue());
+	}
+
+	@Override
+	public Mono<Void> handlePreFlight(ServerWebExchange exchange) {
+		return Flux.fromIterable(this.handlerMappings != null ? this.handlerMappings : Collections.emptyList())
+				.concatMap(mapping -> mapping.getHandler(exchange))
+				.switchIfEmpty(Mono.fromRunnable(() -> exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN)))
+				.next()
+				.then();
 	}
 
 }
