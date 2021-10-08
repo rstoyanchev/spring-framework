@@ -287,10 +287,6 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 		if (this.uriTemplateHandler instanceof DefaultUriBuilderFactory) {
 			((DefaultUriBuilderFactory) this.uriTemplateHandler).setDefaultUriVariables(uriVars);
 		}
-		else if (this.uriTemplateHandler instanceof org.springframework.web.util.AbstractUriTemplateHandler) {
-			((org.springframework.web.util.AbstractUriTemplateHandler) this.uriTemplateHandler)
-					.setDefaultUriVariables(uriVars);
-		}
 		else {
 			throw new IllegalArgumentException(
 					"This property is not supported with the configured UriTemplateHandler.");
@@ -303,12 +299,6 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	 * backwards compatibility, the encoding mode is set to
 	 * {@link EncodingMode#URI_COMPONENT URI_COMPONENT}. As of 5.0.8, prefer
 	 * using {@link EncodingMode#TEMPLATE_AND_VALUES TEMPLATE_AND_VALUES}.
-	 * <p><strong>Note:</strong> in 5.0 the switch from
-	 * {@link org.springframework.web.util.DefaultUriTemplateHandler
-	 * DefaultUriTemplateHandler} (deprecated in 4.3), as the default to use, to
-	 * {@link DefaultUriBuilderFactory} brings in a different default for the
-	 * {@code parsePath} property (switching from false to true).
-	 * @param handler the URI template handler to use
 	 */
 	public void setUriTemplateHandler(UriTemplateHandler handler) {
 		Assert.notNull(handler, "UriTemplateHandler must not be null");

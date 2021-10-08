@@ -463,14 +463,6 @@ public interface ServerResponse {
 		Mono<ServerResponse> body(BodyInserter<?, ? super ServerHttpResponse> inserter);
 
 		/**
-		 * Set the response body to the given {@code Object} and return it.
-		 * As of 5.2 this method delegates to {@link #bodyValue(Object)}.
-		 * @deprecated as of Spring Framework 5.2 in favor of {@link #bodyValue(Object)}
-		 */
-		@Deprecated
-		Mono<ServerResponse> syncBody(Object body);
-
-		/**
 		 * Render the template with the given {@code name} using the given {@code modelAttributes}.
 		 * The model attributes are mapped under a
 		 * {@linkplain org.springframework.core.Conventions#getVariableName generated name}.

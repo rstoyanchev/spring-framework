@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.springframework.http.converter.protobuf;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import com.google.protobuf.ExtensionRegistry;
 import com.google.protobuf.Message;
@@ -32,10 +33,7 @@ import org.springframework.protobuf.Msg;
 import org.springframework.protobuf.SecondMsg;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 /**
  * Test suite for {@link ProtobufHttpMessageConverter}.
@@ -52,28 +50,20 @@ public class ProtobufHttpMessageConverterTests {
 
 	private ExtensionRegistry extensionRegistry;
 
-	private ExtensionRegistryInitializer registryInitializer;
-
 	private Msg testMsg;
 
 
 	@BeforeEach
 	public void setup() {
-		this.registryInitializer = mock(ExtensionRegistryInitializer.class);
 		this.extensionRegistry = mock(ExtensionRegistry.class);
-		this.converter = new ProtobufHttpMessageConverter(this.registryInitializer);
+		this.converter = new ProtobufHttpMessageConverter();
 		this.testMsg = Msg.newBuilder().setFoo("Foo").setBlah(SecondMsg.newBuilder().setBlah(123).build()).build();
 	}
 
 
 	@Test
-	public void extensionRegistryInitialized() {
-		verify(this.registryInitializer, times(1)).initializeExtensionRegistry(any());
-	}
-
-	@Test
 	public void extensionRegistryInitializerNull() {
-		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistryInitializer)null);
+		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter(null);
 		assertThat(converter.extensionRegistry).isNotNull();
 	}
 
@@ -175,7 +165,7 @@ public class ProtobufHttpMessageConverterTests {
 
 		assertThat(outputMessage.getHeaders().getContentType()).isEqualTo(contentType);
 
-		final String body = outputMessage.getBodyAsString(Charset.forName("UTF-8"));
+		final String body = outputMessage.getBodyAsString(StandardCharsets.UTF_8);
 		assertThat(body.isEmpty()).as("body is empty").isFalse();
 
 		Msg.Builder builder = Msg.newBuilder();

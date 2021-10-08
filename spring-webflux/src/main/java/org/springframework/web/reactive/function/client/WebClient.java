@@ -29,7 +29,6 @@ import java.util.function.Predicate;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.context.Context;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.ReactiveAdapterRegistry;
@@ -302,16 +301,6 @@ public interface WebClient {
 		Builder exchangeStrategies(ExchangeStrategies strategies);
 
 		/**
-		 * Customize the strategies configured via
-		 * {@link #exchangeStrategies(ExchangeStrategies)}. This method is
-		 * designed for use in scenarios where multiple parties wish to update
-		 * the {@code ExchangeStrategies}.
-		 * @deprecated as of 5.1.13 in favor of {@link #codecs(Consumer)}
-		 */
-		@Deprecated
-		Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> configurer);
-
-		/**
 		 * Provide an {@link ExchangeFunction} pre-configured with
 		 * {@link ClientHttpConnector} and {@link ExchangeStrategies}.
 		 * <p>This is an alternative to, and effectively overrides
@@ -465,17 +454,6 @@ public interface WebClient {
 		 * @return this builder
 		 */
 		S attributes(Consumer<Map<String, Object>> attributesConsumer);
-
-		/**
-		 * Provide a function to populate the Reactor {@code Context}.
-		 * @param contextModifier the function to modify the context with
-		 * @since 5.3.1
-		 * @deprecated in 5.3.2 to be removed soon after; this method cannot
-		 * provide context to downstream (nested or subsequent) requests and is
-		 * of limited value.
-		 */
-		@Deprecated
-		S context(Function<Context, Context> contextModifier);
 
 		/**
 		 * Callback for access to the {@link ClientHttpRequest} that in turn
@@ -730,15 +708,6 @@ public interface WebClient {
 		 * @see org.springframework.web.reactive.function.BodyInserters
 		 */
 		RequestHeadersSpec<?> body(BodyInserter<?, ? super ClientHttpRequest> inserter);
-
-		/**
-		 * Shortcut for {@link #body(BodyInserter)} with a
-		 * {@linkplain BodyInserters#fromValue value inserter}.
-		 * As of 5.2 this method delegates to {@link #bodyValue(Object)}.
-		 * @deprecated as of Spring Framework 5.2 in favor of {@link #bodyValue(Object)}
-		 */
-		@Deprecated
-		RequestHeadersSpec<?> syncBody(Object body);
 	}
 
 

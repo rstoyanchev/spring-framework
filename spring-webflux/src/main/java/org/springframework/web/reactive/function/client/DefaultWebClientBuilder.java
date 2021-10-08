@@ -234,16 +234,6 @@ final class DefaultWebClientBuilder implements WebClient.Builder {
 	}
 
 	@Override
-	@Deprecated
-	public WebClient.Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> configurer) {
-		if (this.strategiesConfigurers == null) {
-			this.strategiesConfigurers = new ArrayList<>(4);
-		}
-		this.strategiesConfigurers.add(configurer);
-		return this;
-	}
-
-	@Override
 	public WebClient.Builder exchangeFunction(ExchangeFunction exchangeFunction) {
 		this.exchangeFunction = exchangeFunction;
 		return this;

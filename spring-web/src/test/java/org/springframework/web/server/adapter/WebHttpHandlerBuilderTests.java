@@ -260,9 +260,8 @@ public class WebHttpHandlerBuilderTests {
 	static class ForwardedHeaderFilterConfig {
 
 		@Bean
-		@SuppressWarnings("deprecation")
-		public WebFilter forwardedHeaderFilter() {
-			return new org.springframework.web.filter.reactive.ForwardedHeaderFilter();
+		public ForwardedHeaderTransformer forwardedHeaderTransformer() {
+			return new ForwardedHeaderTransformer();
 		}
 
 		@Bean

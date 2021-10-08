@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,12 @@
 
 package org.springframework.web.cors.reactive;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.junit.jupiter.api.Test;
-import reactor.core.publisher.Mono;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.server.adapter.ForwardedHeaderTransformer;
 import org.springframework.web.testfixture.http.server.reactive.MockServerHttpRequest;
-import org.springframework.web.testfixture.server.MockServerWebExchange;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.web.testfixture.http.server.reactive.MockServerHttpRequest.get;
@@ -119,7 +116,7 @@ public class CorsUtilsTests {
 			builder.header("X-Forwarded-Port", String.valueOf(forwardedPort));
 		}
 
-		ServerHttpRequest request = adaptFromForwardedHeaders(builder);
+		ServerHttpRequest request = new ForwardedHeaderTransformer().apply(builder.build());
 		assertThat(CorsUtils.isSameOrigin(request)).isTrue();
 	}
 
@@ -132,24 +129,13 @@ public class CorsUtilsTests {
 			url = url + ":" + port;
 		}
 
-		MockServerHttpRequest.BaseBuilder<?> builder = get(url)
+		MockServerHttpRequest forwardedHeaderRequest = get(url)
 				.header("Forwarded", forwardedHeader)
-				.header(HttpHeaders.ORIGIN, originHeader);
+				.header(HttpHeaders.ORIGIN, originHeader)
+				.build();
 
-		ServerHttpRequest request = adaptFromForwardedHeaders(builder);
+		ServerHttpRequest request = new ForwardedHeaderTransformer().apply(forwardedHeaderRequest);
 		assertThat(CorsUtils.isSameOrigin(request)).isTrue();
-	}
-
-	// SPR-16668
-	@SuppressWarnings("deprecation")
-	private ServerHttpRequest adaptFromForwardedHeaders(MockServerHttpRequest.BaseBuilder<?> builder) {
-		AtomicReference<ServerHttpRequest> requestRef = new AtomicReference<>();
-		MockServerWebExchange exchange = MockServerWebExchange.from(builder);
-		new org.springframework.web.filter.reactive.ForwardedHeaderFilter().filter(exchange, exchange2 -> {
-			requestRef.set(exchange2.getRequest());
-			return Mono.empty();
-		}).block();
-		return requestRef.get();
 	}
 
 }

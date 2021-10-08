@@ -265,12 +265,6 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 	}
 
 	@Override
-	@Deprecated
-	public Mono<ServerResponse> syncBody(Object body) {
-		return bodyValue(body);
-	}
-
-	@Override
 	public Mono<ServerResponse> render(String name, Object... modelAttributes) {
 		return new DefaultRenderingResponseBuilder(name)
 				.status(this.statusCode)
