@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  */
 
 package org.springframework.web.bind;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.ErrorResponse;
 
 /**
  * {@link ServletRequestBindingException} subclass that indicates a missing parameter.
@@ -60,6 +64,16 @@ public class MissingServletRequestParameterException extends MissingRequestValue
 		return "Required request parameter '" + this.parameterName + "' for method parameter type " +
 				this.parameterType + " is " +
 				(isMissingAfterConversion() ? "present but converted to null" : "not present");
+	}
+
+	@Override
+	public int getRawStatusCode() {
+		return HttpStatus.BAD_REQUEST.value();
+	}
+
+	@Override
+	public ProblemDetail getBody() {
+		return super.getBody().withDetail("Required parameter '" + this.parameterName + "' is not present");
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2012 the original author or authors.
+ * Copyright 2002-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +18,19 @@ package org.springframework.web;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
 
 /**
- * Exception thrown when the request handler cannot generate a response that is acceptable by the client.
+ * Exception thrown when the request handler cannot generate a response that is
+ * acceptable by the client.
  *
  * @author Arjen Poutsma
  * @since 3.0
  */
 @SuppressWarnings("serial")
-public class HttpMediaTypeNotAcceptableException extends HttpMediaTypeException {
+public class HttpMediaTypeNotAcceptableException extends HttpMediaTypeException implements ErrorResponse {
 
 	/**
 	 * Create a new HttpMediaTypeNotAcceptableException.
@@ -43,6 +46,17 @@ public class HttpMediaTypeNotAcceptableException extends HttpMediaTypeException 
 	 */
 	public HttpMediaTypeNotAcceptableException(List<MediaType> supportedMediaTypes) {
 		super("Could not find acceptable representation", supportedMediaTypes);
+	}
+
+
+	@Override
+	public int getRawStatusCode() {
+		return HttpStatus.NOT_ACCEPTABLE.value();
+	}
+
+	@Override
+	public ProblemDetail getBody() {
+		return ProblemDetail.forRawStatusCode(getRawStatusCode());
 	}
 
 }

@@ -17,6 +17,7 @@
 package org.springframework.web.bind;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.http.ProblemDetail;
 
 /**
  * {@link ServletRequestBindingException} subclass that indicates that a matrix
@@ -79,6 +80,11 @@ public class MissingMatrixVariableException extends MissingRequestValueException
 	 */
 	public final MethodParameter getParameter() {
 		return this.parameter;
+	}
+
+	@Override
+	public ProblemDetail getBody() {
+		return super.getBody().withDetail("Required path parameter '" + this.variableName + "' is not present");
 	}
 
 }

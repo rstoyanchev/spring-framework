@@ -17,6 +17,9 @@
 package org.springframework.web.bind;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.ErrorResponse;
 
 /**
  * {@link ServletRequestBindingException} subclass that indicates that a path
@@ -81,6 +84,17 @@ public class MissingPathVariableException extends MissingRequestValueException {
 	 */
 	public final MethodParameter getParameter() {
 		return this.parameter;
+	}
+
+
+	@Override
+	public int getRawStatusCode() {
+		return HttpStatus.INTERNAL_SERVER_ERROR.value();
+	}
+
+	@Override
+	public ProblemDetail getBody() {
+		return super.getBody().withDetail("Required URI variable '" + this.variableName + "' is not present");
 	}
 
 }

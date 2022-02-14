@@ -16,6 +16,8 @@
 
 package org.springframework.web.multipart.support;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.multipart.MultipartResolver;
 
@@ -44,6 +46,16 @@ public class MissingServletRequestPartException extends ServletRequestBindingExc
 		this.requestPartName = requestPartName;
 	}
 
+
+	@Override
+	public int getRawStatusCode() {
+		return HttpStatus.BAD_REQUEST.value();
+	}
+
+	@Override
+	public ProblemDetail getBody() {
+		return super.getBody().withDetail(getMessage());
+	}
 
 	/**
 	 * Return the name of the offending part of the multipart request.

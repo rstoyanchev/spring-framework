@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,12 @@
 package org.springframework.web.bind;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.ErrorResponse;
 
 /**
  * Exception to be thrown when validation on an argument annotated with {@code @Valid} fails.
@@ -30,7 +33,7 @@ import org.springframework.validation.ObjectError;
  * @since 3.1
  */
 @SuppressWarnings("serial")
-public class MethodArgumentNotValidException extends BindException {
+public class MethodArgumentNotValidException extends BindException implements ErrorResponse {
 
 	private final MethodParameter parameter;
 
@@ -45,6 +48,16 @@ public class MethodArgumentNotValidException extends BindException {
 		this.parameter = parameter;
 	}
 
+
+	@Override
+	public int getRawStatusCode() {
+		return HttpStatus.BAD_REQUEST.value();
+	}
+
+	@Override
+	public ProblemDetail getBody() {
+		return ProblemDetail.forRawStatusCode(getRawStatusCode()).withDetail(getMessage());
+	}
 
 	/**
 	 * Return the method parameter that failed validation.

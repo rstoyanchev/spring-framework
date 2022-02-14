@@ -261,6 +261,27 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 	}
 
 	/**
+	 * Create a builder for a {@code ResponseEntity} with the given
+	 * {@link ProblemDetail} as the body, also matching to its
+	 * {@link ProblemDetail#getStatus() status}. An {@code @ExceptionHandler}
+	 * method can use to add response headers, or otherwise it can return
+	 * {@code ProblemDetail}.
+	 * @param body the details for an HTTP error response
+	 * @return the created builder
+	 * @since 6.0
+	 */
+	public static HeadersBuilder<?> of(ProblemDetail body) {
+		return new DefaultBuilder(body.getStatus()) {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public <T> ResponseEntity<T> build() {
+				return (ResponseEntity<T>) body(body);
+			}
+		};
+	}
+
+	/**
 	 * Create a new builder with a {@linkplain HttpStatus#CREATED CREATED} status
 	 * and a location header set to the given URI.
 	 * @param location the location URI

@@ -17,6 +17,7 @@
 package org.springframework.web.bind;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.http.ProblemDetail;
 
 /**
  * {@link ServletRequestBindingException} subclass that indicates
@@ -79,6 +80,11 @@ public class MissingRequestHeaderException extends MissingRequestValueException 
 	 */
 	public final MethodParameter getParameter() {
 		return this.parameter;
+	}
+
+	@Override
+	public ProblemDetail getBody() {
+		return super.getBody().withDetail("Request header '" + this.headerName + "' is not present");
 	}
 
 }

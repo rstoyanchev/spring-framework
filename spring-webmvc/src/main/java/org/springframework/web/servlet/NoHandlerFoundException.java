@@ -21,6 +21,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.ErrorResponse;
 
 /**
  * By default when the DispatcherServlet can't find a handler for a request it
@@ -34,7 +37,7 @@ import org.springframework.http.HttpHeaders;
  * @see DispatcherServlet#noHandlerFound(HttpServletRequest, HttpServletResponse)
  */
 @SuppressWarnings("serial")
-public class NoHandlerFoundException extends ServletException {
+public class NoHandlerFoundException extends ServletException implements ErrorResponse {
 
 	private final String httpMethod;
 
@@ -56,6 +59,16 @@ public class NoHandlerFoundException extends ServletException {
 		this.headers = headers;
 	}
 
+
+	@Override
+	public int getRawStatusCode() {
+		return HttpStatus.NOT_FOUND.value();
+	}
+
+	@Override
+	public ProblemDetail getBody() {
+		return ProblemDetail.forRawStatusCode(getRawStatusCode());
+	}
 
 	public String getHttpMethod() {
 		return this.httpMethod;
