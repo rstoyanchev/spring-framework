@@ -42,6 +42,7 @@ import java.util.function.Consumer
  * @author Sebastien Deleuze
  *
  */
+@Suppress("DEPRECATION")
 class KotlinWebClientHttpServiceProxyTests {
 
 	private lateinit var server: MockWebServer
