@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2012 the original author or authors.
+ * Copyright 2002-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,34 @@ package org.springframework.web.servlet;
  */
 public interface SmartView extends View {
 
+
 	/**
 	 * Whether the view performs a redirect.
 	 */
 	boolean isRedirectView();
+
+	/**
+	 * Provide the view with a callback that resolves view names.
+	 * @param callback the callback to use
+	 */
+	default void initNestedViews(ViewResolutionCallback callback) throws Exception {
+		// no-op
+	}
+
+
+	/**
+	 * Callback to expose the ability to resolve a {@link View}.
+	 */
+	public interface ViewResolutionCallback {
+
+		/**
+		 * Resolve the {@link View} for the given {@code ModelAndView}.
+		 * @param modelAndView the model and view
+		 * @return the resolved view instance
+		 * @throws Exception if the View cannot be resolved
+		 */
+		View resolveViewName(ModelAndView modelAndView) throws Exception;
+
+	}
 
 }
